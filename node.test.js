@@ -5880,8 +5880,18 @@ var $;
                 });
                 return null;
             }
+            handle_files() {
+                if (typeof launchQueue === 'undefined')
+                    return null;
+                launchQueue.setConsumer(async (params) => {
+                    const files = await Promise.all([...params.files].map(handle => handle.getFile()));
+                    this.files_add(files);
+                });
+                return null;
+            }
             auto() {
                 this.auto_switch();
+                this.handle_files();
             }
         }
         __decorate([
@@ -5899,6 +5909,9 @@ var $;
         __decorate([
             $.$mol_mem
         ], $hyoo_play.prototype, "auto_switch", null);
+        __decorate([
+            $.$mol_mem
+        ], $hyoo_play.prototype, "handle_files", null);
         $$.$hyoo_play = $hyoo_play;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));

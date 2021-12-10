@@ -1612,6 +1612,7 @@ declare namespace $.$$ {
         play_title(): any;
         play_uri(): string;
         auto_switch(): null;
+        handle_files(): null;
         auto(): void;
     }
 }
