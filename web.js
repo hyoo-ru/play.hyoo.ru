@@ -5516,7 +5516,7 @@ var $;
             const obj = new this.$.$mol_video_player();
             obj.title = () => this.play_title();
             obj.uri = () => this.play_uri();
-            obj.poster = () => "https://c.tenor.com/HJvqN2i4Zs4AAAAj/milk-and-mocha-cute.gif";
+            obj.poster = () => "https://www.koolmusic.com/img/equalizer.gif";
             return obj;
         }
         pages() {
@@ -5722,7 +5722,9 @@ var $;
                     return null;
                 const files = this.files();
                 let index = (files.indexOf(this.file_current()) + 1) % files.length;
-                this.file_current(files[index]);
+                new $.$mol_after_frame(() => {
+                    this.file_current(files[index]);
+                });
                 return null;
             }
             auto() {
