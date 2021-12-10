@@ -20,7 +20,7 @@ $hyoo_play $mol_drop
 			<= Player $mol_video_player
 				title <= play_title \
 				uri <= play_uri \
-				poster \https://c.tenor.com/HJvqN2i4Zs4AAAAj/milk-and-mocha-cute.gif
+				poster \https://www.koolmusic.com/img/equalizer.gif
 				playing?next => playing?next
 	File!index $mol_view
 		sub /

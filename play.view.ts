@@ -105,7 +105,9 @@ namespace $.$$ {
 			const files = this.files()
 			let index = ( files.indexOf( this.file_current() ) + 1 ) % files.length
 			
-			this.file_current( files[ index ] )
+			new $mol_after_frame( ()=> {
+				this.file_current( files[ index ] )
+			} )
 			
 			return null
 		}
