@@ -1,4 +1,9 @@
 namespace $.$$ {
+	
+	declare var launchQueue: {
+		setConsumer: ( consumer: ( params: { files: any[] } )=> void )=> void
+	}
+	
 	export class $hyoo_play extends $.$hyoo_play {
 		
 		receive( transfer: DataTransfer ) {
@@ -112,8 +117,19 @@ namespace $.$$ {
 			return null
 		}
 		
+		@ $mol_mem
+		handle_files() {
+			if( typeof launchQueue === 'undefined' ) return null
+			launchQueue.setConsumer( async( params )=> {
+				const files = await Promise.all( [ ... params.files ].map( handle => handle.getFile() ) )
+				this.files_add( files )
+			} )
+			return null
+		}
+		
 		auto() {
 			this.auto_switch()
+			this.handle_files()
 		}
 		
 	}
