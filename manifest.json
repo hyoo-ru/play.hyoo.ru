@@ -1,0 +1,16 @@
+{
+	"short_name": "$hyoo_play",
+	"name": "$hyoo_play",
+	"icons": [
+		{
+			"src": "../../hyoo/play/logo/logo.svg",
+			"type": "image/svg+xml",
+			"sizes": "512x512"
+		}
+	],
+	"start_url": "../..",
+	"background_color": "#000000",
+	"theme_color": "#000000",
+	"orientation":  "landscape",
+	"display": "fullscreen"
+}

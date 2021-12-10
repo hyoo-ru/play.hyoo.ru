@@ -1,0 +1,4 @@
+deploy \/hyoo/play/logo/logo.svg
+deploy \/hyoo/play/manifest.json
+
+include \/mol/offline/install
