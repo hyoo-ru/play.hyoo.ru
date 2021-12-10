@@ -8,6 +8,8 @@ $hyoo_play $mol_drop
 			<= Queue $mol_page
 				title @ \Play Queue
 				tools /
+					<= Sources $mol_link_source
+						uri \https://github.com/hyoo-ru/play.hyoo.ru
 					<= Playing $mol_check_icon
 						checked?next <=> playing?next
 						Icon <= Playing_icon $mol_icon_play

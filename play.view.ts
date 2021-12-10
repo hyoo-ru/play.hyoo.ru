@@ -96,17 +96,18 @@ namespace $.$$ {
 		@ $mol_mem
 		auto_switch() {
 			
-			if( this.files().length < 2 ) return
+			if( this.files().length < 2 ) return null
 			
 			const player = this.Player()
-			if( player.playing() ) return
-			if( player.time() !== player.duration() ) return
+			if( player.playing() ) return null
+			if( player.time() !== player.duration() ) return null
 			
 			const files = this.files()
 			let index = ( files.indexOf( this.file_current() ) + 1 ) % files.length
 			
 			this.file_current( files[ index ] )
 			
+			return null
 		}
 		
 		auto() {
