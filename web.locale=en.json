@@ -1,4 +1,8 @@
 {
+	"$hyoo_play_Fire_hint": "Aggressive",
+	"$hyoo_play_Light_hint": "Inspiring",
 	"$hyoo_play_Queue_title": "Play Queue",
+	"$hyoo_play_Water_hint": "Relaxing",
+	"$hyoo_play_Wind_hint": "Touching",
 	"$mol_link_source_hint": "Source code"
 }

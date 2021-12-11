@@ -231,18 +231,22 @@ $hyoo_play $mol_drop
 					<= Queue_files $mol_list rows <= queue_files /
 				foot /
 					<= Water $mol_link
+						hint @ \Relaxing
 						arg * playlist \./hyoo/play/lib/water.m3u8
 						sub /
 							<= Water_icon $mol_icon_waves
 					<= Wind $mol_link
+						hint @ \Touching
 						arg * playlist \./hyoo/play/lib/wind.m3u8
 						sub /
 							<= Wind_icon $mol_icon_weather_windy
 					<= Light $mol_link
+						hint @ \Inspiring
 						arg * playlist \./hyoo/play/lib/light.m3u8
 						sub /
 							<= Light_icon $mol_icon_flash_outline
 					<= Fire $mol_link
+						hint @ \Aggressive
 						arg * playlist \./hyoo/play/lib/fire.m3u8
 						sub /
 							<= Fire_icon $mol_icon_fire

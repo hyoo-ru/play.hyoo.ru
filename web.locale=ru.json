@@ -1,4 +1,8 @@
 {
+	"$hyoo_play_Fire_hint": "Агрессивное",
+	"$hyoo_play_Light_hint": "Воодушевляющее",
 	"$hyoo_play_Queue_title": "Очередь воспроизведения",
+	"$hyoo_play_Water_hint": "Расслабляющее",
+	"$hyoo_play_Wind_hint": "Трогательное",
 	"$mol_link_source_hint": "Исходные коды"
 }

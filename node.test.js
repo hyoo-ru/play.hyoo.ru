@@ -5712,6 +5712,7 @@ var $;
         }
         Water() {
             const obj = new this.$.$mol_link();
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_play_Water_hint');
             obj.arg = () => ({
                 playlist: "./hyoo/play/lib/water.m3u8"
             });
@@ -5726,6 +5727,7 @@ var $;
         }
         Wind() {
             const obj = new this.$.$mol_link();
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_play_Wind_hint');
             obj.arg = () => ({
                 playlist: "./hyoo/play/lib/wind.m3u8"
             });
@@ -5740,6 +5742,7 @@ var $;
         }
         Light() {
             const obj = new this.$.$mol_link();
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_play_Light_hint');
             obj.arg = () => ({
                 playlist: "./hyoo/play/lib/light.m3u8"
             });
@@ -5754,6 +5757,7 @@ var $;
         }
         Fire() {
             const obj = new this.$.$mol_link();
+            obj.hint = () => this.$.$mol_locale.text('$hyoo_play_Fire_hint');
             obj.arg = () => ({
                 playlist: "./hyoo/play/lib/fire.m3u8"
             });
@@ -6426,7 +6430,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $.$mol_style_attach("hyoo/play/play.view.css", "[hyoo_play_queue] {\n\tflex: 0 0 25rem;\n}\n\n[hyoo_play_queue_files] {\n\tpadding: var(--mol_gap_block);\n}\n\n[hyoo_play_file] {\n\talign-items: flex-start;\n}\n\n[hyoo_play_file_play] {\n\tflex: 1 1 auto;\n}\n\n[hyoo_play_player] {\n\tflex: 1 0 50rem;\n}\n");
+    $.$mol_style_attach("hyoo/play/play.view.css", "[hyoo_play_queue] {\n\tflex: 0 0 25rem;\n}\n\n[hyoo_play_queue_files] {\n\tpadding: var(--mol_gap_block);\n}\n\n[hyoo_play_file] {\n\talign-items: flex-start;\n}\n\n[hyoo_play_file_play] {\n\tflex: 1 1 auto;\n}\n\n[hyoo_play_queue_foot] {\n\tpadding: var(--mol_gap_block);\n\tjustify-content: flex-start;\n}\n\n[hyoo_play_player] {\n\tflex: 1 0 50rem;\n}\n");
 })($ || ($ = {}));
 //play.view.css.js.map
 ;
