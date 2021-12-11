@@ -14,6 +14,11 @@
 	flex: 1 1 auto;
 }
 
+[hyoo_play_queue_foot] {
+	padding: var(--mol_gap_block);
+	justify-content: flex-start;
+}
+
 [hyoo_play_player] {
 	flex: 1 0 50rem;
 }
