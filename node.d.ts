@@ -1813,8 +1813,11 @@ declare namespace $.$$ {
         pages(): ($mol_page | $mol_video_player)[];
         play_title(): any;
         play_uri(): any;
+        jump_next(): void;
+        jump_prev(): void;
         auto_switch(): null;
         handle_files(): null;
+        handle_actions(): null;
         auto(): void;
     }
     export {};

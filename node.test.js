@@ -6506,6 +6506,21 @@ var $;
             play_uri() {
                 return this.file_current()?.uri ?? 'about:blank';
             }
+            jump_next() {
+                console.log(1);
+                const player = this.Player();
+                const files = this.files();
+                let index = (files.indexOf(this.file_current()) + 1) % files.length;
+                this.file_current(files[index]);
+                player.playing(true);
+            }
+            jump_prev() {
+                const player = this.Player();
+                const files = this.files();
+                let index = (files.indexOf(this.file_current()) - 1 + files.length) % files.length;
+                this.file_current(files[index]);
+                player.playing(true);
+            }
             auto_switch() {
                 if (this.files().length < 2)
                     return null;
@@ -6514,12 +6529,7 @@ var $;
                     return null;
                 if (player.time() !== player.duration())
                     return null;
-                const files = this.files();
-                let index = (files.indexOf(this.file_current()) + 1) % files.length;
-                new $.$mol_after_frame(() => {
-                    this.file_current(files[index]);
-                    player.playing(true);
-                });
+                new $.$mol_after_frame(() => this.jump_next());
                 return null;
             }
             handle_files() {
@@ -6531,9 +6541,20 @@ var $;
                 });
                 return null;
             }
+            handle_actions() {
+                navigator.mediaSession.metadata = new MediaMetadata({
+                    title: this.file_current()?.title,
+                    artist: '',
+                    album: '',
+                });
+                navigator.mediaSession.setActionHandler('nexttrack', details => this.jump_next());
+                navigator.mediaSession.setActionHandler('previoustrack', details => this.jump_prev());
+                return null;
+            }
             auto() {
                 this.auto_switch();
                 this.handle_files();
+                this.handle_actions();
             }
         }
         __decorate([
@@ -6563,6 +6584,9 @@ var $;
         __decorate([
             $.$mol_mem
         ], $hyoo_play.prototype, "handle_files", null);
+        __decorate([
+            $.$mol_mem
+        ], $hyoo_play.prototype, "handle_actions", null);
         $$.$hyoo_play = $hyoo_play;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
