@@ -4,7 +4,38 @@ namespace $.$$ {
 		setConsumer: ( consumer: ( params: { files: any[] } )=> void )=> void
 	}
 	
+	type Entry = {
+		title: string
+		uri: string
+	}
+	
 	export class $hyoo_play extends $.$hyoo_play {
+		
+		@ $mol_mem
+		playlist() {
+			return this.$.$mol_state_arg.value( 'playlist' ) ?? super.playlist()
+		}
+		
+		@ $mol_mem
+		playlist_files() {
+			
+			const uri = this.playlist()
+			if( !uri ) return []
+			
+			const text = this.$.$mol_fetch.text( uri )
+			
+			const files = [ ... text.matchAll( $hyoo_play_m3u_entry ) ]
+				.map( cap => cap.groups )
+				.filter( $mol_guard_defined )
+				.map( ({ title, uri })=> ({ title, uri }) )
+				
+			return files
+		}
+		
+		@ $mol_mem
+		files( next?: Entry[] ) : Entry[] {
+			return next ?? this.playlist_files()
+		}
 		
 		receive( transfer: DataTransfer ) {
 			
@@ -47,8 +78,16 @@ namespace $.$$ {
 		}
 		
 		files_add( files: File[] ) {
-			this.files([ ... new Set([ ... this.files(), ... files ]) ])
-			if( !this.file_current() ) this.file_current( files[0] )
+			
+			const entries = files.map( file => ({
+				title: file.name.replace( /\.[^.]+$/, '' ),
+				uri: URL.createObjectURL( file ),
+			}) )
+			
+			this.files([ ... new Set([ ... this.files(), ... entries ]) ])
+			
+			if( !this.file_current() ) this.file_current( entries[0] )
+			
 			return files
 		}
 		
@@ -62,19 +101,19 @@ namespace $.$$ {
 			return this.files().map( ( file , index )=> this.File( file ) )
 		}
 		
-		file_title( file: File ) {
-			return file.name
+		file_title( file: Entry ) {
+			return file.title
 		}
 		
-		file_enabled( file: File ) {
+		file_enabled( file: Entry ) {
 			return file !== this.file_current()
 		}
 		
-		file_play( file: File ) {
+		file_play( file: Entry ) {
 			this.file_current( file )
 		}
 		
-		file_drop( file: File ) {
+		file_drop( file: Entry ) {
 			this.files( this.files().filter( f => f !== file ) )
 		}
 		
@@ -89,13 +128,12 @@ namespace $.$$ {
 		@ $mol_mem
 		play_title() {
 			const file = this.file_current()
-			return file ? file.name.replace( /\.[^.]+$/, '' ) : ''
+			return file?.title.replace( /\.[^.]+$/, '' ) ?? ''
 		}
 		
 		@ $mol_mem
 		play_uri() {
-			const file = this.file_current()
-			return file ? URL.createObjectURL( file ) : 'about:blank'
+			return this.file_current()?.uri ?? 'about:blank'
 		}
 		
 		@ $mol_mem
@@ -112,6 +150,7 @@ namespace $.$$ {
 			
 			new $mol_after_frame( ()=> {
 				this.file_current( files[ index ] )
+				player.playing( true )
 			} )
 			
 			return null

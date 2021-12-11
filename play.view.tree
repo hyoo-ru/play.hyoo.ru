@@ -1,4 +1,5 @@
 $hyoo_play $mol_drop
+	playlist \
 	files?next /
 	file_current?val null
 	Sub <= Book $mol_book2
@@ -17,6 +18,23 @@ $hyoo_play $mol_drop
 						files?next <=> files_add?next /
 				body /
 					<= Queue_files $mol_list rows <= queue_files /
+				foot /
+					<= Water $mol_link
+						arg * playlist \./hyoo/play/lib/water.m3u8
+						sub /
+							<= Water_icon $mol_icon_waves
+					<= Wind $mol_link
+						arg * playlist \./hyoo/play/lib/wind.m3u8
+						sub /
+							<= Wind_icon $mol_icon_weather_windy
+					<= Light $mol_link
+						arg * playlist \./hyoo/play/lib/light.m3u8
+						sub /
+							<= Light_icon $mol_icon_flash_outline
+					<= Fire $mol_link
+						arg * playlist \./hyoo/play/lib/fire.m3u8
+						sub /
+							<= Fire_icon $mol_icon_fire
 			<= Player $mol_video_player
 				title <= play_title \
 				uri <= play_uri \
