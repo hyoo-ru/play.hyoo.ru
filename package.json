@@ -206,8 +206,8 @@
     "$mol_compare_text"
   ],
   "dependencies": {
-    "jsdom": "*",
     "colorette": "*",
+    "jsdom": "*",
     "chokidar": "*",
     "node-fetch": "*"
   }
