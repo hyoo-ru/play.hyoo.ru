@@ -1612,7 +1612,7 @@ declare namespace $ {
         files(next?: any): readonly any[];
         file_current(val?: any): any;
         Sub(): $$.$mol_book2;
-        File(index: any): $mol_view;
+        File(id: any): $mol_view;
         Sources(): $mol_link_source;
         Playing_icon(): $mol_icon_play;
         Playing(): $mol_check_icon;
@@ -1635,13 +1635,13 @@ declare namespace $ {
         Player(): $$.$mol_video_player;
         pages(): readonly any[];
         Book(): $$.$mol_book2;
-        file_title(index: any): string;
-        file_enabled(index: any): boolean;
-        file_play(index: any, event?: any): any;
-        File_play(index: any): $mol_button_minor;
-        file_drop(index: any, event?: any): any;
-        File_drop_icon(index: any): $mol_icon_cross;
-        File_drop(index: any): $mol_button_minor;
+        file_title(id: any): string;
+        file_enabled(id: any): boolean;
+        file_play(id: any, event?: any): any;
+        File_play(id: any): $mol_button_minor;
+        file_drop(id: any, event?: any): any;
+        File_drop_icon(id: any): $mol_icon_cross;
+        File_drop(id: any): $mol_button_minor;
     }
 }
 
