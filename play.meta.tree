@@ -4,6 +4,7 @@ deploy \/hyoo/play/lib/water.m3u8
 deploy \/hyoo/play/lib/fire.m3u8
 deploy \/hyoo/play/lib/light.m3u8
 deploy \/hyoo/play/lib/wind.m3u8
+deploy \/hyoo/play/lib/movie.m3u8
 deploy \/hyoo/play/lib/Дмитрий Кроль - В заморозке.mp3
 
 include \/mol/offline/install

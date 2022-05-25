@@ -1,4 +1,5 @@
-[hyoo_play_queue] {
+[hyoo_play_queue],
+[hyoo_play_chat_page] {
 	flex: 0 0 25rem;
 }
 
@@ -8,6 +9,10 @@
 
 [hyoo_play_file] {
 	align-items: flex-start;
+}
+
+[hyoo_play_file_play][disabled="true"] {
+	color: var(--mol_theme_current);
 }
 
 [hyoo_play_file_play] {
@@ -20,5 +25,6 @@
 }
 
 [hyoo_play_player] {
-	flex: 1 0 50rem;
+	flex: 1 0 calc( 100% - 25rem );
+	object-position: top;
 }

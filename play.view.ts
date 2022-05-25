@@ -122,6 +122,7 @@ namespace $.$$ {
 			return [
 				this.Queue(),
 				... this.file_current() ? [ this.Player() ] : [],
+				... this.file_current() ? this.chat_pages() : [],
 			]
 		}
 		

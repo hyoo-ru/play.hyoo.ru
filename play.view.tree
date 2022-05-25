@@ -7,15 +7,18 @@ $hyoo_play $mol_drop
 		attr * mol_theme \$mol_theme_dark
 		pages <= pages /
 			<= Queue $mol_page
-				title @ \Play Queue
+				title @ \Media Player
 				tools /
-					<= Sources $mol_link_source
-						uri \https://github.com/hyoo-ru/play.hyoo.ru
 					<= Playing $mol_check_icon
 						checked?next <=> playing?next
 						Icon <= Playing_icon $mol_icon_play
 					<= Open $mol_button_open
 						files?next <=> files_add?next /
+					<= Sources $mol_link_source
+						uri \https://github.com/hyoo-ru/play.hyoo.ru
+					<= Chat $mol_chat
+						seed <= play_title \
+						pages => chat_pages
 				body /
 					<= Queue_files $mol_list rows <= queue_files /
 				foot /
@@ -39,6 +42,11 @@ $hyoo_play $mol_drop
 						arg * playlist \./hyoo/play/lib/fire.m3u8
 						sub /
 							<= Fire_icon $mol_icon_fire
+					<= Movie $mol_link
+						hint @ \Movie
+						arg * playlist \./hyoo/play/lib/movie.m3u8
+						sub /
+							<= Movie_icon $mol_icon_filmstrip
 			<= Player $mol_video_player
 				title <= play_title \
 				uri <= play_uri \
