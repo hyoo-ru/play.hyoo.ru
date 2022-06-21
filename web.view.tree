@@ -153,29 +153,19 @@ $mol_scroll $mol_view
 		^
 		scroll?event <=> event_scroll?event null
 
-$mol_image $mol_view
-	dom_name \img
-	field *
-		^
-		src <= uri \
-		alt <= title
-		loading <= loading \eager
-
 $mol_embed_native $mol_scroll
 	uri?val \
 	dom_name \object
 	window null
 	attr *
 		^
-		data <= uri_object <= uri
+		data <= uri
 		type <= mime \
 	sub /
-		<= Fallback_link $mol_link
-			uri <= uri_link <= uri
+		<= Fallback $mol_link
+			uri <= uri
 			sub /
-				<= Fallback_image $mol_image
-					uri <= uri_image <= uri
-					title <= title?val \
+				<= title \
 
 $mol_frame $mol_embed_native
 	dom_name \iframe
