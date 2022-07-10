@@ -113,10 +113,11 @@ $mol_button_open_native $mol_view
 		change?next <=> picked?next null
 
 $mol_link $mol_view
+	uri \
 	dom_name \a
 	attr *
 		^
-		href <= uri \
+		href <= uri_toggle \
 		title <= hint \
 		target <= target \_self
 		download <= file_name \
@@ -215,9 +216,9 @@ $mol_chat $mol_link
 			title <= title @ \Discussion
 			tools /
 				<= Esternal $mol_link
-					uri <= external \
+					uri <= standalone \
 					sub /
-						<= External_icon $mol_icon_open_in_new
+						<= Standalone_icon $mol_icon_open_in_new
 				<= Close $mol_link
 					arg * mol_chat null
 					sub /
