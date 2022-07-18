@@ -1419,10 +1419,10 @@ var $;
         }
         [$mol_dev_format_head]() {
             const cursor = {
-                [-1]: '🔴',
-                [-2]: '🟡',
-                [-3]: '🟢',
-                [-4]: '🔵',
+                [$mol_wire_cursor.stale]: '🔴',
+                [$mol_wire_cursor.doubt]: '🟡',
+                [$mol_wire_cursor.fresh]: '🟢',
+                [$mol_wire_cursor.final]: '🔵',
             }[this.cursor] ?? this.cursor.toString();
             return $mol_dev_format_div({}, $mol_dev_format_native(this), $mol_dev_format_shade(cursor + ' '), $mol_dev_format_auto(this.cache));
         }
@@ -5744,7 +5744,7 @@ var $;
                 if (index >= 0) {
                     const win = this.view_window();
                     if (index < win[0] || index >= win[1]) {
-                        this.view_window([index, index + 1]);
+                        this.view_window([this.render_visible_only() ? index : 0, index + 1]);
                     }
                     kids[index].force_render(path);
                 }
