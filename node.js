@@ -5947,6 +5947,7 @@ var $;
                 src: this.uri(),
                 controls: this.controls(),
                 autoplay: this.autoplay(),
+                loop: this.loop(),
                 poster: this.poster()
             };
         }
@@ -5968,6 +5969,9 @@ var $;
         }
         autoplay() {
             return true;
+        }
+        loop() {
+            return false;
         }
         poster() {
             return "";
