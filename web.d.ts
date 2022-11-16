@@ -65,8 +65,8 @@ declare namespace $ {
         get $(): $;
         set $(next: $);
         static create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
-        static [Symbol.toPrimitive](): any;
-        static toString(): any;
+        static [Symbol.toPrimitive](): unknown;
+        static toString(): unknown;
         destructor(): void;
         toString(): any;
         toJSON(): any;
@@ -1925,23 +1925,14 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    let $hyoo_play_m3u_prolog: $mol_regexp<{
-        readonly win_end: string;
-        readonly mac_end: string;
+    let $hyoo_play_m3u_prolog: $mol_regexp<{} | {
+        [x: string]: string;
     }>;
-    let $hyoo_play_m3u_entry: $mol_regexp<{
-        readonly win_end: string;
-        readonly mac_end: string;
-        readonly duration: string;
-        readonly title: string;
-        readonly uri: string;
+    let $hyoo_play_m3u_entry: $mol_regexp<{} | {
+        [x: string]: string;
     }>;
-    let $hyoo_play_m3u: $mol_regexp<{
-        readonly win_end: string;
-        readonly mac_end: string;
-        readonly duration: string;
-        readonly title: string;
-        readonly uri: string;
+    let $hyoo_play_m3u: $mol_regexp<{} | {
+        [x: string]: string;
     }>;
 }
 
