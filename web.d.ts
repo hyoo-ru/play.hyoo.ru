@@ -640,6 +640,7 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $mol_drop extends $mol_ghost {
+        enabled(next?: any): boolean;
         event(): {
             dragenter: (event?: any) => any;
             dragover: (event?: any) => any;
