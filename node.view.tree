@@ -11,6 +11,10 @@ $mol_drop $mol_ghost
 	attr * mol_drop_status <= status?val \ready
 	adopt?transfer *
 	receive?transfer null
+	allow /
+		\link
+		\copy
+		\move
 
 $mol_svg $mol_view
 	dom_name \svg
@@ -281,6 +285,7 @@ $mol_book2 $mol_scroll
 	sub <= pages /$mol_view
 	minimal_width 0
 	Placeholder $mol_view
+	Gap* $mol_view
 
 $hyoo_play $mol_drop
 	playlist \
