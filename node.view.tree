@@ -285,7 +285,7 @@ $mol_book2 $mol_scroll
 	sub <= pages /$mol_view
 	minimal_width 0
 	Placeholder $mol_view
-	Gap* $mol_view
+	Gap* $mol_view title \
 
 $hyoo_play $mol_drop
 	playlist \
