@@ -50,7 +50,7 @@ $mol_icon_play $mol_icon path \M8,5.14V19.14L19,12.14L8,5.14Z
 $mol_speck $mol_view
 	attr *
 		^
-		mol_theme \$mol_theme_accent
+		mol_theme <= theme \$mol_theme_accent
 	style *
 		^
 		minHeight \1em
