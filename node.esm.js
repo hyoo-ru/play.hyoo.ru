@@ -3003,9 +3003,11 @@ var $;
                     return;
                 if (!this.enabled())
                     return;
-                this.status('drag');
+                const action = this.decide_action(event);
+                event.dataTransfer.dropEffect = action;
+                if (action !== 'none')
+                    this.status('drag');
                 this._target = event.target;
-                event.dataTransfer.dropEffect = this.decide_action(event);
                 event.preventDefault();
             }
             move(event) {
