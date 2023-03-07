@@ -1152,6 +1152,8 @@ declare namespace $ {
 declare namespace $ {
     class $mol_state_arg extends $mol_object {
         prefix: string;
+        static prolog: string;
+        static separator: string;
         static href(next?: string): string;
         static href_normal(): string;
         static dict(next?: {
