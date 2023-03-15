@@ -282,6 +282,7 @@ $mol_video_player $mol_view
 		pause?event <=> pause?event null
 
 $mol_book2 $mol_scroll
+	menu_title \
 	sub <= pages /$mol_view
 	minimal_width 0
 	Placeholder $mol_view
