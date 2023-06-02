@@ -1275,12 +1275,12 @@ declare namespace $ {
         right?: Length | 'auto' | Common;
         bottom?: Length | 'auto' | Common;
         left?: Length | 'auto' | Common;
-        border?: {
+        border?: Directions<{
             radius?: Length | [Length, Length];
             style?: 'none' | 'hidden' | 'dotted' | 'dashed' | 'solid' | 'double' | 'groove' | 'ridge' | 'inset' | 'outset' | Common;
-            color?: Directions<Color> | Common;
-            width?: Directions<Length> | Common;
-        };
+            color?: Color | Common;
+            width?: Length | Common;
+        }>;
         flex?: 'none' | 'auto' | {
             grow?: number | Common;
             shrink?: number | Common;
@@ -1813,12 +1813,14 @@ declare namespace $ {
         time(val?: any): number;
         duration(): number;
         attr(): Record<string, any>;
+        field(): Record<string, any>;
         event(): Record<string, any>;
         uri(): string;
         controls(): boolean;
         autoplay(): boolean;
         loop(): boolean;
         poster(): string;
+        stream(): any;
         revolume(event?: any): any;
         retime(event?: any): any;
         redurate(event?: any): any;

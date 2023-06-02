@@ -6447,6 +6447,11 @@ var $;
                 poster: this.poster()
             };
         }
+        field() {
+            return {
+                srcObject: this.stream()
+            };
+        }
         event() {
             return {
                 volumechange: (event) => this.revolume(event),
@@ -6471,6 +6476,9 @@ var $;
         }
         poster() {
             return "";
+        }
+        stream() {
+            return null;
         }
         revolume(event) {
             if (event !== undefined)
