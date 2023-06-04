@@ -1688,6 +1688,7 @@ declare namespace $ {
         uri(): string;
         controls(): boolean;
         autoplay(): boolean;
+        inline(): boolean;
         loop(): boolean;
         poster(): string;
         stream(): any;
