@@ -7051,4 +7051,5 @@ var $;
 })($ || ($ = {}));
 //hyoo/play/-css/play.view.css.ts
 
+export default $
 //# sourceMappingURL=web.js.map
