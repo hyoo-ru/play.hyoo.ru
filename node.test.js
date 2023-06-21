@@ -3126,9 +3126,9 @@ var $;
                 return event;
             return null;
         }
-        status(val) {
-            if (val !== undefined)
-                return val;
+        status(next) {
+            if (next !== undefined)
+                return next;
             return "ready";
         }
     }
@@ -5321,14 +5321,14 @@ var $;
 var $;
 (function ($) {
     class $mol_scroll extends $mol_view {
-        scroll_top(val) {
-            if (val !== undefined)
-                return val;
+        scroll_top(next) {
+            if (next !== undefined)
+                return next;
             return 0;
         }
-        scroll_left(val) {
-            if (val !== undefined)
-                return val;
+        scroll_left(next) {
+            if (next !== undefined)
+                return next;
             return 0;
         }
         field() {
@@ -5529,9 +5529,9 @@ var $;
 var $;
 (function ($) {
     class $mol_embed_native extends $mol_scroll {
-        uri(val) {
-            if (val !== undefined)
-                return val;
+        uri(next) {
+            if (next !== undefined)
+                return next;
             return "";
         }
         dom_name() {
@@ -5741,9 +5741,9 @@ var $;
         clipboard_write() {
             return true;
         }
-        uri(val) {
-            if (val !== undefined)
-                return val;
+        uri(next) {
+            if (next !== undefined)
+                return next;
             return "about:config";
         }
         html() {
@@ -5861,8 +5861,8 @@ var $;
         body() {
             return [];
         }
-        body_scroll_top(val) {
-            return this.Body().scroll_top(val);
+        body_scroll_top(next) {
+            return this.Body().scroll_top(next);
         }
         Body() {
             const obj = new this.$.$mol_scroll();
@@ -6467,19 +6467,19 @@ var $;
         dom_name() {
             return "video";
         }
-        playing(val) {
-            if (val !== undefined)
-                return val;
+        playing(next) {
+            if (next !== undefined)
+                return next;
             return false;
         }
-        volume(val) {
-            if (val !== undefined)
-                return val;
+        volume(next) {
+            if (next !== undefined)
+                return next;
             return 0;
         }
-        time(val) {
-            if (val !== undefined)
-                return val;
+        time(next) {
+            if (next !== undefined)
+                return next;
             return 0;
         }
         duration() {
@@ -9565,15 +9565,15 @@ var $;
 var $;
 (function ($) {
     class $mol_view_tree_test_binding extends $mol_view {
-        value(val) {
-            return this.task_title_new(val);
+        value(next) {
+            return this.task_title_new(next);
         }
         enabled() {
             return this.head_complete_enabled();
         }
-        task_title_new(val) {
-            if (val !== undefined)
-                return val;
+        task_title_new(next) {
+            if (next !== undefined)
+                return next;
             return "123";
         }
         head_complete_enabled() {
@@ -9654,9 +9654,9 @@ var $;
     ], $mol_view_tree_test_binding_right.prototype, "Test", null);
     $.$mol_view_tree_test_binding_right = $mol_view_tree_test_binding_right;
     class $mol_view_tree_test_binding_right_test extends $mol_view {
-        width(val) {
-            if (val !== undefined)
-                return val;
+        width(next) {
+            if (next !== undefined)
+                return next;
             return 0;
         }
     }

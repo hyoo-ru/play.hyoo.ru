@@ -823,7 +823,7 @@ declare namespace $ {
         move(event?: any): any;
         leave(event?: any): any;
         drop(event?: any): any;
-        status(val?: any): string;
+        status(next?: any): string;
     }
 }
 
@@ -1478,8 +1478,8 @@ declare namespace $ {
 
 declare namespace $ {
     class $mol_scroll extends $mol_view {
-        scroll_top(val?: any): number;
-        scroll_left(val?: any): number;
+        scroll_top(next?: any): number;
+        scroll_left(next?: any): number;
         field(): Record<string, any>;
         event(): Record<string, any>;
         tabindex(): number;
@@ -1525,7 +1525,7 @@ declare namespace $.$$ {
 
 declare namespace $ {
     class $mol_embed_native extends $mol_scroll {
-        uri(val?: any): string;
+        uri(next?: any): string;
         dom_name(): string;
         window(): any;
         attr(): Record<string, any>;
@@ -1582,7 +1582,7 @@ declare namespace $ {
         pip(): boolean;
         clipboard_read(): boolean;
         clipboard_write(): boolean;
-        uri(val?: any): string;
+        uri(next?: any): string;
         html(): any;
         allow(): string;
     }
@@ -1612,7 +1612,7 @@ declare namespace $ {
         head(): readonly any[];
         Head(): $mol_view;
         body(): readonly $mol_view_content[];
-        body_scroll_top(val?: any): number;
+        body_scroll_top(next?: any): number;
         Body(): $$.$mol_scroll;
         foot(): readonly $mol_view[];
         Foot(): $mol_view;
@@ -1737,9 +1737,9 @@ declare namespace $ {
 declare namespace $ {
     class $mol_video_player extends $mol_view {
         dom_name(): string;
-        playing(val?: any): boolean;
-        volume(val?: any): number;
-        time(val?: any): number;
+        playing(next?: any): boolean;
+        volume(next?: any): number;
+        time(next?: any): number;
         duration(): number;
         attr(): Record<string, any>;
         field(): Record<string, any>;
