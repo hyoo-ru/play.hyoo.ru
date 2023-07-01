@@ -4849,11 +4849,8 @@ var $;
     (function ($$) {
         const { per, rem, px } = $mol_style_unit;
         $mol_style_define($mol_scroll, {
-            overflow: 'auto',
-        });
-        $mol_style_define($mol_scroll, {
             display: 'flex',
-            overflow: 'overlay',
+            overflow: 'auto',
             flex: {
                 direction: 'column',
                 grow: 1,
@@ -4884,12 +4881,6 @@ var $;
             '::-webkit-scrollbar': {
                 width: rem(.25),
                 height: rem(.25),
-            },
-            ':hover': {
-                '::-webkit-scrollbar': {
-                    width: rem(.5),
-                    height: rem(.5),
-                },
             },
             '@media': {
                 'print': {
