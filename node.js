@@ -7531,7 +7531,7 @@ var $;
     function $mol_offline() { }
     $.$mol_offline = $mol_offline;
 })($ || ($ = {}));
-//mol/offline/offline.node.ts
+//mol/offline/offline.ts
 ;
 "use strict";
 var $;
