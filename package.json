@@ -116,6 +116,7 @@
     "$mol_state_time",
     "$mol_state",
     "$mol_svg_path",
+    "$mol_type_enforce",
     "$mol_check_icon",
     "$mol_check",
     "$mol_button_minor",
