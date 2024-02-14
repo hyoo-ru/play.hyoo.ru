@@ -6478,7 +6478,7 @@ var $;
 		}
 		Water(){
 			const obj = new this.$.$mol_link();
-			(obj.hint) = () => (this.$.$mol_locale.text("$hyoo_play_Water_hint"));
+			(obj.hint) = () => ((this.$.$mol_locale.text("$hyoo_play_Water_hint")));
 			(obj.arg) = () => ({"playlist": "./hyoo/play/lib/water.m3u8"});
 			(obj.sub) = () => ([(this.Water_icon())]);
 			return obj;
@@ -6489,7 +6489,7 @@ var $;
 		}
 		Wind(){
 			const obj = new this.$.$mol_link();
-			(obj.hint) = () => (this.$.$mol_locale.text("$hyoo_play_Wind_hint"));
+			(obj.hint) = () => ((this.$.$mol_locale.text("$hyoo_play_Wind_hint")));
 			(obj.arg) = () => ({"playlist": "./hyoo/play/lib/wind.m3u8"});
 			(obj.sub) = () => ([(this.Wind_icon())]);
 			return obj;
@@ -6500,7 +6500,7 @@ var $;
 		}
 		Light(){
 			const obj = new this.$.$mol_link();
-			(obj.hint) = () => (this.$.$mol_locale.text("$hyoo_play_Light_hint"));
+			(obj.hint) = () => ((this.$.$mol_locale.text("$hyoo_play_Light_hint")));
 			(obj.arg) = () => ({"playlist": "./hyoo/play/lib/light.m3u8"});
 			(obj.sub) = () => ([(this.Light_icon())]);
 			return obj;
@@ -6511,7 +6511,7 @@ var $;
 		}
 		Fire(){
 			const obj = new this.$.$mol_link();
-			(obj.hint) = () => (this.$.$mol_locale.text("$hyoo_play_Fire_hint"));
+			(obj.hint) = () => ((this.$.$mol_locale.text("$hyoo_play_Fire_hint")));
 			(obj.arg) = () => ({"playlist": "./hyoo/play/lib/fire.m3u8"});
 			(obj.sub) = () => ([(this.Fire_icon())]);
 			return obj;
@@ -6522,14 +6522,14 @@ var $;
 		}
 		Movie(){
 			const obj = new this.$.$mol_link();
-			(obj.hint) = () => (this.$.$mol_locale.text("$hyoo_play_Movie_hint"));
+			(obj.hint) = () => ((this.$.$mol_locale.text("$hyoo_play_Movie_hint")));
 			(obj.arg) = () => ({"playlist": "./hyoo/play/lib/movie.m3u8"});
 			(obj.sub) = () => ([(this.Movie_icon())]);
 			return obj;
 		}
 		Queue(){
 			const obj = new this.$.$mol_page();
-			(obj.title) = () => (this.$.$mol_locale.text("$hyoo_play_Queue_title"));
+			(obj.title) = () => ((this.$.$mol_locale.text("$hyoo_play_Queue_title")));
 			(obj.tools) = () => ([
 				(this.Playing()), 
 				(this.Open()), 
