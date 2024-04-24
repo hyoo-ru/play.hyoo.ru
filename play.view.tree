@@ -61,4 +61,4 @@ $hyoo_play $mol_drop
 			<= File_drop!index $mol_button_minor
 				click?event <=> file_drop!index?event null
 				sub /
-					<= File_drop_icon!index $mol_icon_cross
+					<= File_drop_icon!index $mol_icon_close
