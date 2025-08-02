@@ -1,9 +1,11 @@
 {
 	"$hyoo_play_Fire_hint": "Агрессивное",
 	"$hyoo_play_Light_hint": "Воодушевляющее",
-	"$hyoo_play_Queue_title": "Медиа плеер",
+	"$hyoo_play_Movies_hint": "Ролики",
+	"$hyoo_play_Queue_title": "Гипер Плеер",
 	"$hyoo_play_Water_hint": "Расслабляющее",
 	"$hyoo_play_Wind_hint": "Трогательное",
-	"$mol_chat_title": "Дискуссия",
-	"$mol_link_source_hint": "Исходные коды"
+	"$mol_link_source_hint": "Исходные коды",
+	"$mol_search_Clear_hint": "Очистить",
+	"$mol_search_hint": "Поиск.."
 }

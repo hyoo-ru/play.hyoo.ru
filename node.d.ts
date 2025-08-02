@@ -58,9 +58,9 @@ declare namespace $ {
 
 declare namespace $ {
     class $mol_object2 {
-        static $: typeof $$;
+        static $: $;
         [Symbol.toStringTag]: string;
-        [$mol_ambient_ref]: typeof $$;
+        [$mol_ambient_ref]: $;
         get $(): $;
         set $(next: $);
         static create<Instance>(this: new (init?: (instance: any) => void) => Instance, init?: (instance: $mol_type_writable<Instance>) => void): Instance;
@@ -91,6 +91,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    function $mol_guid(length?: number, exists?: (id: string) => boolean): string;
+}
+
+declare namespace $ {
     enum $mol_wire_cursor {
         stale = -1,
         doubt = -2,
@@ -101,6 +105,8 @@ declare namespace $ {
 
 declare namespace $ {
     class $mol_wire_pub extends Object {
+        constructor(id?: string);
+        [Symbol.toStringTag]: string;
         data: unknown[];
         static get [Symbol.species](): ArrayConstructor;
         protected sub_from: number;
@@ -122,12 +128,13 @@ declare namespace $ {
 declare namespace $ {
     interface $mol_wire_sub extends $mol_wire_pub {
         temp: boolean;
+        pub_list: $mol_wire_pub[];
         track_on(): $mol_wire_sub | null;
         track_next(pub?: $mol_wire_pub): $mol_wire_pub | null;
         pub_off(pub_pos: number): void;
         track_cut(sub: $mol_wire_pub | null): void;
         track_off(sub: $mol_wire_pub | null): void;
-        absorb(quant: $mol_wire_cursor): void;
+        absorb(quant: $mol_wire_cursor, pos: number): void;
         destructor(): void;
     }
 }
@@ -135,7 +142,7 @@ declare namespace $ {
 declare namespace $ {
     let $mol_wire_auto_sub: $mol_wire_sub | null;
     function $mol_wire_auto(next?: $mol_wire_sub | null): $mol_wire_sub | null;
-    const $mol_wire_affected: (number | $mol_wire_sub)[];
+    const $mol_wire_affected: ($mol_wire_sub | number)[];
 }
 
 declare namespace $ {
@@ -147,8 +154,8 @@ declare namespace $ {
         hasBody: (val: any, config: any) => boolean;
         body: (val: any, config: any) => any;
     }): void;
-    let $mol_dev_format_head: symbol;
-    let $mol_dev_format_body: symbol;
+    const $mol_dev_format_head: unique symbol;
+    const $mol_dev_format_body: unique symbol;
     function $mol_dev_format_native(obj: any): any[];
     function $mol_dev_format_auto(obj: any): any[];
     function $mol_dev_format_element(element: string, style: object, ...content: any[]): any[];
@@ -181,9 +188,65 @@ declare namespace $ {
         track_cut(): void;
         complete(): void;
         complete_pubs(): void;
-        absorb(quant?: $mol_wire_cursor): void;
+        absorb(quant?: $mol_wire_cursor, pos?: number): void;
+        [$mol_dev_format_head](): any[];
         get pub_empty(): boolean;
     }
+}
+
+declare namespace $ {
+    class $mol_after_tick extends $mol_object2 {
+        task: () => void;
+        static promise: Promise<void> | null;
+        cancelled: boolean;
+        constructor(task: () => void);
+        destructor(): void;
+    }
+}
+
+declare namespace $ {
+    function $mol_promise_like(val: any): val is Promise<any>;
+}
+
+declare namespace $ {
+    abstract class $mol_wire_fiber<Host, Args extends readonly unknown[], Result> extends $mol_wire_pub_sub {
+        readonly task: (this: Host, ...args: Args) => Result;
+        readonly host?: Host | undefined;
+        static warm: boolean;
+        static planning: Set<$mol_wire_fiber<any, any, any>>;
+        static reaping: Set<$mol_wire_fiber<any, any, any>>;
+        static plan_task: $mol_after_tick | null;
+        static plan(): void;
+        static sync(): void;
+        cache: Result | Error | Promise<Result | Error>;
+        get args(): Args;
+        result(): Result | undefined;
+        get incompleted(): boolean;
+        field(): string;
+        constructor(id: string, task: (this: Host, ...args: Args) => Result, host?: Host | undefined, args?: Args);
+        plan(): this;
+        reap(): void;
+        toString(): string;
+        toJSON(): string;
+        [$mol_dev_format_head](): any[];
+        get $(): any;
+        emit(quant?: $mol_wire_cursor): void;
+        fresh(): this | undefined;
+        refresh(): void;
+        abstract put(next: Result | Error | Promise<Result | Error>): Result | Error | Promise<Result | Error>;
+        sync(): Awaited<Result>;
+        async_raw(): Promise<Result>;
+        async(): Promise<Result> & {
+            destructor(): void;
+        };
+        step(): Promise<null>;
+        destructor(): void;
+    }
+}
+
+declare namespace $ {
+    const $mol_key_store: WeakMap<object, string>;
+    function $mol_key<Value>(value: Value): string;
 }
 
 declare namespace $ {
@@ -201,51 +264,6 @@ declare namespace $ {
         task: () => void;
         constructor(task: () => void);
     }
-}
-
-declare namespace $ {
-    function $mol_promise_like(val: any): val is Promise<any>;
-}
-
-declare namespace $ {
-    abstract class $mol_wire_fiber<Host, Args extends readonly unknown[], Result> extends $mol_wire_pub_sub {
-        readonly task: (this: Host, ...args: Args) => Result;
-        readonly host?: Host | undefined;
-        static warm: boolean;
-        static planning: Set<$mol_wire_fiber<any, any, any>>;
-        static reaping: Set<$mol_wire_fiber<any, any, any>>;
-        static plan_task: $mol_after_frame | null;
-        static plan(): void;
-        static sync(): void;
-        [Symbol.toStringTag]: string;
-        cache: Result | Error | Promise<Result | Error>;
-        get args(): Args;
-        result(): Result | undefined;
-        get incompleted(): boolean;
-        field(): string;
-        constructor(id: string, task: (this: Host, ...args: Args) => Result, host?: Host | undefined, args?: Args);
-        plan(): void;
-        reap(): void;
-        toString(): string;
-        toJSON(): string;
-        get $(): any;
-        emit(quant?: $mol_wire_cursor): void;
-        fresh(): void;
-        refresh(): void;
-        abstract put(next: Result | Error | Promise<Result | Error>): Result | Error | Promise<Result | Error>;
-        sync(): Awaited<Result>;
-        async(): Promise<Result>;
-        step(): Promise<null>;
-    }
-}
-
-declare namespace $ {
-    function $mol_guid(length?: number, exists?: (id: string) => boolean): string;
-}
-
-declare namespace $ {
-    const $mol_key_store: WeakMap<object, string>;
-    function $mol_key<Value>(value: Value): string;
 }
 
 declare namespace $ {
@@ -305,6 +323,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    function $mol_maybe<Value>(value: Value | null | undefined): Value[];
+}
+
+declare namespace $ {
     type $mol_tree2_path = Array<string | number | null>;
     type $mol_tree2_hack<Context> = (input: $mol_tree2, belt: $mol_tree2_belt<Context>, context: Context) => readonly $mol_tree2[];
     type $mol_tree2_belt<Context> = Record<string, $mol_tree2_hack<Context>>;
@@ -325,6 +347,7 @@ declare namespace $ {
         static fromString(str: string, uri?: string): $mol_tree2;
         toString(): string;
         insert(value: $mol_tree2 | null, ...path: $mol_tree2_path): $mol_tree2;
+        update(value: readonly $mol_tree2[], ...path: $mol_tree2_path): readonly $mol_tree2[];
         select(...path: $mol_tree2_path): $mol_tree2;
         filter(path: string[], value?: string): $mol_tree2;
         hack_self<Context extends {
@@ -395,16 +418,16 @@ declare namespace $ {
         static getter<Host, Args extends readonly unknown[], Result>(task: (this: Host, ...args: Args) => Result): (host: Host, args: Args) => $mol_wire_task<Host, Args, Result>;
         get temp(): boolean;
         complete(): void;
-        put(next: Result | Error | Promise<Result | Error>): Error | Result | Promise<Error | Result>;
+        put(next: Result | Error | Promise<Result | Error>): Result | Error | Promise<Result | Error>;
     }
 }
 
 declare namespace $ {
     function $mol_wire_method<Host extends object, Args extends readonly any[]>(host: Host, field: PropertyKey, descr?: TypedPropertyDescriptor<(...args: Args) => any>): {
         value: (this: Host, ...args: Args) => any;
-        enumerable?: boolean | undefined;
-        configurable?: boolean | undefined;
-        writable?: boolean | undefined;
+        enumerable?: boolean;
+        configurable?: boolean;
+        writable?: boolean;
         get?: (() => (...args: Args) => any) | undefined;
         set?: ((value: (...args: Args) => any) => void) | undefined;
     };
@@ -453,9 +476,9 @@ declare namespace $ {
 declare namespace $ {
     function $mol_wire_plex<Args extends [any, ...any[]]>(host: object, field: string, descr?: TypedPropertyDescriptor<(...args: Args) => any>): {
         value: (this: typeof host, ...args: Args) => any;
-        enumerable?: boolean | undefined;
-        configurable?: boolean | undefined;
-        writable?: boolean | undefined;
+        enumerable?: boolean;
+        configurable?: boolean;
+        writable?: boolean;
         get?: (() => (...args: Args) => any) | undefined;
         set?: ((value: (...args: Args) => any) => void) | undefined;
     };
@@ -477,29 +500,74 @@ declare var $node: $node;
 declare const cache: Map<string, any>;
 
 declare namespace $ {
+    class $mol_error_mix<Cause extends {} = {}> extends AggregateError {
+        readonly cause: Cause;
+        name: string;
+        constructor(message: string, cause?: Cause, ...errors: readonly Error[]);
+        static [Symbol.toPrimitive](): string;
+        static toString(): string;
+        static make(...params: ConstructorParameters<typeof $mol_error_mix>): $mol_error_mix<{}>;
+    }
+}
+
+declare namespace $ {
     function $mol_env(): Record<string, string | undefined>;
 }
 
 declare namespace $ {
 }
 
-/// <reference types="node" />
-/// <reference types="node" />
 declare namespace $ {
-    function $mol_exec(this: $, dir: string, command: string, ...args: string[]): import("child_process").SpawnSyncReturns<Buffer>;
+    export function $mol_wire_sync<Host extends object>(obj: Host): ObjectOrFunctionResultAwaited<Host>;
+    type FunctionResultAwaited<Some> = Some extends (...args: infer Args) => infer Res ? (...args: Args) => Awaited<Res> : Some;
+    type ConstructorResultAwaited<Some> = Some extends new (...args: infer Args) => infer Res ? new (...args: Args) => Res : {};
+    type MethodsResultAwaited<Host extends Object> = {
+        [K in keyof Host]: FunctionResultAwaited<Host[K]>;
+    };
+    type ObjectOrFunctionResultAwaited<Some> = (Some extends (...args: any) => unknown ? FunctionResultAwaited<Some> : {}) & (Some extends Object ? MethodsResultAwaited<Some> & ConstructorResultAwaited<Some> : Some);
+    export {};
 }
 
 declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_after_tick extends $mol_object2 {
-        task: () => void;
-        promise: any;
-        cancelled: boolean;
-        constructor(task: () => void);
-        destructor(): void;
+    type $mol_run_error_context = {
+        pid?: number;
+        stdout: Buffer | string;
+        stderr: Buffer | string;
+    };
+    class $mol_run_error extends $mol_error_mix<{
+        timeout_kill?: boolean;
+        pid?: number;
+        signal?: NodeJS.Signals | null;
+        status?: number | null;
+        command: string;
+        dir: string;
+    }> {
     }
+    const $mol_run_spawn: (...args: Parameters<(typeof $node)["child_process"]["spawn"]>) => import("child_process").ChildProcess;
+    const $mol_run_spawn_sync: (...args: Parameters<(typeof $node)["child_process"]["spawnSync"]>) => import("child_process").SpawnSyncReturns<string | Buffer<ArrayBufferLike>>;
+    type $mol_run_options = {
+        command: readonly string[] | string;
+        dir: string;
+        timeout?: number;
+        env?: Record<string, string | undefined>;
+    };
+    class $mol_run extends $mol_object {
+        static async_enabled(): boolean;
+        static spawn(options: $mol_run_options): $mol_run_error_context | import("child_process").SpawnSyncReturns<string | Buffer<ArrayBufferLike>>;
+        static spawn_async({ dir, sync, timeout, command, env }: $mol_run_options & {
+            sync?: boolean;
+        }): import("child_process").SpawnSyncReturns<string | Buffer<ArrayBufferLike>> | (Promise<$mol_run_error_context> & {
+            destructor: () => void;
+        });
+        static error_message(res?: $mol_run_error_context): string;
+    }
+}
+
+declare namespace $ {
+    function $mol_exec(this: $, dir: string, command: string, ...args: readonly string[]): $mol_run_error_context | import("child_process").SpawnSyncReturns<string | Buffer<ArrayBufferLike>>;
+}
+
+declare namespace $ {
 }
 
 declare namespace $ {
@@ -523,6 +591,10 @@ declare namespace $ {
     class $mol_memo extends $mol_wrapper {
         static wrap<This extends object, Value>(task: (this: This, next?: Value) => Value): (this: This, next?: Value) => Value | undefined;
     }
+}
+
+declare namespace $ {
+    var $mol_dom: typeof globalThis;
 }
 
 declare namespace $ {
@@ -599,8 +671,21 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_style_attach_force(): HTMLStyleElement;
     function $mol_style_attach(id: string, text: string): HTMLStyleElement | null;
+}
+
+declare namespace $ {
+    class $mol_promise<Result = void> extends Promise<Result> {
+        done: (value: Result | PromiseLike<Result>) => void;
+        fail: (reason?: any) => void;
+        constructor(executor?: (done: (value: Result | PromiseLike<Result>) => void, fail: (reason?: any) => void) => void);
+    }
+}
+
+declare namespace $ {
+    class $mol_promise_blocker<Result> extends $mol_promise<Result> {
+        static [Symbol.toStringTag]: string;
+    }
 }
 
 declare namespace $ {
@@ -694,7 +779,7 @@ declare namespace $ {
 
 declare namespace $ {
     export type $mol_style_properties = Partial<$mol_type_override<CSSStyleDeclaration, Overrides>>;
-    type Common = 'inherit' | 'initial' | 'unset' | 'revert' | 'revert-layer' | $mol_style_func<'var'>;
+    type Common = 'inherit' | 'initial' | 'unset' | 'revert' | 'revert-layer' | 'none' | $mol_style_func<'var'>;
     export type $mol_style_properties_color = 'aliceblue' | 'antiquewhite' | 'aqua' | 'aquamarine' | 'azure' | 'beige' | 'bisque' | 'black' | 'blanchedalmond' | 'blue' | 'blueviolet' | 'brown' | 'burlywood' | 'cadetblue' | 'chartreuse' | 'chocolate' | 'coral' | 'cornflowerblue' | 'cornsilk' | 'crimson' | 'cyan' | 'darkblue' | 'darkcyan' | 'darkgoldenrod' | 'darkgray' | 'darkgreen' | 'darkgrey' | 'darkkhaki' | 'darkmagenta' | 'darkolivegreen' | 'darkorange' | 'darkorchid' | 'darkred' | 'darksalmon' | 'darkseagreen' | 'darkslateblue' | 'darkslategrey' | 'darkturquoise' | 'darkviolet' | 'deeppink' | 'deepskyblue' | 'dimgray' | 'dimgrey' | 'dodgerblue' | 'firebrick' | 'floralwhite' | 'forestgreen' | 'fuchsia' | 'gainsboro' | 'ghostwhite' | 'gold' | 'goldenrod' | 'gray' | 'green' | 'greenyellow' | 'grey' | 'honeydew' | 'hotpink' | 'indianred' | 'indigo' | 'ivory' | 'khaki' | 'lavender' | 'lavenderblush' | 'lawngreen' | 'lemonchiffon' | 'lightblue' | 'lightcoral' | 'lightcyan' | 'lightgoldenrodyellow' | 'lightgray' | 'lightgreen' | 'lightgrey' | 'lightpink' | 'lightsalmon' | 'lightseagreen' | 'lightskyblue' | 'lightslategray' | 'lightslategrey' | 'lightsteelblue' | 'lightyellow' | 'lime' | 'limegreen' | 'linen' | 'magenta' | 'maroon' | 'mediumaquamarine' | 'mediumblue' | 'mediumorchid' | 'mediumpurple' | 'mediumseagreen' | 'mediumslateblue' | 'mediumspringgreen' | 'mediumturquoise' | 'mediumvioletred' | 'midnightblue' | 'mintcream' | 'mistyrose' | 'moccasin' | 'navajowhite' | 'navy' | 'oldlace' | 'olive' | 'olivedrab' | 'orange' | 'orangered' | 'orchid' | 'palegoldenrod' | 'palegreen' | 'paleturquoise' | 'palevioletred' | 'papayawhip' | 'peachpuff' | 'peru' | 'pink' | 'plum' | 'powderblue' | 'purple' | 'rebeccapurple' | 'red' | 'rosybrown' | 'royalblue' | 'saddlebrown' | 'salmon' | 'sandybrown' | 'seagreen' | 'seashell' | 'sienna' | 'silver' | 'skyblue' | 'slateblue' | 'slategray' | 'slategrey' | 'snow' | 'springgreen' | 'steelblue' | 'tan' | 'teal' | 'thistle' | 'tomato' | 'turquoise' | 'violet' | 'wheat' | 'white' | 'whitesmoke' | 'yellow' | 'yellowgreen' | 'transparent' | 'currentcolor' | $mol_style_func<'hsla' | 'rgba' | 'var'> | `#${string}`;
     type Length = 0 | `${number}${$mol_style_unit_length}` | $mol_style_func<'calc' | 'var' | 'clamp'>;
     type Size = 'auto' | 'max-content' | 'min-content' | 'fit-content' | Length | Common;
@@ -767,7 +852,7 @@ declare namespace $ {
             image?: readonly (readonly [$mol_style_func<$mol_style_func_image> | string & {}])[] | 'none' | Common;
             repeat?: Repeat | [Repeat, Repeat] | Common;
             position?: 'left' | 'right' | 'top' | 'bottom' | 'center' | Common;
-            size?: (BG_size | [BG_size, BG_size])[];
+            size?: (BG_size | [BG_size] | [BG_size, BG_size])[];
         };
         box?: {
             shadow?: readonly ([
@@ -851,21 +936,21 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    const $mol_theme: Record<"image" | "line" | "text" | "focus" | "back" | "hover" | "card" | "current" | "special" | "control" | "shade" | "field", $mol_style_func<"var", unknown>>;
+    const $mol_theme: Record<"image" | "line" | "text" | "field" | "focus" | "back" | "hover" | "card" | "current" | "special" | "control" | "shade" | "spirit", $mol_style_func<"var", unknown>>;
 }
 
 declare namespace $ {
 }
 
 declare namespace $ {
-    let $mol_gap: Record<"text" | "blur" | "block" | "space" | "round", $mol_style_func<"var", unknown>>;
+    let $mol_gap: Record<"text" | "space" | "blur" | "block" | "round", $mol_style_func<"var", unknown>>;
 }
 
 declare namespace $ {
 }
 
 declare namespace $ {
-    type $mol_view_content = $mol_view | Node | string | number | boolean;
+    type $mol_view_content = $mol_view | Node | string | number | boolean | null;
     function $mol_view_visible_width(): number;
     function $mol_view_visible_height(): number;
     function $mol_view_state_key(suffix: string): string;
@@ -878,8 +963,8 @@ declare namespace $ {
         state_key(suffix?: string): string;
         dom_name(): string;
         dom_name_space(): string;
-        sub(): readonly (string | number | boolean | $mol_view | Node)[];
-        sub_visible(): readonly (string | number | boolean | $mol_view | Node)[];
+        sub(): readonly $mol_view_content[];
+        sub_visible(): readonly $mol_view_content[];
         minimal_width(): number;
         maximal_width(): number;
         minimal_height(): number;
@@ -905,7 +990,7 @@ declare namespace $ {
         static view_names(suffix: string): string[];
         view_names_owned(): string[];
         view_names(): Set<string>;
-        theme(next?: string | null): string | null;
+        theme(next?: null | string): string | null;
         attr_static(): {
             [key: string]: string | number | boolean | null;
         };
@@ -926,6 +1011,7 @@ declare namespace $ {
             [x: string]: (event: Event) => Promise<void>;
         };
         plugins(): readonly $mol_view[];
+        [$mol_dev_format_head](): any[];
         view_find(check: (path: $mol_view, text?: string) => boolean, path?: $mol_view[]): Generator<$mol_view[]>;
         force_render(path: Set<$mol_view>): void;
         ensure_visible(view: $mol_view, align?: ScrollLogicalPosition): void;
@@ -1072,7 +1158,7 @@ declare namespace $ {
 
 declare namespace $ {
 
-	type $mol_svg_path__geometry__ODO8CHUV = $mol_type_enforce<
+	type $mol_svg_path__geometry_mol_icon_1 = $mol_type_enforce<
 		ReturnType< $mol_icon['path'] >
 		,
 		ReturnType< $mol_svg_path['geometry'] >
@@ -1099,7 +1185,7 @@ declare namespace $ {
 
 //# sourceMappingURL=play.view.tree.d.ts.map
 declare namespace $ {
-    let $mol_layer: Record<string, $mol_style_func<"var", unknown>>;
+    let $mol_layer: Record<"focus" | "float" | "hover" | "speck" | "popup", $mol_style_func<"var", unknown>>;
 }
 
 declare namespace $ {
@@ -1113,6 +1199,7 @@ declare namespace $ {
 	export class $mol_speck extends $mol_view {
 		theme( ): string
 		value( ): any
+		minimal_width( ): number
 		attr( ): ({ 
 			'mol_theme': ReturnType< $mol_speck['theme'] >,
 		})  & ReturnType< $mol_view['attr'] >
@@ -1232,7 +1319,7 @@ declare namespace $ {
 
 declare namespace $ {
 
-	type $mol_speck__value__SA2RNYBT = $mol_type_enforce<
+	type $mol_speck__value_mol_button_1 = $mol_type_enforce<
 		ReturnType< $mol_button['error'] >
 		,
 		ReturnType< $mol_speck['value'] >
@@ -1276,7 +1363,7 @@ declare namespace $.$$ {
         tab_index(): number;
         error(): string;
         hint_safe(): string;
-        sub_visible(): ($mol_speck | $mol_view_content)[];
+        sub_visible(): ($mol_view_content | $mol_speck)[];
     }
 }
 
@@ -1308,15 +1395,11 @@ declare namespace $ {
 
 //# sourceMappingURL=minor.view.tree.d.ts.map
 declare namespace $ {
-    function $mol_maybe<Value>(value: Value | null | undefined): Value[];
-}
-
-declare namespace $ {
 }
 
 declare namespace $ {
 
-	type $mol_view__sub__YITNNJG8 = $mol_type_enforce<
+	type $mol_view__sub_mol_check_1 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
@@ -1371,17 +1454,17 @@ declare namespace $ {
 //# sourceMappingURL=upload.view.tree.d.ts.map
 declare namespace $ {
 
-	type $mol_button_open_native__files__YNYWR1O5 = $mol_type_enforce<
+	type $mol_button_open_native__files_mol_button_open_1 = $mol_type_enforce<
 		ReturnType< $mol_button_open['files'] >
 		,
 		ReturnType< $mol_button_open_native['files'] >
 	>
-	type $mol_button_open_native__accept__X2VOPJIF = $mol_type_enforce<
+	type $mol_button_open_native__accept_mol_button_open_2 = $mol_type_enforce<
 		ReturnType< $mol_button_open['accept'] >
 		,
 		ReturnType< $mol_button_open_native['accept'] >
 	>
-	type $mol_button_open_native__multiple__G9UYUREZ = $mol_type_enforce<
+	type $mol_button_open_native__multiple_mol_button_open_3 = $mol_type_enforce<
 		ReturnType< $mol_button_open['multiple'] >
 		,
 		ReturnType< $mol_button_open_native['multiple'] >
@@ -1446,6 +1529,7 @@ declare namespace $ {
         static go(next: {
             [key: string]: string | null;
         }): void;
+        static commit(): void;
         constructor(prefix?: string);
         value(key: string, next?: string): string | null;
         sub(postfix: string): $mol_state_arg;
@@ -1577,16 +1661,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    export function $mol_wire_sync<Host extends object>(obj: Host): ObjectOrFunctionResultAwaited<Host>;
-    type FunctionResultAwaited<Some> = Some extends (...args: infer Args) => infer Res ? (...args: Args) => Awaited<Res> : Some;
-    type MethodsResultAwaited<Host extends Object> = {
-        [K in keyof Host]: FunctionResultAwaited<Host[K]>;
-    };
-    type ObjectOrFunctionResultAwaited<Some> = (Some extends (...args: any) => unknown ? FunctionResultAwaited<Some> : {}) & (Some extends Object ? MethodsResultAwaited<Some> : Some);
-    export {};
-}
-
-declare namespace $ {
     class $mol_storage extends $mol_object2 {
         static native(): StorageManager;
         static persisted(next?: boolean, cache?: 'cache'): boolean;
@@ -1611,6 +1685,18 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_lock extends $mol_object {
+        protected promise: null | Promise<void>;
+        wait(): Promise<() => void>;
+        grab(): () => void;
+    }
+}
+
+declare namespace $ {
+    function $mol_compare_array<Value extends ArrayLike<unknown>>(a: Value, b: Value): boolean;
+}
+
+declare namespace $ {
     type $mol_charset_encoding = 'utf8' | 'utf-16le' | 'utf-16be' | 'ibm866' | 'iso-8859-2' | 'iso-8859-3' | 'iso-8859-4' | 'iso-8859-5' | 'iso-8859-6' | 'iso-8859-7' | 'iso-8859-8' | 'iso-8859-8i' | 'iso-8859-10' | 'iso-8859-13' | 'iso-8859-14' | 'iso-8859-15' | 'iso-8859-16' | 'koi8-r' | 'koi8-u' | 'koi8-r' | 'macintosh' | 'windows-874' | 'windows-1250' | 'windows-1251' | 'windows-1252' | 'windows-1253' | 'windows-1254' | 'windows-1255' | 'windows-1256' | 'windows-1257' | 'windows-1258' | 'x-mac-cyrillic' | 'gbk' | 'gb18030' | 'hz-gb-2312' | 'big5' | 'euc-jp' | 'iso-2022-jp' | 'shift-jis' | 'euc-kr' | 'iso-2022-kr';
 }
 
@@ -1619,7 +1705,105 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_charset_encode(value: string): Uint8Array;
+    function $mol_charset_encode(value: string): Uint8Array<ArrayBuffer>;
+}
+
+declare namespace $ {
+    type $mol_file_transaction_mode = 'create' | 'exists_truncate' | 'exists_fail' | 'read_only' | 'write_only' | 'read_write' | 'append';
+    type $mol_file_transaction_buffer = ArrayBufferView;
+    class $mol_file_transaction extends $mol_object {
+        path(): string;
+        modes(): readonly $mol_file_transaction_mode[];
+        write(options: {
+            buffer: ArrayBufferView | string | readonly ArrayBufferView[];
+            offset?: number | null;
+            length?: number | null;
+            position?: number | null;
+        }): number;
+        read(): Uint8Array<ArrayBuffer>;
+        truncate(size: number): void;
+        close(): void;
+        destructor(): void;
+    }
+}
+
+declare namespace $ {
+    class $mol_file_transaction_node extends $mol_file_transaction {
+        protected descr(): number;
+        write({ buffer, offset, length, position }: {
+            buffer: ArrayBufferView | string | readonly ArrayBufferView[];
+            offset?: number | null;
+            length?: number | null;
+            position?: number | null;
+        }): number;
+        truncate(size: number): void;
+        read(): Uint8Array<ArrayBuffer>;
+        close(): void;
+    }
+}
+
+declare namespace $ {
+    class $mol_file_base extends $mol_object {
+        static absolute<This extends typeof $mol_file_base>(this: This, path: string): InstanceType<This>;
+        static relative<This extends typeof $mol_file_base>(this: This, path: string): InstanceType<This>;
+        static base: string;
+        path(): string;
+        parent(): this;
+        exists_cut(): boolean;
+        protected root(): boolean;
+        protected stat(next?: $mol_file_stat | null, virt?: 'virt'): $mol_file_stat | null;
+        protected static changed: Set<$mol_file_base>;
+        protected static frame: null | $mol_after_timeout;
+        protected static changed_add(type: 'change' | 'rename', path: string): void;
+        static watch_debounce(): number;
+        static flush(): void;
+        protected static watching: boolean;
+        protected static lock: $mol_lock;
+        protected static watch_off(path: string): void;
+        static unwatched<Result>(side_effect: () => Result, affected_dir: string): Result;
+        reset(): void;
+        modified(): Date | null;
+        version(): string;
+        protected info(path: string): null | $mol_file_stat;
+        protected ensure(): void;
+        protected drop(): void;
+        protected copy(to: string): void;
+        protected read(): Uint8Array<ArrayBuffer>;
+        protected write(buffer: Uint8Array<ArrayBuffer>): void;
+        protected kids(): readonly this[];
+        readable(opts: {
+            start?: number;
+            end?: number;
+        }): ReadableStream<Uint8Array<ArrayBuffer>>;
+        writable(opts: {
+            start?: number;
+        }): WritableStream<Uint8Array<ArrayBuffer>>;
+        buffer(next?: Uint8Array<ArrayBuffer>): Uint8Array<ArrayBuffer>;
+        stat_make(size: number): {
+            readonly type: "file";
+            readonly size: number;
+            readonly atime: Date;
+            readonly mtime: Date;
+            readonly ctime: Date;
+        };
+        clone(to: string): this | null;
+        watcher(): {
+            destructor(): void;
+        };
+        exists(next?: boolean): boolean;
+        type(): "" | $mol_file_type;
+        name(): string;
+        ext(): string;
+        text(next?: string, virt?: 'virt'): string;
+        text_int(next?: string, virt?: 'virt'): string;
+        sub(reset?: null): this[];
+        resolve(path: string): this;
+        relate(base?: $mol_file_base): string;
+        find(include?: RegExp, exclude?: RegExp): this[];
+        size(): number;
+        toJSON(): string;
+        open(...modes: readonly $mol_file_transaction_mode[]): $mol_file_transaction;
+    }
 }
 
 declare namespace $ {
@@ -1631,68 +1815,33 @@ declare namespace $ {
         mtime: Date;
         ctime: Date;
     }
-    class $mol_file_not_found extends Error {
-    }
-    abstract class $mol_file extends $mol_object {
-        static absolute(path: string): $mol_file;
-        static relative(path: string): $mol_file;
-        static base: string;
-        path(): string;
-        parent(): $mol_file;
-        abstract stat(next?: $mol_file_stat | null, virt?: 'virt'): $mol_file_stat | null;
-        reset(): void;
-        version(): string;
-        abstract ensure(): void;
-        abstract drop(): void;
-        watcher(): {
-            destructor(): void;
-        };
-        exists(next?: boolean): boolean;
-        type(): "" | $mol_file_type;
-        name(): string;
-        ext(): string;
-        abstract buffer(next?: Uint8Array): Uint8Array;
-        text(next?: string, virt?: 'virt'): string;
-        abstract sub(): $mol_file[];
-        abstract resolve(path: string): $mol_file;
-        abstract relate(base?: $mol_file): string;
-        abstract append(next: Uint8Array | string): void;
-        find(include?: RegExp, exclude?: RegExp): $mol_file[];
-        size(): number;
-        open(...modes: readonly ('create' | 'exists_truncate' | 'exists_fail' | 'read_only' | 'write_only' | 'read_write' | 'append')[]): number;
-        toJSON(): string;
+    class $mol_file extends $mol_file_base {
     }
 }
 
 declare namespace $ {
-    function $mol_compare_array<Value extends ArrayLike<unknown>>(a: Value, b: Value): boolean;
-}
-
-declare namespace $ {
-    enum $mol_file_mode_open {
-        create,
-        exists_truncate,
-        exists_fail,
-        read_only,
-        write_only,
-        read_write,
-        append
-    }
+    function $mol_file_node_buffer_normalize(buf: Buffer<ArrayBuffer>): Uint8Array<ArrayBuffer>;
     class $mol_file_node extends $mol_file {
-        static absolute(path: string): $mol_file_node;
-        static relative(path: string): $mol_file_node;
-        watcher(): {
+        static relative<This extends typeof $mol_file>(this: This, path: string): InstanceType<This>;
+        watcher(reset?: null): {
             destructor(): void;
         };
-        stat(next?: $mol_file_stat | null, virt?: 'virt'): $mol_file_stat | null;
-        ensure(): void;
-        drop(): void;
-        buffer(next?: Uint8Array): Uint8Array;
-        sub(): $mol_file[];
-        resolve(path: string): $mol_file;
+        protected info(path: string): $mol_file_stat | null;
+        protected ensure(): null | undefined;
+        protected copy(to: string): void;
+        protected drop(): void;
+        protected read(): Uint8Array<ArrayBuffer>;
+        protected write(buffer: Uint8Array): undefined;
+        protected kids(): this[];
+        resolve(path: string): this;
         relate(base?: $mol_file): string;
-        append(next: Uint8Array | string): undefined;
-        open(...modes: readonly (keyof typeof $mol_file_mode_open)[]): number;
+        readable(opts: {
+            start?: number;
+            end?: number;
+        }): ReadableStream<Uint8Array<ArrayBuffer>>;
+        writable(opts?: {
+            start?: number;
+        }): WritableStream<Uint8Array<ArrayBuffer>>;
     }
 }
 
@@ -1729,42 +1878,6 @@ declare namespace $ {
 
 //# sourceMappingURL=source.view.tree.d.ts.map
 declare namespace $ {
-
-	export class $mol_icon_forum extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=forum.view.tree.d.ts.map
-declare namespace $ {
-
-	export class $mol_icon_forum_outline extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=outline.view.tree.d.ts.map
-declare namespace $ {
-
-	export class $mol_icon_open_in_new extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=new.view.tree.d.ts.map
-declare namespace $ {
-
-	export class $mol_icon_cross extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=cross.view.tree.d.ts.map
-declare namespace $ {
     class $mol_dom_listener extends $mol_object {
         _node: any;
         _event: string;
@@ -1794,9 +1907,9 @@ declare namespace $ {
 		event_scroll( next?: any ): any
 		scroll_top( next?: number ): number
 		scroll_left( next?: number ): number
-		field( ): ({ 
-			'tabIndex': ReturnType< $mol_scroll['tabindex'] >,
-		})  & ReturnType< $mol_view['field'] >
+		attr( ): ({ 
+			'tabindex': ReturnType< $mol_scroll['tabindex'] >,
+		})  & ReturnType< $mol_view['attr'] >
 		event( ): ({ 
 			scroll( next?: ReturnType< $mol_scroll['event_scroll'] > ): ReturnType< $mol_scroll['event_scroll'] >,
 		})  & ReturnType< $mol_view['event'] >
@@ -1819,64 +1932,75 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    function $mol_promise<Result = void>(): Promise<Result> & {
-        done: (res: Result | PromiseLike<Result>) => void;
-        fail: (error?: any) => void;
-    };
-}
 
-declare namespace $ {
-    function $mol_wait_timeout_async(this: $, timeout: number): Promise<void> & {
-        done: (res: void | PromiseLike<void>) => void;
-        fail: (error?: any) => void;
-    } & {
-        destructor: () => void;
-    };
-    function $mol_wait_timeout(this: $, timeout: number): void;
-}
-
-declare namespace $ {
-
-	type $mol_link__uri__WAJM8R84 = $mol_type_enforce<
-		ReturnType< $mol_embed_native['uri'] >
+	type $mol_pop_bubble__align_mol_pop_1 = $mol_type_enforce<
+		ReturnType< $mol_pop['align'] >
 		,
-		ReturnType< $mol_link['uri'] >
+		ReturnType< $mol_pop_bubble['align'] >
 	>
-	type $mol_link__sub__HMIGCILX = $mol_type_enforce<
-		readonly(any)[]
+	type $mol_pop_bubble__content_mol_pop_2 = $mol_type_enforce<
+		ReturnType< $mol_pop['bubble_content'] >
 		,
-		ReturnType< $mol_link['sub'] >
+		ReturnType< $mol_pop_bubble['content'] >
 	>
-	export class $mol_embed_native extends $mol_scroll {
-		mime( ): string
-		title( ): string
-		Fallback( ): $mol_link
-		uri_change( next?: any ): any
-		uri( next?: string ): string
-		dom_name( ): string
-		window( ): any
-		attr( ): ({ 
-			'data': ReturnType< $mol_embed_native['uri'] >,
-			'type': ReturnType< $mol_embed_native['mime'] >,
-		})  & ReturnType< $mol_scroll['attr'] >
+	type $mol_pop_bubble__height_max_mol_pop_3 = $mol_type_enforce<
+		ReturnType< $mol_pop['height_max'] >
+		,
+		ReturnType< $mol_pop_bubble['height_max'] >
+	>
+	export class $mol_pop extends $mol_view {
+		Anchor( ): any
+		align( ): string
+		bubble_content( ): readonly($mol_view_content)[]
+		height_max( ): number
+		Bubble( ): $mol_pop_bubble
+		showed( next?: boolean ): boolean
+		align_vert( ): string
+		align_hor( ): string
+		prefer( ): string
 		sub( ): readonly(any)[]
-		message( ): ({ 
-			hashchange( next?: ReturnType< $mol_embed_native['uri_change'] > ): ReturnType< $mol_embed_native['uri_change'] >,
-		}) 
+		sub_visible( ): readonly(any)[]
+	}
+	
+	export class $mol_pop_bubble extends $mol_view {
+		content( ): readonly($mol_view_content)[]
+		height_max( ): number
+		align( ): string
+		sub( ): ReturnType< $mol_pop_bubble['content'] >
+		style( ): ({ 
+			'maxHeight': ReturnType< $mol_pop_bubble['height_max'] >,
+		})  & ReturnType< $mol_view['style'] >
+		attr( ): ({ 
+			'mol_pop_align': ReturnType< $mol_pop_bubble['align'] >,
+			'tabindex': number,
+		})  & ReturnType< $mol_view['attr'] >
 	}
 	
 }
 
-//# sourceMappingURL=native.view.tree.d.ts.map
+//# sourceMappingURL=pop.view.tree.d.ts.map
 declare namespace $.$$ {
-    class $mol_embed_native extends $.$mol_embed_native {
-        window(): Window;
-        load(frame: HTMLIFrameElement): Promise<Window>;
-        uri_resource(): string;
-        message_listener(): $mol_dom_listener;
-        message_receive(event?: MessageEvent<[string, string]>): void;
-        uri_change(event: MessageEvent<[string, string]>): void;
-        auto(): (Window | $mol_dom_listener)[];
+    class $mol_pop extends $.$mol_pop {
+        showed(next?: boolean): boolean;
+        sub_visible(): any[];
+        height_max(): number;
+        align(): string;
+        align_vert(): "suspense" | "top" | "bottom";
+        align_hor(): "suspense" | "left" | "right";
+        View_port(): $mol_view;
+        view_port(): {
+            width: number;
+            height: number;
+            left: number;
+            right: number;
+            top: number;
+            bottom: number;
+        } | {
+            left: number;
+            top: number;
+            width: number;
+            height: number;
+        };
     }
 }
 
@@ -1885,225 +2009,167 @@ declare namespace $ {
 
 declare namespace $ {
 
-	export class $mol_frame extends $mol_embed_native {
-		uri( next?: string ): string
-		html( ): any
-		allow( ): string
-		dom_name( ): string
-		attr( ): ({ 
-			'data': any,
-			'type': any,
-			'src': ReturnType< $mol_frame['uri'] >,
-			'srcdoc': ReturnType< $mol_frame['html'] >,
-			'allow': ReturnType< $mol_frame['allow'] >,
-		})  & ReturnType< $mol_embed_native['attr'] >
-		fullscreen( ): boolean
-		accelerometer( ): boolean
-		autoplay( ): boolean
-		encription( ): boolean
-		gyroscope( ): boolean
-		pip( ): boolean
-		clipboard_read( ): boolean
-		clipboard_write( ): boolean
+	export class $mol_hotkey extends $mol_plugin {
+		keydown( next?: any ): any
+		event( ): ({ 
+			keydown( next?: ReturnType< $mol_hotkey['keydown'] > ): ReturnType< $mol_hotkey['keydown'] >,
+		})  & ReturnType< $mol_plugin['event'] >
+		key( ): Record<string, any>
+		mod_ctrl( ): boolean
+		mod_alt( ): boolean
+		mod_shift( ): boolean
 	}
 	
 }
 
-//# sourceMappingURL=frame.view.tree.d.ts.map
+//# sourceMappingURL=hotkey.view.tree.d.ts.map
 declare namespace $.$$ {
-    class $mol_frame extends $.$mol_frame {
-        window(): any;
-        allow(): string;
+    class $mol_hotkey extends $.$mol_hotkey {
+        key(): { [key in keyof typeof $mol_keyboard_code]?: (event: KeyboardEvent) => void; };
+        keydown(event?: KeyboardEvent): void;
     }
 }
 
 declare namespace $ {
-}
 
-declare namespace $ {
-
-	type $mol_view__dom_name__YARNKUVF = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_view['dom_name'] >
-	>
-	type $mol_view__sub__GYYHG31O = $mol_type_enforce<
-		ReturnType< $mol_page['title_content'] >
-		,
-		ReturnType< $mol_view['sub'] >
-	>
-	type $mol_view__sub__I7YGN19R = $mol_type_enforce<
-		ReturnType< $mol_page['tools'] >
-		,
-		ReturnType< $mol_view['sub'] >
-	>
-	type $mol_view__minimal_height__QZGLO1CV = $mol_type_enforce<
-		number
-		,
-		ReturnType< $mol_view['minimal_height'] >
-	>
-	type $mol_view__dom_name__SL2B7CAA = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_view['dom_name'] >
-	>
-	type $mol_view__sub__A5LN997I = $mol_type_enforce<
-		ReturnType< $mol_page['head'] >
-		,
-		ReturnType< $mol_view['sub'] >
-	>
-	type $mol_page_body_scroll_top__3XIQDSZU = $mol_type_enforce<
-		Parameters< $mol_page['body_scroll_top'] >[0]
-		,
-		Parameters< ReturnType< $mol_page['Body'] >['scroll_top'] >[0]
-	>
-	type $mol_view__sub__WUDPNY8H = $mol_type_enforce<
-		ReturnType< $mol_page['body'] >
-		,
-		ReturnType< $mol_view['sub'] >
-	>
-	type $mol_scroll__sub__878TXALA = $mol_type_enforce<
-		ReturnType< $mol_page['body_content'] >
-		,
-		ReturnType< $mol_scroll['sub'] >
-	>
-	type $mol_view__dom_name__LBN1C1M3 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_view['dom_name'] >
-	>
-	type $mol_view__sub__3TPRU5ZD = $mol_type_enforce<
-		ReturnType< $mol_page['foot'] >
-		,
-		ReturnType< $mol_view['sub'] >
-	>
-	export class $mol_page extends $mol_view {
-		tabindex( ): number
-		Logo( ): any
-		title_content( ): readonly(any)[]
-		Title( ): $mol_view
-		tools( ): readonly($mol_view_content)[]
-		Tools( ): $mol_view
-		head( ): readonly(any)[]
-		Head( ): $mol_view
-		body_scroll_top( next?: ReturnType< ReturnType< $mol_page['Body'] >['scroll_top'] > ): ReturnType< ReturnType< $mol_page['Body'] >['scroll_top'] >
-		body( ): readonly($mol_view)[]
-		Body_content( ): $mol_view
-		body_content( ): readonly(any)[]
-		Body( ): $mol_scroll
-		foot( ): readonly($mol_view)[]
-		Foot( ): $mol_view
-		dom_name( ): string
-		field( ): ({ 
-			'tabIndex': ReturnType< $mol_page['tabindex'] >,
-		})  & ReturnType< $mol_view['field'] >
-		sub( ): readonly(any)[]
+	export class $mol_nav extends $mol_plugin {
+		event_key( next?: any ): any
+		cycle( next?: boolean ): boolean
+		mod_ctrl( ): boolean
+		mod_shift( ): boolean
+		mod_alt( ): boolean
+		keys_x( next?: readonly(any)[] ): readonly(any)[]
+		keys_y( next?: readonly(any)[] ): readonly(any)[]
+		current_x( next?: any ): any
+		current_y( next?: any ): any
+		event_up( next?: any ): any
+		event_down( next?: any ): any
+		event_left( next?: any ): any
+		event_right( next?: any ): any
+		event( ): ({ 
+			keydown( next?: ReturnType< $mol_nav['event_key'] > ): ReturnType< $mol_nav['event_key'] >,
+		})  & ReturnType< $mol_plugin['event'] >
 	}
 	
 }
 
-//# sourceMappingURL=page.view.tree.d.ts.map
+//# sourceMappingURL=nav.view.tree.d.ts.map
 declare namespace $.$$ {
+    class $mol_nav extends $.$mol_nav {
+        event_key(event?: KeyboardEvent): undefined;
+        event_up(event?: KeyboardEvent): undefined;
+        event_down(event?: KeyboardEvent): undefined;
+        event_left(event?: KeyboardEvent): undefined;
+        event_right(event?: KeyboardEvent): undefined;
+        index_y(): number | null;
+        index_x(): number | null;
+    }
 }
 
 declare namespace $ {
-    function $mol_lights(this: $, next?: boolean): boolean;
-}
 
-declare namespace $ {
-
-	type $mol_link__uri__LV120XZH = $mol_type_enforce<
-		ReturnType< $mol_chat['standalone'] >
+	type $mol_hotkey__mod_ctrl_mol_string_1 = $mol_type_enforce<
+		ReturnType< $mol_string['submit_with_ctrl'] >
 		,
-		ReturnType< $mol_link['uri'] >
+		ReturnType< $mol_hotkey['mod_ctrl'] >
 	>
-	type $mol_link__sub__OEJ081HP = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_link['sub'] >
-	>
-	type $mol_link__arg__HXY7V0KH = $mol_type_enforce<
+	type $mol_hotkey__key_mol_string_2 = $mol_type_enforce<
 		({ 
-			'mol_chat': any,
+			enter( next?: ReturnType< $mol_string['submit'] > ): ReturnType< $mol_string['submit'] >,
 		}) 
 		,
-		ReturnType< $mol_link['arg'] >
+		ReturnType< $mol_hotkey['key'] >
 	>
-	type $mol_link__sub__TSHCA0Q9 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_link['sub'] >
-	>
-	type $mol_frame__uri__1IG4INJJ = $mol_type_enforce<
-		ReturnType< $mol_chat['embed'] >
-		,
-		ReturnType< $mol_frame['uri'] >
-	>
-	type $mol_page__title__AFSOFE3S = $mol_type_enforce<
-		ReturnType< $mol_chat['title'] >
-		,
-		ReturnType< $mol_page['title'] >
-	>
-	type $mol_page__tools__Q6IHW84R = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_page['tools'] >
-	>
-	type $mol_page__Body__S94MLYUB = $mol_type_enforce<
-		ReturnType< $mol_chat['Embed'] >
-		,
-		ReturnType< $mol_page['Body'] >
-	>
-	export class $mol_chat extends $mol_link {
-		Icon( ): $mol_icon_forum_outline
-		title( ): string
-		standalone( ): string
-		Standalone_icon( ): $mol_icon_open_in_new
-		Esternal( ): $mol_link
-		Close_icon( ): $mol_icon_cross
-		Close( ): $mol_link
-		embed( ): string
-		Embed( ): $mol_frame
-		Page( ): $mol_page
-		seed( ): string
-		opened( ): boolean
-		arg( ): ({ 
-			'mol_chat': string,
-		}) 
-		hint( ): ReturnType< $mol_chat['title'] >
-		sub( ): readonly(any)[]
-		pages( ): readonly(any)[]
+	export class $mol_string extends $mol_view {
+		selection_watcher( ): any
+		error_report( ): any
+		disabled( ): boolean
+		value( next?: string ): string
+		value_changed( next?: ReturnType< $mol_string['value'] > ): ReturnType< $mol_string['value'] >
+		hint( ): string
+		hint_visible( ): ReturnType< $mol_string['hint'] >
+		spellcheck( ): boolean
+		autocomplete_native( ): string
+		selection_end( ): number
+		selection_start( ): number
+		keyboard( ): string
+		enter( ): string
+		length_max( ): number
+		type( next?: string ): string
+		event_change( next?: any ): any
+		submit_with_ctrl( ): boolean
+		submit( next?: any ): any
+		Submit( ): $mol_hotkey
+		dom_name( ): string
+		enabled( ): boolean
+		minimal_height( ): number
+		autocomplete( ): boolean
+		selection( next?: readonly(number)[] ): readonly(number)[]
+		auto( ): readonly(any)[]
+		field( ): ({ 
+			'disabled': ReturnType< $mol_string['disabled'] >,
+			'value': ReturnType< $mol_string['value_changed'] >,
+			'placeholder': ReturnType< $mol_string['hint_visible'] >,
+			'spellcheck': ReturnType< $mol_string['spellcheck'] >,
+			'autocomplete': ReturnType< $mol_string['autocomplete_native'] >,
+			'selectionEnd': ReturnType< $mol_string['selection_end'] >,
+			'selectionStart': ReturnType< $mol_string['selection_start'] >,
+			'inputMode': ReturnType< $mol_string['keyboard'] >,
+			'enterkeyhint': ReturnType< $mol_string['enter'] >,
+		})  & ReturnType< $mol_view['field'] >
+		attr( ): ({ 
+			'maxlength': ReturnType< $mol_string['length_max'] >,
+			'type': ReturnType< $mol_string['type'] >,
+		})  & ReturnType< $mol_view['attr'] >
+		event( ): ({ 
+			input( next?: ReturnType< $mol_string['event_change'] > ): ReturnType< $mol_string['event_change'] >,
+		})  & ReturnType< $mol_view['event'] >
+		plugins( ): readonly(any)[]
 	}
 	
 }
 
-//# sourceMappingURL=chat.view.tree.d.ts.map
+//# sourceMappingURL=string.view.tree.d.ts.map
 declare namespace $.$$ {
-    class $mol_chat extends $.$mol_chat {
-        opened(): boolean;
-        pages(): $mol_page[];
-        standalone(): string;
-        embed(): string;
+    class $mol_string extends $.$mol_string {
+        event_change(next?: Event): void;
+        error_report(): void;
+        hint_visible(): string;
+        disabled(): boolean;
+        autocomplete_native(): "on" | "off";
+        selection_watcher(): $mol_dom_listener;
+        selection_change(event: Event): void;
+        selection_start(): number;
+        selection_end(): number;
     }
 }
 
 declare namespace $ {
 }
 
+declare namespace $ {
+
+	export class $mol_icon_close extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=close.view.tree.d.ts.map
 declare namespace $ {
     function $mol_support_css_overflow_anchor(this: $): boolean;
 }
 
 declare namespace $ {
 
-	type $mol_view__style__AP4Y28PW = $mol_type_enforce<
+	type $mol_view__style_mol_list_1 = $mol_type_enforce<
 		({ 
 			'paddingTop': ReturnType< $mol_list['gap_before'] >,
 		}) 
 		,
 		ReturnType< $mol_view['style'] >
 	>
-	type $mol_view__style__MZ8KZLCZ = $mol_type_enforce<
+	type $mol_view__style_mol_list_2 = $mol_type_enforce<
 		({ 
 			'paddingTop': ReturnType< $mol_list['gap_after'] >,
 		}) 
@@ -2120,6 +2186,8 @@ declare namespace $ {
 		Empty( ): $mol_view
 		Gap_before( ): $mol_view
 		Gap_after( ): $mol_view
+		item_height_min( id: any): number
+		item_width_min( id: any): number
 		view_window( ): readonly(any)[]
 	}
 	
@@ -2131,11 +2199,381 @@ declare namespace $.$$ {
         sub(): readonly $mol_view[];
         render_visible_only(): boolean;
         view_window(next?: [number, number]): [number, number];
+        item_height_min(index: number): number;
+        row_width_min(index: number): number;
         gap_before(): number;
         gap_after(): number;
         sub_visible(): $mol_view[];
         minimal_height(): number;
+        minimal_width(): number;
         force_render(path: Set<$mol_view>): void;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+
+	export class $mol_paragraph extends $mol_view {
+		line_height( ): number
+		letter_width( ): number
+		width_limit( ): number
+		row_width( ): number
+		sub( ): readonly(any)[]
+	}
+	
+}
+
+//# sourceMappingURL=paragraph.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_paragraph extends $.$mol_paragraph {
+        maximal_width(): number;
+        width_limit(): number;
+        minimal_width(): number;
+        row_width(): number;
+        minimal_height(): number;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    type $mol_type_equals<A, B> = (<X>() => X extends A ? 1 : 2) extends (<X>() => X extends B ? 1 : 2) ? unknown : never;
+}
+
+declare namespace $ {
+    type $mol_type_merge<Intersection> = Intersection extends (...a: any[]) => any ? Intersection : Intersection extends new (...a: any[]) => any ? Intersection : Intersection extends object ? $mol_type_merge_object<Intersection> extends Intersection ? unknown extends $mol_type_equals<{
+        [Key in keyof Intersection]: Intersection[Key];
+    }, Intersection> ? Intersection : {
+        [Key in keyof Intersection]: $mol_type_merge<Intersection[Key]>;
+    } : Intersection : Intersection;
+    type $mol_type_merge_object<Intersection> = {
+        [Key in keyof Intersection]: Intersection[Key];
+    };
+}
+
+declare namespace $ {
+    type $mol_type_intersect<Union> = (Union extends any ? (_: Union) => void : never) extends ((_: infer Intersection) => void) ? Intersection : never;
+}
+
+declare namespace $ {
+    type $mol_unicode_category = [$mol_unicode_category_binary] | ['General_Category', $mol_char_category_general] | ['Script', $mol_unicode_category_script] | ['Script_Extensions', $mol_unicode_category_script];
+    type $mol_unicode_category_binary = 'ASCII' | 'ASCII_Hex_Digit' | 'Alphabetic' | 'Any' | 'Assigned' | 'Bidi_Control' | 'Bidi_Mirrored' | 'Case_Ignorable' | 'Cased' | 'Changes_When_Casefolded' | 'Changes_When_Casemapped' | 'Changes_When_Lowercased' | 'Changes_When_NFKC_Casefolded' | 'Changes_When_Titlecased' | 'Changes_When_Uppercased' | 'Dash' | 'Default_Ignorable_Code_Point' | 'Deprecated' | 'Diacritic' | 'Emoji' | 'Emoji_Component' | 'Emoji_Modifier' | 'Emoji_Modifier_Base' | 'Emoji_Presentation' | 'Extended_Pictographic' | 'Extender' | 'Grapheme_Base' | 'Grapheme_Extend' | 'Hex_Digit' | 'IDS_Binary_Operator' | 'IDS_Trinary_Operator' | 'ID_Continue' | 'ID_Start' | 'Ideographic' | 'Join_Control' | 'Logical_Order_Exception' | 'Lowercase' | 'Math' | 'Noncharacter_Code_Point' | 'Pattern_Syntax' | 'Pattern_White_Space' | 'Quotation_Mark' | 'Radical' | 'Regional_Indicator' | 'Sentence_Terminal' | 'Soft_Dotted' | 'Terminal_Punctuation' | 'Unified_Ideograph' | 'Uppercase' | 'Variation_Selector' | 'White_Space' | 'XID_Continue' | 'XID_Start';
+    type $mol_char_category_general = 'Cased_Letter' | 'Close_Punctuation' | 'Connector_Punctuation' | 'Control' | 'Currency_Symbol' | 'Dash_Punctuation' | 'Decimal_Number' | 'Enclosing_Mark' | 'Final_Punctuation' | 'Format' | 'Initial_Punctuation' | 'Letter' | 'Letter_Number' | 'Line_Separator' | 'Lowercase_Letter' | 'Mark' | 'Math_Symbol' | 'Modifier_Letter' | 'Modifier_Symbol' | 'Nonspacing_Mark' | 'Number' | 'Open_Punctuation' | 'Other' | 'Other_Letter' | 'Other_Number' | 'Other_Punctuation' | 'Other_Symbol' | 'Paragraph_Separator' | 'Private_Use' | 'Punctuation' | 'Separator' | 'Space_Separator' | 'Spacing_Mark' | 'Surrogate' | 'Symbol' | 'Titlecase_Letter' | 'Unassigned' | 'Uppercase_Letter';
+    type $mol_unicode_category_script = 'Adlam' | 'Ahom' | 'Anatolian_Hieroglyphs' | 'Arabic' | 'Armenian' | 'Avestan' | 'Balinese' | 'Bamum' | 'Bassa_Vah' | 'Batak' | 'Bengali' | 'Bhaiksuki' | 'Bopomofo' | 'Brahmi' | 'Braille' | 'Buginese' | 'Buhid' | 'Canadian_Aboriginal' | 'Carian' | 'Caucasian_Albanian' | 'Chakma' | 'Cham' | 'Chorasmian' | 'Cherokee' | 'Common' | 'Coptic' | 'Cuneiform' | 'Cypriot' | 'Cyrillic' | 'Deseret' | 'Devanagari' | 'Dives_Akuru' | 'Dogra' | 'Duployan' | 'Egyptian_Hieroglyphs' | 'Elbasan' | 'Elymaic' | 'Ethiopic' | 'Georgian' | 'Glagolitic' | 'Gothic' | 'Grantha' | 'Greek' | 'Gujarati' | 'Gunjala_Gondi' | 'Gurmukhi' | 'Han' | 'Hangul' | 'Hanifi_Rohingya' | 'Hanunoo' | 'Hatran' | 'Hebrew' | 'Hiragana' | 'Imperial_Aramaic' | 'Inherited' | 'Inscriptional_Pahlavi' | 'Inscriptional_Parthian' | 'Javanese' | 'Kaithi' | 'Kannada' | 'Katakana' | 'Kayah_Li' | 'Kharoshthi' | 'Khitan_Small_Script' | 'Khmer' | 'Khojki' | 'Khudawadi' | 'Lao' | 'Latin' | 'Lepcha' | 'Limbu' | 'Linear_A' | 'Linear_B' | 'Lisu' | 'Lycian' | 'Lydian' | 'Mahajani' | 'Makasar' | 'Malayalam' | 'Mandaic' | 'Manichaean' | 'Marchen' | 'Medefaidrin' | 'Masaram_Gondi' | 'Meetei_Mayek' | 'Mende_Kikakui' | 'Meroitic_Cursive' | 'Meroitic_Hieroglyphs' | 'Miao' | 'Modi' | 'Mongolian' | 'Mro' | 'Multani' | 'Myanmar' | 'Nabataean' | 'Nandinagari' | 'New_Tai_Lue' | 'Newa' | 'Nko' | 'Nushu' | 'Nyiakeng_Puachue_Hmong' | 'Ogham' | 'Ol_Chiki' | 'Old_Hungarian' | 'Old_Italic' | 'Old_North_Arabian' | 'Old_Permic' | 'Old_Persian' | 'Old_Sogdian' | 'Old_South_Arabian' | 'Old_Turkic' | 'Oriya' | 'Osage' | 'Osmanya' | 'Pahawh_Hmong' | 'Palmyrene' | 'Pau_Cin_Hau' | 'Phags_Pa' | 'Phoenician' | 'Psalter_Pahlavi' | 'Rejang' | 'Runic' | 'Samaritan' | 'Saurashtra' | 'Sharada' | 'Shavian' | 'Siddham' | 'SignWriting' | 'Sinhala' | 'Sogdian' | 'Sora_Sompeng' | 'Soyombo' | 'Sundanese' | 'Syloti_Nagri' | 'Syriac' | 'Tagalog' | 'Tagbanwa' | 'Tai_Le' | 'Tai_Tham' | 'Tai_Viet' | 'Takri' | 'Tamil' | 'Tangut' | 'Telugu' | 'Thaana' | 'Thai' | 'Tibetan' | 'Tifinagh' | 'Tirhuta' | 'Ugaritic' | 'Vai' | 'Wancho' | 'Warang_Citi' | 'Yezidi' | 'Yi' | 'Zanabazar_Square';
+}
+
+interface String {
+    match<RE extends RegExp>(regexp: RE): ReturnType<RE[typeof Symbol.match]>;
+    matchAll<RE extends RegExp>(regexp: RE): ReturnType<RE[typeof Symbol.matchAll]>;
+}
+declare namespace $ {
+    type Groups_to_params<T> = {
+        [P in keyof T]?: T[P] | boolean | undefined;
+    };
+    export type $mol_regexp_source = number | string | RegExp | {
+        [key in string]: $mol_regexp_source;
+    } | readonly [$mol_regexp_source, ...$mol_regexp_source[]];
+    export type $mol_regexp_groups<Source extends $mol_regexp_source> = Source extends number ? {} : Source extends string ? {} : Source extends $mol_regexp_source[] ? $mol_type_merge<$mol_type_intersect<{
+        [key in Extract<keyof Source, number>]: $mol_regexp_groups<Source[key]>;
+    }[Extract<keyof Source, number>]>> : Source extends RegExp ? Record<string, string> extends NonNullable<NonNullable<ReturnType<Source['exec']>>['groups']> ? {} : NonNullable<NonNullable<ReturnType<Source['exec']>>['groups']> : Source extends {
+        readonly [key in string]: $mol_regexp_source;
+    } ? $mol_type_merge<$mol_type_intersect<{
+        [key in keyof Source]: $mol_type_merge<$mol_type_override<{
+            readonly [k in Extract<keyof Source, string>]: string;
+        }, {
+            readonly [k in key]: Source[key] extends string ? Source[key] : string;
+        }> & $mol_regexp_groups<Source[key]>>;
+    }[keyof Source]>> : never;
+    export class $mol_regexp<Groups extends Record<string, string>> extends RegExp {
+        readonly groups: (Extract<keyof Groups, string>)[];
+        constructor(source: string, flags?: string, groups?: (Extract<keyof Groups, string>)[]);
+        [Symbol.matchAll](str: string): RegExpStringIterator<RegExpMatchArray & $mol_type_override<RegExpMatchArray, {
+            groups?: {
+                [key in keyof Groups]: string;
+            };
+        }>>;
+        [Symbol.match](str: string): null | RegExpMatchArray;
+        [Symbol.split](str: string): string[];
+        test(str: string): boolean;
+        exec(str: string): RegExpExecArray & $mol_type_override<RegExpExecArray, {
+            groups?: {
+                [key in keyof Groups]: string;
+            };
+        }> | null;
+        generate(params: Groups_to_params<Groups>): string | null;
+        get native(): RegExp;
+        static repeat<Source extends $mol_regexp_source>(source: Source, min?: number, max?: number): $mol_regexp<$mol_regexp_groups<Source>>;
+        static repeat_greedy<Source extends $mol_regexp_source>(source: Source, min?: number, max?: number): $mol_regexp<$mol_regexp_groups<Source>>;
+        static vary<Sources extends readonly $mol_regexp_source[]>(sources: Sources): $mol_regexp<$mol_regexp_groups<Sources[number]>>;
+        static optional<Source extends $mol_regexp_source>(source: Source): $mol_regexp<$mol_regexp_groups<Source>>;
+        static force_after(source: $mol_regexp_source): $mol_regexp<Record<string, string>>;
+        static forbid_after(source: $mol_regexp_source): $mol_regexp<Record<string, string>>;
+        static from<Source extends $mol_regexp_source>(source: Source, { ignoreCase, multiline }?: Partial<Pick<RegExp, 'ignoreCase' | 'multiline'>>): $mol_regexp<$mol_regexp_groups<Source>>;
+        static unicode_only(...category: $mol_unicode_category): $mol_regexp<Record<string, string>>;
+        static unicode_except(...category: $mol_unicode_category): $mol_regexp<Record<string, string>>;
+        static char_range(from: number, to: number): $mol_regexp<{}>;
+        static char_only(...allowed: readonly [$mol_regexp_source, ...$mol_regexp_source[]]): $mol_regexp<{}>;
+        static char_except(...forbidden: readonly [$mol_regexp_source, ...$mol_regexp_source[]]): $mol_regexp<{}>;
+        static decimal_only: $mol_regexp<{}>;
+        static decimal_except: $mol_regexp<{}>;
+        static latin_only: $mol_regexp<{}>;
+        static latin_except: $mol_regexp<{}>;
+        static space_only: $mol_regexp<{}>;
+        static space_except: $mol_regexp<{}>;
+        static word_break_only: $mol_regexp<{}>;
+        static word_break_except: $mol_regexp<{}>;
+        static tab: $mol_regexp<{}>;
+        static slash_back: $mol_regexp<{}>;
+        static nul: $mol_regexp<{}>;
+        static char_any: $mol_regexp<{}>;
+        static begin: $mol_regexp<{}>;
+        static end: $mol_regexp<{}>;
+        static or: $mol_regexp<{}>;
+        static line_end: $mol_regexp<{
+            readonly win_end: string;
+            readonly mac_end: string;
+        }>;
+    }
+    export {};
+}
+
+declare namespace $ {
+
+	type $mol_paragraph__sub_mol_dimmer_1 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_paragraph['sub'] >
+	>
+	type $mol_paragraph__sub_mol_dimmer_2 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_paragraph['sub'] >
+	>
+	export class $mol_dimmer extends $mol_paragraph {
+		parts( ): readonly($mol_view_content)[]
+		string( id: any): string
+		haystack( ): string
+		needle( ): string
+		sub( ): ReturnType< $mol_dimmer['parts'] >
+		Low( id: any): $mol_paragraph
+		High( id: any): $mol_paragraph
+	}
+	
+}
+
+//# sourceMappingURL=dimmer.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_dimmer extends $.$mol_dimmer {
+        parts(): any[];
+        strings(): string[];
+        string(index: number): string;
+        view_find(check: (path: $mol_view, text?: string) => boolean, path?: $mol_view[]): Generator<$mol_view[]>;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+
+	type $mol_hotkey__key_mol_search_1 = $mol_type_enforce<
+		({ 
+			escape( next?: ReturnType< $mol_search['clear'] > ): ReturnType< $mol_search['clear'] >,
+		}) 
+		,
+		ReturnType< $mol_hotkey['key'] >
+	>
+	type $mol_nav__keys_y_mol_search_2 = $mol_type_enforce<
+		ReturnType< $mol_search['nav_components'] >
+		,
+		ReturnType< $mol_nav['keys_y'] >
+	>
+	type $mol_nav__current_y_mol_search_3 = $mol_type_enforce<
+		ReturnType< $mol_search['nav_focused'] >
+		,
+		ReturnType< $mol_nav['current_y'] >
+	>
+	type $mol_string__value_mol_search_4 = $mol_type_enforce<
+		ReturnType< $mol_search['query'] >
+		,
+		ReturnType< $mol_string['value'] >
+	>
+	type $mol_string__hint_mol_search_5 = $mol_type_enforce<
+		ReturnType< $mol_search['hint'] >
+		,
+		ReturnType< $mol_string['hint'] >
+	>
+	type $mol_string__submit_mol_search_6 = $mol_type_enforce<
+		ReturnType< $mol_search['submit'] >
+		,
+		ReturnType< $mol_string['submit'] >
+	>
+	type $mol_string__enabled_mol_search_7 = $mol_type_enforce<
+		ReturnType< $mol_search['enabled'] >
+		,
+		ReturnType< $mol_string['enabled'] >
+	>
+	type $mol_string__keyboard_mol_search_8 = $mol_type_enforce<
+		ReturnType< $mol_search['keyboard'] >
+		,
+		ReturnType< $mol_string['keyboard'] >
+	>
+	type $mol_string__enter_mol_search_9 = $mol_type_enforce<
+		ReturnType< $mol_search['enter'] >
+		,
+		ReturnType< $mol_string['enter'] >
+	>
+	type $mol_button_minor__hint_mol_search_10 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_minor['hint'] >
+	>
+	type $mol_button_minor__enabled_mol_search_11 = $mol_type_enforce<
+		ReturnType< $mol_search['enabled'] >
+		,
+		ReturnType< $mol_button_minor['enabled'] >
+	>
+	type $mol_button_minor__click_mol_search_12 = $mol_type_enforce<
+		ReturnType< $mol_search['clear'] >
+		,
+		ReturnType< $mol_button_minor['click'] >
+	>
+	type $mol_button_minor__sub_mol_search_13 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_button_minor['sub'] >
+	>
+	type $mol_list__rows_mol_search_14 = $mol_type_enforce<
+		ReturnType< $mol_search['menu_items'] >
+		,
+		ReturnType< $mol_list['rows'] >
+	>
+	type $mol_scroll__sub_mol_search_15 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_scroll['sub'] >
+	>
+	type $mol_dimmer__haystack_mol_search_16 = $mol_type_enforce<
+		ReturnType< $mol_search['suggest_label'] >
+		,
+		ReturnType< $mol_dimmer['haystack'] >
+	>
+	type $mol_dimmer__needle_mol_search_17 = $mol_type_enforce<
+		ReturnType< $mol_search['query'] >
+		,
+		ReturnType< $mol_dimmer['needle'] >
+	>
+	type $mol_search_plugins__18 = $mol_type_enforce<
+		ReturnType< $mol_pop['plugins'] >[number]
+		,
+		$mol_plugin
+	>
+	type $mol_view__sub_mol_search_19 = $mol_type_enforce<
+		ReturnType< $mol_search['anchor_content'] >
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type $mol_button_minor__click_mol_search_20 = $mol_type_enforce<
+		ReturnType< $mol_search['suggest_select'] >
+		,
+		ReturnType< $mol_button_minor['click'] >
+	>
+	type $mol_button_minor__sub_mol_search_21 = $mol_type_enforce<
+		ReturnType< $mol_search['suggest_content'] >
+		,
+		ReturnType< $mol_button_minor['sub'] >
+	>
+	export class $mol_search extends $mol_pop {
+		clear( next?: any ): any
+		Hotkey( ): $mol_hotkey
+		nav_components( ): readonly($mol_view)[]
+		nav_focused( next?: any ): any
+		Nav( ): $mol_nav
+		suggests_showed( next?: boolean ): boolean
+		query( next?: string ): string
+		hint( ): string
+		submit( next?: any ): any
+		enabled( ): boolean
+		keyboard( ): string
+		enter( ): string
+		bring( ): ReturnType< ReturnType< $mol_search['Query'] >['bring'] >
+		Query( ): $mol_string
+		Clear_icon( ): $mol_icon_close
+		Clear( ): $mol_button_minor
+		anchor_content( ): readonly(any)[]
+		menu_items( ): readonly($mol_view)[]
+		Menu( ): $mol_list
+		Bubble_pane( ): $mol_scroll
+		suggest_select( id: any, next?: any ): any
+		suggest_label( id: any): string
+		Suggest_label( id: any): $mol_dimmer
+		suggest_content( id: any): readonly($mol_view_content)[]
+		suggests( ): readonly(string)[]
+		plugins( ): readonly($mol_plugin)[]
+		showed( next?: ReturnType< $mol_search['suggests_showed'] > ): ReturnType< $mol_search['suggests_showed'] >
+		align_hor( ): string
+		Anchor( ): $mol_view
+		bubble_content( ): readonly($mol_view_content)[]
+		Suggest( id: any): $mol_button_minor
+	}
+	
+}
+
+//# sourceMappingURL=search.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_search extends $.$mol_search {
+        anchor_content(): ($mol_button_minor | $.$mol_string)[];
+        suggests_showed(next?: boolean): boolean;
+        suggest_selected(next?: string): void;
+        nav_components(): ($mol_button_minor | $.$mol_string)[];
+        nav_focused(component?: $mol_view): $mol_view | $.$mol_string | null;
+        suggest_label(key: string): string;
+        menu_items(): $mol_button_minor[];
+        suggest_select(id: string, event?: MouseEvent): void;
+        clear(event?: Event): void;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+
+	export class $mol_icon_bookmark extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=bookmark.view.tree.d.ts.map
+declare namespace $ {
+
+	export class $mol_image extends $mol_view {
+		uri( ): string
+		loading( ): string
+		decoding( ): string
+		cors( ): any
+		natural_width( ): number
+		natural_height( ): number
+		load( next?: any ): any
+		dom_name( ): string
+		attr( ): Record<string, any> & ReturnType< $mol_view['attr'] >
+		event( ): Record<string, any>
+		minimal_width( ): number
+		minimal_height( ): number
+	}
+	
+}
+
+//# sourceMappingURL=image.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_image extends $.$mol_image {
+        natural_width(next?: null): number;
+        natural_height(next?: null): number;
+        load(): void;
     }
 }
 
@@ -2196,6 +2634,92 @@ declare namespace $ {
 }
 
 //# sourceMappingURL=filmstrip.view.tree.d.ts.map
+declare namespace $ {
+
+	type $mol_view__dom_name_mol_page_1 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_view['dom_name'] >
+	>
+	type $mol_view__sub_mol_page_2 = $mol_type_enforce<
+		ReturnType< $mol_page['title_content'] >
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type $mol_view__sub_mol_page_3 = $mol_type_enforce<
+		ReturnType< $mol_page['tools'] >
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type $mol_view__minimal_height_mol_page_4 = $mol_type_enforce<
+		number
+		,
+		ReturnType< $mol_view['minimal_height'] >
+	>
+	type $mol_view__dom_name_mol_page_5 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_view['dom_name'] >
+	>
+	type $mol_view__sub_mol_page_6 = $mol_type_enforce<
+		ReturnType< $mol_page['head'] >
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type __mol_page_7 = $mol_type_enforce<
+		Parameters< $mol_page['body_scroll_top'] >[0]
+		,
+		Parameters< ReturnType< $mol_page['Body'] >['scroll_top'] >[0]
+	>
+	type $mol_view__sub_mol_page_8 = $mol_type_enforce<
+		ReturnType< $mol_page['body'] >
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type $mol_scroll__sub_mol_page_9 = $mol_type_enforce<
+		ReturnType< $mol_page['body_content'] >
+		,
+		ReturnType< $mol_scroll['sub'] >
+	>
+	type $mol_view__dom_name_mol_page_10 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_view['dom_name'] >
+	>
+	type $mol_view__sub_mol_page_11 = $mol_type_enforce<
+		ReturnType< $mol_page['foot'] >
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	export class $mol_page extends $mol_view {
+		tabindex( ): number
+		Logo( ): any
+		title_content( ): readonly(any)[]
+		Title( ): $mol_view
+		tools( ): readonly($mol_view_content)[]
+		Tools( ): $mol_view
+		head( ): readonly(any)[]
+		Head( ): $mol_view
+		body_scroll_top( next?: ReturnType< ReturnType< $mol_page['Body'] >['scroll_top'] > ): ReturnType< ReturnType< $mol_page['Body'] >['scroll_top'] >
+		body( ): readonly($mol_view)[]
+		Body_content( ): $mol_view
+		body_content( ): readonly(any)[]
+		Body( ): $mol_scroll
+		foot( ): readonly($mol_view)[]
+		Foot( ): $mol_view
+		dom_name( ): string
+		attr( ): ({ 
+			'tabIndex': ReturnType< $mol_page['tabindex'] >,
+		})  & ReturnType< $mol_view['attr'] >
+		sub( ): readonly(any)[]
+	}
+	
+}
+
+//# sourceMappingURL=page.view.tree.d.ts.map
+declare namespace $.$$ {
+}
+
 declare namespace $ {
 
 	export class $mol_video_player extends $mol_view {
@@ -2262,17 +2786,204 @@ declare namespace $ {
 
 declare namespace $ {
 
-	type $mol_view__title__J2JKMEL7 = $mol_type_enforce<
+	type $mol_check__checked_mol_check_list_1 = $mol_type_enforce<
+		ReturnType< $mol_check_list['option_checked'] >
+		,
+		ReturnType< $mol_check['checked'] >
+	>
+	type $mol_check__label_mol_check_list_2 = $mol_type_enforce<
+		ReturnType< $mol_check_list['option_label'] >
+		,
+		ReturnType< $mol_check['label'] >
+	>
+	type $mol_check__enabled_mol_check_list_3 = $mol_type_enforce<
+		ReturnType< $mol_check_list['option_enabled'] >
+		,
+		ReturnType< $mol_check['enabled'] >
+	>
+	type $mol_check__hint_mol_check_list_4 = $mol_type_enforce<
+		ReturnType< $mol_check_list['option_hint'] >
+		,
+		ReturnType< $mol_check['hint'] >
+	>
+	type $mol_check__minimal_height_mol_check_list_5 = $mol_type_enforce<
+		number
+		,
+		ReturnType< $mol_check['minimal_height'] >
+	>
+	export class $mol_check_list extends $mol_view {
+		option_checked( id: any, next?: boolean ): boolean
+		option_title( id: any): string
+		option_label( id: any): readonly(any)[]
+		enabled( ): boolean
+		option_enabled( id: any): ReturnType< $mol_check_list['enabled'] >
+		option_hint( id: any): string
+		items( ): readonly($mol_check)[]
+		dictionary( ): Record<string, any>
+		Option( id: any): $mol_check
+		options( ): Record<string, any>
+		keys( ): readonly(string)[]
+		sub( ): ReturnType< $mol_check_list['items'] >
+	}
+	
+}
+
+//# sourceMappingURL=list.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_check_list extends $.$mol_check_list {
+        options(): {
+            [key: string]: string;
+        };
+        dictionary(next?: Record<string, boolean>): Record<string, boolean>;
+        option_checked(id: string, next?: boolean | null): boolean;
+        keys(): readonly string[];
+        items(): $.$mol_check[];
+        option_title(key: string): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_state_session<Value> extends $mol_object {
+        static 'native()': Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
+        static native(): Storage | {
+            getItem(key: string): any;
+            setItem(key: string, value: string): void;
+            removeItem(key: string): void;
+        };
+        static value<Value>(key: string, next?: Value): Value;
+        prefix(): string;
+        value(key: string, next?: Value): Value;
+    }
+}
+
+declare namespace $ {
+
+	export class $mol_switch extends $mol_check_list {
+		value( next?: string ): string
+	}
+	
+}
+
+//# sourceMappingURL=switch.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_switch extends $.$mol_switch {
+        value(next?: string): string;
+        option_checked(key: string, next?: boolean): boolean;
+    }
+}
+
+declare namespace $ {
+    function $mol_wait_timeout_async(this: $, timeout: number): Promise<void>;
+    function $mol_wait_timeout(this: $, timeout: number): void;
+}
+
+declare namespace $ {
+
+	type $mol_link__uri_mol_embed_native_1 = $mol_type_enforce<
+		ReturnType< $mol_embed_native['uri'] >
+		,
+		ReturnType< $mol_link['uri'] >
+	>
+	type $mol_link__sub_mol_embed_native_2 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_link['sub'] >
+	>
+	export class $mol_embed_native extends $mol_scroll {
+		uri( next?: string ): string
+		title( ): string
+		Fallback( ): $mol_link
+		uri_change( next?: any ): any
+		dom_name( ): string
+		window( ): any
+		attr( ): ({ 
+			'src': ReturnType< $mol_embed_native['uri'] >,
+		})  & ReturnType< $mol_scroll['attr'] >
+		sub( ): readonly(any)[]
+		message( ): ({ 
+			hashchange( next?: ReturnType< $mol_embed_native['uri_change'] > ): ReturnType< $mol_embed_native['uri_change'] >,
+		}) 
+	}
+	
+}
+
+//# sourceMappingURL=native.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_embed_native extends $.$mol_embed_native {
+        window(): Window;
+        load(frame: HTMLIFrameElement): Promise<Window>;
+        uri_resource(): string;
+        message_listener(): $mol_dom_listener;
+        sub(): readonly any[];
+        message_receive(event?: MessageEvent<[string, string]>): void;
+        uri_change(event: MessageEvent<[string, string]>): void;
+        auto(): (Window | $mol_dom_listener)[];
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+
+	export class $mol_frame extends $mol_embed_native {
+		allow( ): string
+		html( ): any
+		attr( ): ({ 
+			'allow': ReturnType< $mol_frame['allow'] >,
+			'srcdoc': ReturnType< $mol_frame['html'] >,
+		})  & ReturnType< $mol_embed_native['attr'] >
+		fullscreen( ): boolean
+		accelerometer( ): boolean
+		autoplay( ): boolean
+		encription( ): boolean
+		gyroscope( ): boolean
+		pip( ): boolean
+		clipboard_read( ): boolean
+		clipboard_write( ): boolean
+	}
+	
+}
+
+//# sourceMappingURL=frame.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_frame extends $.$mol_frame {
+        window(): any;
+        allow(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+
+	type $mol_book2_sub__1 = $mol_type_enforce<
+		ReturnType< $mol_book2['pages'] >[number]
+		,
+		$mol_view
+	>
+	type $mol_book2_sub__2 = $mol_type_enforce<
+		ReturnType< $mol_book2['placeholders'] >[number]
+		,
+		$mol_view
+	>
+	type $mol_view__title_mol_book2_3 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_view['title'] >
 	>
 	export class $mol_book2 extends $mol_scroll {
-		pages( ): readonly($mol_view)[]
-		menu_title( ): string
-		sub( ): ReturnType< $mol_book2['pages'] >
-		minimal_width( ): number
+		pages_deep( ): readonly($mol_view)[]
+		pages( ): ReturnType< $mol_book2['pages_deep'] >
 		Placeholder( ): $mol_view
+		placeholders( ): readonly($mol_view)[]
+		menu_title( ): string
+		sub( ): readonly($mol_view)[]
+		minimal_width( ): number
 		Gap( id: any): $mol_view
 	}
 	
@@ -2281,14 +2992,88 @@ declare namespace $ {
 //# sourceMappingURL=book2.view.tree.d.ts.map
 declare namespace $.$$ {
     class $mol_book2 extends $.$mol_book2 {
+        pages_deep(): $mol_view[];
         title(): string;
         menu_title(): string;
-        sub(): readonly $mol_view[];
+        sub(): $mol_view[];
         bring(): void;
     }
 }
 
 declare namespace $ {
+}
+
+declare namespace $ {
+    type $mol_data_value<Input = any, Output = any> = (val: Input) => Output;
+}
+
+declare namespace $ {
+    type $mol_type_partial_undefined<Val> = $mol_type_merge<$mol_type_override<Partial<Val>, Pick<Val, {
+        [Field in keyof Val]: undefined extends Val[Field] ? never : Field;
+    }[keyof Val]>>>;
+}
+
+declare namespace $ {
+    function $mol_data_setup<Value extends $mol_data_value, Config = never>(value: Value, config: Config): Value & {
+        config: Config;
+        Value: ReturnType<Value>;
+    };
+}
+
+declare namespace $ {
+    function $mol_data_record<Sub extends Record<string, $mol_data_value>>(sub: Sub): ((val: $mol_type_merge<$mol_type_override<Partial<{ [key in keyof Sub]: Parameters<Sub[key]>[0]; }>, Pick<{ [key in keyof Sub]: Parameters<Sub[key]>[0]; }, { [Field in keyof { [key in keyof Sub]: Parameters<Sub[key]>[0]; }]: undefined extends { [key in keyof Sub]: Parameters<Sub[key]>[0]; }[Field] ? never : Field; }[keyof Sub]>>>) => Readonly<$mol_type_merge<$mol_type_override<Partial<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }>, Pick<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }, { [Field_1 in keyof { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }]: undefined extends { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }[Field_1] ? never : Field_1; }[keyof Sub]>>>>) & {
+        config: Sub;
+        Value: Readonly<$mol_type_merge<$mol_type_override<Partial<{ [key in keyof Sub]: ReturnType<Sub[key]>; }>, Pick<{ [key in keyof Sub]: ReturnType<Sub[key]>; }, { [Field in keyof { [key in keyof Sub]: ReturnType<Sub[key]>; }]: undefined extends { [key in keyof Sub]: ReturnType<Sub[key]>; }[Field] ? never : Field; }[keyof Sub]>>>>;
+    };
+}
+
+declare namespace $ {
+    class $mol_data_error extends $mol_error_mix {
+    }
+}
+
+declare namespace $ {
+    let $mol_data_number: (val: number) => number;
+}
+
+declare namespace $ {
+    function $mol_data_integer(val: number): number;
+}
+
+declare namespace $ {
+    let $mol_data_string: (val: string) => string;
+}
+
+declare namespace $ {
+    type $mol_type_unary_func = ((param: any) => any);
+    type $mol_type_unary_class = new (param: any) => any;
+    type $mol_type_unary = $mol_type_unary_func | $mol_type_unary_class;
+}
+
+declare namespace $ {
+    type $mol_type_param<Func, Index extends number> = Func extends (...params: infer Params) => any ? Params[Index] : Func extends new (...params: infer Params2) => any ? Params2[Index] : never;
+}
+
+declare namespace $ {
+    function $mol_func_is_class<Func extends Function>(func: Func): func is Func & (new (...args: any[]) => any);
+}
+
+declare namespace $ {
+    type $mol_type_result<Func> = Func extends (...params: any) => infer Result ? Result : Func extends new (...params: any) => infer Result ? Result : never;
+}
+
+declare namespace $ {
+    type Guard_value<Funcs extends $mol_type_unary[], Index extends keyof Funcs> = $mol_type_param<Index extends keyof $mol_type_tail<Funcs> ? $mol_type_tail<Funcs>[Index] : any, 0>;
+    type Guard<Funcs extends $mol_type_unary[]> = {
+        [Index in keyof Funcs]: (Funcs[Index] extends $mol_type_unary_func ? (input: $mol_type_param<Funcs[Index], 0>) => Guard_value<Funcs, Index> : new (input: $mol_type_param<Funcs[Index], 0>) => Guard_value<Funcs, Index>);
+    };
+    export function $mol_data_pipe<Funcs extends $mol_type_unary[]>(...funcs: Funcs & Guard<Funcs>): ((this: any, input: $mol_type_param<Funcs[0], 0>) => $mol_type_result<$mol_type_foot<Funcs>>) & {
+        config: {
+            funcs: Funcs & Guard<Funcs>;
+        };
+        Value: $mol_type_result<$mol_type_foot<Funcs>>;
+    };
+    export {};
 }
 
 declare namespace $ {
@@ -2299,14 +3084,15 @@ declare namespace $ {
     class $mol_fetch_response extends $mol_object2 {
         readonly native: Response;
         constructor(native: Response);
-        status(): "unknown" | "success" | "inform" | "redirect" | "wrong" | "failed";
+        status(): "success" | "unknown" | "inform" | "redirect" | "wrong" | "failed";
         code(): number;
         message(): string;
         headers(): Headers;
         mime(): string | null;
-        stream(): ReadableStream<Uint8Array> | null;
+        stream(): ReadableStream<Uint8Array<ArrayBuffer>> | null;
         text(): string;
         json(): unknown;
+        blob(): Blob;
         buffer(): ArrayBuffer;
         xml(): Document;
         xhtml(): Document;
@@ -2318,9 +3104,10 @@ declare namespace $ {
         };
         static response(input: RequestInfo, init?: RequestInit): $mol_fetch_response;
         static success(input: RequestInfo, init?: RequestInit): $mol_fetch_response;
-        static stream(input: RequestInfo, init?: RequestInit): ReadableStream<Uint8Array> | null;
+        static stream(input: RequestInfo, init?: RequestInit): ReadableStream<Uint8Array<ArrayBuffer>> | null;
         static text(input: RequestInfo, init?: RequestInit): string;
         static json(input: RequestInfo, init?: RequestInit): unknown;
+        static blob(input: RequestInfo, init?: RequestInit): Blob;
         static buffer(input: RequestInfo, init?: RequestInit): ArrayBuffer;
         static xml(input: RequestInfo, init?: RequestInit): Document;
         static xhtml(input: RequestInfo, init?: RequestInit): Document;
@@ -2329,104 +3116,95 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    type $mol_type_equals<A, B> = (<X>() => X extends A ? 1 : 2) extends (<X>() => X extends B ? 1 : 2) ? unknown : never;
+    function $mol_compare_text<Item>(item?: (item: Item) => string): (a: Item, b: Item) => number;
 }
 
 declare namespace $ {
-    type $mol_type_merge<Intersection> = Intersection extends (...a: any[]) => any ? Intersection : Intersection extends new (...a: any[]) => any ? Intersection : Intersection extends object ? $mol_type_merge_object<Intersection> extends Intersection ? unknown extends $mol_type_equals<{
-        [Key in keyof Intersection]: Intersection[Key];
-    }, Intersection> ? Intersection : {
-        [Key in keyof Intersection]: $mol_type_merge<Intersection[Key]>;
-    } : Intersection : Intersection;
-    type $mol_type_merge_object<Intersection> = {
-        [Key in keyof Intersection]: Intersection[Key];
-    };
-}
-
-declare namespace $ {
-    type $mol_type_intersect<Union> = (Union extends any ? (_: Union) => void : never) extends ((_: infer Intersection) => void) ? Intersection : never;
-}
-
-declare namespace $ {
-    type $mol_unicode_category = [$mol_unicode_category_binary] | ['General_Category', $mol_char_category_general] | ['Script', $mol_unicode_category_script] | ['Script_Extensions', $mol_unicode_category_script];
-    type $mol_unicode_category_binary = 'ASCII' | 'ASCII_Hex_Digit' | 'Alphabetic' | 'Any' | 'Assigned' | 'Bidi_Control' | 'Bidi_Mirrored' | 'Case_Ignorable' | 'Cased' | 'Changes_When_Casefolded' | 'Changes_When_Casemapped' | 'Changes_When_Lowercased' | 'Changes_When_NFKC_Casefolded' | 'Changes_When_Titlecased' | 'Changes_When_Uppercased' | 'Dash' | 'Default_Ignorable_Code_Point' | 'Deprecated' | 'Diacritic' | 'Emoji' | 'Emoji_Component' | 'Emoji_Modifier' | 'Emoji_Modifier_Base' | 'Emoji_Presentation' | 'Extended_Pictographic' | 'Extender' | 'Grapheme_Base' | 'Grapheme_Extend' | 'Hex_Digit' | 'IDS_Binary_Operator' | 'IDS_Trinary_Operator' | 'ID_Continue' | 'ID_Start' | 'Ideographic' | 'Join_Control' | 'Logical_Order_Exception' | 'Lowercase' | 'Math' | 'Noncharacter_Code_Point' | 'Pattern_Syntax' | 'Pattern_White_Space' | 'Quotation_Mark' | 'Radical' | 'Regional_Indicator' | 'Sentence_Terminal' | 'Soft_Dotted' | 'Terminal_Punctuation' | 'Unified_Ideograph' | 'Uppercase' | 'Variation_Selector' | 'White_Space' | 'XID_Continue' | 'XID_Start';
-    type $mol_char_category_general = 'Cased_Letter' | 'Close_Punctuation' | 'Connector_Punctuation' | 'Control' | 'Currency_Symbol' | 'Dash_Punctuation' | 'Decimal_Number' | 'Enclosing_Mark' | 'Final_Punctuation' | 'Format' | 'Initial_Punctuation' | 'Letter' | 'Letter_Number' | 'Line_Separator' | 'Lowercase_Letter' | 'Mark' | 'Math_Symbol' | 'Modifier_Letter' | 'Modifier_Symbol' | 'Nonspacing_Mark' | 'Number' | 'Open_Punctuation' | 'Other' | 'Other_Letter' | 'Other_Number' | 'Other_Punctuation' | 'Other_Symbol' | 'Paragraph_Separator' | 'Private_Use' | 'Punctuation' | 'Separator' | 'Space_Separator' | 'Spacing_Mark' | 'Surrogate' | 'Symbol' | 'Titlecase_Letter' | 'Unassigned' | 'Uppercase_Letter';
-    type $mol_unicode_category_script = 'Adlam' | 'Ahom' | 'Anatolian_Hieroglyphs' | 'Arabic' | 'Armenian' | 'Avestan' | 'Balinese' | 'Bamum' | 'Bassa_Vah' | 'Batak' | 'Bengali' | 'Bhaiksuki' | 'Bopomofo' | 'Brahmi' | 'Braille' | 'Buginese' | 'Buhid' | 'Canadian_Aboriginal' | 'Carian' | 'Caucasian_Albanian' | 'Chakma' | 'Cham' | 'Chorasmian' | 'Cherokee' | 'Common' | 'Coptic' | 'Cuneiform' | 'Cypriot' | 'Cyrillic' | 'Deseret' | 'Devanagari' | 'Dives_Akuru' | 'Dogra' | 'Duployan' | 'Egyptian_Hieroglyphs' | 'Elbasan' | 'Elymaic' | 'Ethiopic' | 'Georgian' | 'Glagolitic' | 'Gothic' | 'Grantha' | 'Greek' | 'Gujarati' | 'Gunjala_Gondi' | 'Gurmukhi' | 'Han' | 'Hangul' | 'Hanifi_Rohingya' | 'Hanunoo' | 'Hatran' | 'Hebrew' | 'Hiragana' | 'Imperial_Aramaic' | 'Inherited' | 'Inscriptional_Pahlavi' | 'Inscriptional_Parthian' | 'Javanese' | 'Kaithi' | 'Kannada' | 'Katakana' | 'Kayah_Li' | 'Kharoshthi' | 'Khitan_Small_Script' | 'Khmer' | 'Khojki' | 'Khudawadi' | 'Lao' | 'Latin' | 'Lepcha' | 'Limbu' | 'Linear_A' | 'Linear_B' | 'Lisu' | 'Lycian' | 'Lydian' | 'Mahajani' | 'Makasar' | 'Malayalam' | 'Mandaic' | 'Manichaean' | 'Marchen' | 'Medefaidrin' | 'Masaram_Gondi' | 'Meetei_Mayek' | 'Mende_Kikakui' | 'Meroitic_Cursive' | 'Meroitic_Hieroglyphs' | 'Miao' | 'Modi' | 'Mongolian' | 'Mro' | 'Multani' | 'Myanmar' | 'Nabataean' | 'Nandinagari' | 'New_Tai_Lue' | 'Newa' | 'Nko' | 'Nushu' | 'Nyiakeng_Puachue_Hmong' | 'Ogham' | 'Ol_Chiki' | 'Old_Hungarian' | 'Old_Italic' | 'Old_North_Arabian' | 'Old_Permic' | 'Old_Persian' | 'Old_Sogdian' | 'Old_South_Arabian' | 'Old_Turkic' | 'Oriya' | 'Osage' | 'Osmanya' | 'Pahawh_Hmong' | 'Palmyrene' | 'Pau_Cin_Hau' | 'Phags_Pa' | 'Phoenician' | 'Psalter_Pahlavi' | 'Rejang' | 'Runic' | 'Samaritan' | 'Saurashtra' | 'Sharada' | 'Shavian' | 'Siddham' | 'SignWriting' | 'Sinhala' | 'Sogdian' | 'Sora_Sompeng' | 'Soyombo' | 'Sundanese' | 'Syloti_Nagri' | 'Syriac' | 'Tagalog' | 'Tagbanwa' | 'Tai_Le' | 'Tai_Tham' | 'Tai_Viet' | 'Takri' | 'Tamil' | 'Tangut' | 'Telugu' | 'Thaana' | 'Thai' | 'Tibetan' | 'Tifinagh' | 'Tirhuta' | 'Ugaritic' | 'Vai' | 'Wancho' | 'Warang_Citi' | 'Yezidi' | 'Yi' | 'Zanabazar_Square';
-}
-
-interface String {
-    match<RE extends RegExp>(regexp: RE): ReturnType<RE[typeof Symbol.match]>;
-    matchAll<RE extends RegExp>(regexp: RE): ReturnType<RE[typeof Symbol.matchAll]>;
-}
-declare namespace $ {
-    type Groups_to_params<T> = {
-        [P in keyof T]?: T[P] | boolean | undefined;
-    };
-    export type $mol_regexp_source = number | string | RegExp | {
-        [key in string]: $mol_regexp_source;
-    } | readonly [$mol_regexp_source, ...$mol_regexp_source[]];
-    export type $mol_regexp_groups<Source extends $mol_regexp_source> = Source extends number ? {} : Source extends string ? {} : Source extends $mol_regexp_source[] ? $mol_type_merge<$mol_type_intersect<{
-        [key in Extract<keyof Source, number>]: $mol_regexp_groups<Source[key]>;
-    }[Extract<keyof Source, number>]>> : Source extends RegExp ? Record<string, string> extends NonNullable<NonNullable<ReturnType<Source['exec']>>['groups']> ? {} : NonNullable<NonNullable<ReturnType<Source['exec']>>['groups']> : Source extends {
-        readonly [key in string]: $mol_regexp_source;
-    } ? $mol_type_merge<$mol_type_intersect<{
-        [key in keyof Source]: $mol_type_merge<$mol_type_override<{
-            readonly [k in Extract<keyof Source, string>]: string;
-        }, {
-            readonly [k in key]: Source[key] extends string ? Source[key] : string;
-        }> & $mol_regexp_groups<Source[key]>>;
-    }[keyof Source]>> : never;
-    export class $mol_regexp<Groups extends Record<string, string>> extends RegExp {
-        readonly groups: (Extract<keyof Groups, string>)[];
-        constructor(source: string, flags?: string, groups?: (Extract<keyof Groups, string>)[]);
-        [Symbol.matchAll](str: string): IterableIterator<RegExpMatchArray & $mol_type_override<RegExpMatchArray, {
-            groups?: {
-                [key in keyof Groups]: string;
+    const $hyoo_play_api_search_movie_data: ((val: {
+        title: string;
+        id: number;
+        year: string;
+        poster: string;
+    }) => Readonly<{
+        title: string;
+        id: number;
+        year: number;
+        poster: string;
+    }>) & {
+        config: {
+            id: typeof $mol_data_integer;
+            title: (val: string) => string;
+            year: ((this: any, input: string) => number) & {
+                config: {
+                    funcs: [(val: string) => string, NumberConstructor] & [(input: string) => any, (input: any) => unknown];
+                };
+                Value: number;
             };
-        }>>;
-        [Symbol.match](str: string): null | RegExpMatchArray;
-        [Symbol.split](str: string): string[];
-        test(str: string): boolean;
-        exec(str: string): RegExpExecArray & $mol_type_override<RegExpExecArray, {
-            groups?: {
-                [key in keyof Groups]: string;
-            };
-        }> | null;
-        generate(params: Groups_to_params<Groups>): string | null;
-        get native(): RegExp;
-        static repeat<Source extends $mol_regexp_source>(source: Source, min?: number, max?: number): $mol_regexp<$mol_regexp_groups<Source>>;
-        static repeat_greedy<Source extends $mol_regexp_source>(source: Source, min?: number, max?: number): $mol_regexp<$mol_regexp_groups<Source>>;
-        static vary<Sources extends readonly $mol_regexp_source[]>(sources: Sources): $mol_regexp<$mol_regexp_groups<Sources[number]>>;
-        static optional<Source extends $mol_regexp_source>(source: Source): $mol_regexp<$mol_regexp_groups<Source>>;
-        static force_after(source: $mol_regexp_source): $mol_regexp<Record<string, string>>;
-        static forbid_after(source: $mol_regexp_source): $mol_regexp<Record<string, string>>;
-        static from<Source extends $mol_regexp_source>(source: Source, { ignoreCase, multiline }?: Partial<Pick<RegExp, 'ignoreCase' | 'multiline'>>): $mol_regexp<$mol_regexp_groups<Source>>;
-        static unicode_only(...category: $mol_unicode_category): $mol_regexp<Record<string, string>>;
-        static unicode_except(...category: $mol_unicode_category): $mol_regexp<Record<string, string>>;
-        static char_range(from: number, to: number): $mol_regexp<{}>;
-        static char_only(...allowed: readonly [$mol_regexp_source, ...$mol_regexp_source[]]): $mol_regexp<{}>;
-        static char_except(...forbidden: readonly [$mol_regexp_source, ...$mol_regexp_source[]]): $mol_regexp<{}>;
-        static decimal_only: $mol_regexp<{}>;
-        static decimal_except: $mol_regexp<{}>;
-        static latin_only: $mol_regexp<{}>;
-        static latin_except: $mol_regexp<{}>;
-        static space_only: $mol_regexp<{}>;
-        static space_except: $mol_regexp<{}>;
-        static word_break_only: $mol_regexp<{}>;
-        static word_break_except: $mol_regexp<{}>;
-        static tab: $mol_regexp<{}>;
-        static slash_back: $mol_regexp<{}>;
-        static nul: $mol_regexp<{}>;
-        static char_any: $mol_regexp<{}>;
-        static begin: $mol_regexp<{}>;
-        static end: $mol_regexp<{}>;
-        static or: $mol_regexp<{}>;
-        static line_end: $mol_regexp<{
-            readonly win_end: string;
-            readonly mac_end: string;
+            poster: (val: string) => string;
+        };
+        Value: Readonly<{
+            title: string;
+            id: number;
+            year: number;
+            poster: string;
         }>;
+    };
+    const $hyoo_play_api_movie_data: ((val: {
+        year: number;
+        name_original: string;
+        poster_url_preview: string;
+    }) => Readonly<{
+        year: number;
+        name_original: string;
+        poster_url_preview: string;
+    }>) & {
+        config: {
+            name_original: (val: string) => string;
+            year: typeof $mol_data_integer;
+            poster_url_preview: (val: string) => string;
+        };
+        Value: Readonly<{
+            year: number;
+            name_original: string;
+            poster_url_preview: string;
+        }>;
+    };
+    const $hyoo_play_api_player_data: ((val: {
+        name: string;
+        iframe: string;
+    }) => Readonly<{
+        name: string;
+        iframe: string;
+    }>) & {
+        config: {
+            name: (val: string) => string;
+            iframe: (val: string) => string;
+        };
+        Value: Readonly<{
+            name: string;
+            iframe: string;
+        }>;
+    };
+    class $hyoo_play_api extends $mol_object {
+        static search(query: string): Map<number, $hyoo_play_api_movie>;
     }
-    export {};
+    class $hyoo_play_api_movie extends $mol_object {
+        id(): number;
+        data(): Readonly<{
+            year: number;
+            name_original: string;
+            poster_url_preview: string;
+        }>;
+        title(): string;
+        year(): number;
+        poster(): string;
+        players(): Map<string, $hyoo_play_api_player>;
+    }
+    class $hyoo_play_api_player extends $mol_object {
+        data(): typeof $hyoo_play_api_player_data.Value;
+        title(): string;
+        uri(): string;
+    }
 }
 
 declare namespace $ {
@@ -2458,10 +3236,6 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_compare_text<Item>(item?: (item: Item) => string): (a: Item, b: Item) => number;
-}
-
-declare namespace $ {
     function $mol_offline(): void;
 }
 
@@ -2470,207 +3244,289 @@ declare namespace $ {
 
 declare namespace $ {
 
-	type $mol_check_icon__checked__9GXLH0KJ = $mol_type_enforce<
+	type $mol_check_icon__checked_hyoo_play_1 = $mol_type_enforce<
 		ReturnType< $hyoo_play['playing'] >
 		,
 		ReturnType< $mol_check_icon['checked'] >
 	>
-	type $mol_check_icon__Icon__OIQR9WT6 = $mol_type_enforce<
+	type $mol_check_icon__Icon_hyoo_play_2 = $mol_type_enforce<
 		ReturnType< $hyoo_play['Playing_icon'] >
 		,
 		ReturnType< $mol_check_icon['Icon'] >
 	>
-	type $mol_button_open__files__N58A0HAT = $mol_type_enforce<
+	type $mol_button_open__files_hyoo_play_3 = $mol_type_enforce<
 		ReturnType< $hyoo_play['files_add'] >
 		,
 		ReturnType< $mol_button_open['files'] >
 	>
-	type $mol_link_source__uri__81VRKI68 = $mol_type_enforce<
+	type $mol_link_source__uri_hyoo_play_4 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_link_source['uri'] >
 	>
-	type $mol_chat__seed__4MUB845Z = $mol_type_enforce<
-		ReturnType< $hyoo_play['play_title'] >
-		,
-		ReturnType< $mol_chat['seed'] >
-	>
-	type $mol_list__rows__GB8KV6AI = $mol_type_enforce<
-		ReturnType< $hyoo_play['queue_files'] >
-		,
-		ReturnType< $mol_list['rows'] >
-	>
-	type $mol_link__hint__091SOYCU = $mol_type_enforce<
+	type $mol_search__hint_hyoo_play_5 = $mol_type_enforce<
 		string
 		,
-		ReturnType< $mol_link['hint'] >
+		ReturnType< $mol_search['hint'] >
 	>
-	type $mol_link__arg__EZ5WJ3OM = $mol_type_enforce<
+	type $mol_search__query_hyoo_play_6 = $mol_type_enforce<
+		ReturnType< $hyoo_play['movie_search'] >
+		,
+		ReturnType< $mol_search['query'] >
+	>
+	type $mol_paragraph__title_hyoo_play_7 = $mol_type_enforce<
+		ReturnType< $hyoo_play['movie_title'] >
+		,
+		ReturnType< $mol_paragraph['title'] >
+	>
+	type $mol_check_icon__enabled_hyoo_play_8 = $mol_type_enforce<
+		boolean
+		,
+		ReturnType< $mol_check_icon['enabled'] >
+	>
+	type $mol_check_icon__checked_hyoo_play_9 = $mol_type_enforce<
+		ReturnType< $hyoo_play['movie_bookmark'] >
+		,
+		ReturnType< $mol_check_icon['checked'] >
+	>
+	type $mol_check_icon__Icon_hyoo_play_10 = $mol_type_enforce<
+		ReturnType< $hyoo_play['Movie_bookmark_icon'] >
+		,
+		ReturnType< $mol_check_icon['Icon'] >
+	>
+	type $mol_view__sub_hyoo_play_11 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type $mol_image__uri_hyoo_play_12 = $mol_type_enforce<
+		ReturnType< $hyoo_play['movie_poster'] >
+		,
+		ReturnType< $mol_image['uri'] >
+	>
+	type $mol_link__minimal_height_hyoo_play_13 = $mol_type_enforce<
+		number
+		,
+		ReturnType< $mol_link['minimal_height'] >
+	>
+	type $mol_link__arg_hyoo_play_14 = $mol_type_enforce<
 		({ 
-			'playlist': string,
+			'movie': ReturnType< $hyoo_play['movie_id'] >,
 		}) 
 		,
 		ReturnType< $mol_link['arg'] >
 	>
-	type $mol_link__sub__26XO9E4J = $mol_type_enforce<
+	type $mol_link__sub_hyoo_play_15 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_link['sub'] >
 	>
-	type $mol_link__hint__LC7T43SZ = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_link['hint'] >
-	>
-	type $mol_link__arg__DEHP0ZGB = $mol_type_enforce<
-		({ 
-			'playlist': string,
-		}) 
-		,
-		ReturnType< $mol_link['arg'] >
-	>
-	type $mol_link__sub__IVOSS5HN = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_link['sub'] >
-	>
-	type $mol_link__hint__I0S27IXQ = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_link['hint'] >
-	>
-	type $mol_link__arg__AIUV1O3T = $mol_type_enforce<
-		({ 
-			'playlist': string,
-		}) 
-		,
-		ReturnType< $mol_link['arg'] >
-	>
-	type $mol_link__sub__BMBR75MD = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_link['sub'] >
-	>
-	type $mol_link__hint__OZAAUETU = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_link['hint'] >
-	>
-	type $mol_link__arg__NCE83004 = $mol_type_enforce<
-		({ 
-			'playlist': string,
-		}) 
-		,
-		ReturnType< $mol_link['arg'] >
-	>
-	type $mol_link__sub__MSDTPXVX = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_link['sub'] >
-	>
-	type $mol_link__hint__J8J2STNM = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_link['hint'] >
-	>
-	type $mol_link__arg__M1BZZAKK = $mol_type_enforce<
-		({ 
-			'playlist': string,
-		}) 
-		,
-		ReturnType< $mol_link['arg'] >
-	>
-	type $mol_link__sub__YQWFGDK2 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_link['sub'] >
-	>
-	type $mol_page__title__7NUHAAZ6 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_page['title'] >
-	>
-	type $mol_page__tools__DSVM10U0 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_page['tools'] >
-	>
-	type $mol_page__body__9EW2L11J = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_page['body'] >
-	>
-	type $mol_page__foot__10COYVMY = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_page['foot'] >
-	>
-	type $hyoo_play_playing__MQ2OKX3U = $mol_type_enforce<
-		Parameters< $hyoo_play['playing'] >[0]
-		,
-		Parameters< ReturnType< $hyoo_play['Player'] >['playing'] >[0]
-	>
-	type $mol_video_player__title__O44BYT5M = $mol_type_enforce<
-		ReturnType< $hyoo_play['play_title'] >
-		,
-		ReturnType< $mol_video_player['title'] >
-	>
-	type $mol_video_player__uri__YR1G2UW1 = $mol_type_enforce<
-		ReturnType< $hyoo_play['play_uri'] >
-		,
-		ReturnType< $mol_video_player['uri'] >
-	>
-	type $mol_video_player__poster__3WBLKHHQ = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_video_player['poster'] >
-	>
-	type $mol_book2__Placeholder__GDTSVXJI = $mol_type_enforce<
-		any
-		,
-		ReturnType< $mol_book2['Placeholder'] >
-	>
-	type $mol_book2__attr__HBRTEGU9 = $mol_type_enforce<
-		({ 
-			'mol_theme': string,
-		}) 
-		,
-		ReturnType< $mol_book2['attr'] >
-	>
-	type $mol_book2__pages__YVZUBG2H = $mol_type_enforce<
-		ReturnType< $hyoo_play['pages'] >
-		,
-		ReturnType< $mol_book2['pages'] >
-	>
-	type $mol_button_minor__title__1IFNH5PH = $mol_type_enforce<
+	type $mol_button_minor__title_hyoo_play_16 = $mol_type_enforce<
 		ReturnType< $hyoo_play['file_title'] >
 		,
 		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__enabled__7N8524Y2 = $mol_type_enforce<
+	type $mol_button_minor__enabled_hyoo_play_17 = $mol_type_enforce<
 		ReturnType< $hyoo_play['file_enabled'] >
 		,
 		ReturnType< $mol_button_minor['enabled'] >
 	>
-	type $mol_button_minor__click__DQOZKX9V = $mol_type_enforce<
+	type $mol_button_minor__click_hyoo_play_18 = $mol_type_enforce<
 		ReturnType< $hyoo_play['file_play'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__click__J5N6UI58 = $mol_type_enforce<
+	type $mol_button_minor__click_hyoo_play_19 = $mol_type_enforce<
 		ReturnType< $hyoo_play['file_drop'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__sub__8GI8H0PO = $mol_type_enforce<
+	type $mol_button_minor__sub_hyoo_play_20 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_button_minor['sub'] >
 	>
-	type $mol_view__sub__P3AH65UK = $mol_type_enforce<
+	type $mol_view__sub_hyoo_play_21 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
+	>
+	type $mol_list__rows_hyoo_play_22 = $mol_type_enforce<
+		ReturnType< $hyoo_play['queue_items'] >
+		,
+		ReturnType< $mol_list['rows'] >
+	>
+	type $mol_link__hint_hyoo_play_23 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_link['hint'] >
+	>
+	type $mol_link__arg_hyoo_play_24 = $mol_type_enforce<
+		({ 
+			'playlist': string,
+		}) 
+		,
+		ReturnType< $mol_link['arg'] >
+	>
+	type $mol_link__sub_hyoo_play_25 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_link['sub'] >
+	>
+	type $mol_link__hint_hyoo_play_26 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_link['hint'] >
+	>
+	type $mol_link__arg_hyoo_play_27 = $mol_type_enforce<
+		({ 
+			'playlist': string,
+		}) 
+		,
+		ReturnType< $mol_link['arg'] >
+	>
+	type $mol_link__sub_hyoo_play_28 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_link['sub'] >
+	>
+	type $mol_link__hint_hyoo_play_29 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_link['hint'] >
+	>
+	type $mol_link__arg_hyoo_play_30 = $mol_type_enforce<
+		({ 
+			'playlist': string,
+		}) 
+		,
+		ReturnType< $mol_link['arg'] >
+	>
+	type $mol_link__sub_hyoo_play_31 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_link['sub'] >
+	>
+	type $mol_link__hint_hyoo_play_32 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_link['hint'] >
+	>
+	type $mol_link__arg_hyoo_play_33 = $mol_type_enforce<
+		({ 
+			'playlist': string,
+		}) 
+		,
+		ReturnType< $mol_link['arg'] >
+	>
+	type $mol_link__sub_hyoo_play_34 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_link['sub'] >
+	>
+	type $mol_link__hint_hyoo_play_35 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_link['hint'] >
+	>
+	type $mol_link__arg_hyoo_play_36 = $mol_type_enforce<
+		({ 
+			'playlist': string,
+		}) 
+		,
+		ReturnType< $mol_link['arg'] >
+	>
+	type $mol_link__sub_hyoo_play_37 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_link['sub'] >
+	>
+	type $mol_page__title_hyoo_play_38 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_page['title'] >
+	>
+	type $mol_page__tools_hyoo_play_39 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_page['tools'] >
+	>
+	type $mol_page__body_hyoo_play_40 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_page['body'] >
+	>
+	type $mol_page__foot_hyoo_play_41 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_page['foot'] >
+	>
+	type __hyoo_play_42 = $mol_type_enforce<
+		Parameters< $hyoo_play['playing'] >[0]
+		,
+		Parameters< ReturnType< $hyoo_play['Player'] >['playing'] >[0]
+	>
+	type $mol_video_player__title_hyoo_play_43 = $mol_type_enforce<
+		ReturnType< $hyoo_play['play_title'] >
+		,
+		ReturnType< $mol_video_player['title'] >
+	>
+	type $mol_video_player__uri_hyoo_play_44 = $mol_type_enforce<
+		ReturnType< $hyoo_play['play_uri'] >
+		,
+		ReturnType< $mol_video_player['uri'] >
+	>
+	type $mol_video_player__poster_hyoo_play_45 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_video_player['poster'] >
+	>
+	type $mol_switch__value_hyoo_play_46 = $mol_type_enforce<
+		ReturnType< $hyoo_play['player_id'] >
+		,
+		ReturnType< $mol_switch['value'] >
+	>
+	type $mol_switch__keys_hyoo_play_47 = $mol_type_enforce<
+		ReturnType< $hyoo_play['player_options'] >
+		,
+		ReturnType< $mol_switch['keys'] >
+	>
+	type $mol_link__arg_hyoo_play_48 = $mol_type_enforce<
+		({ 
+			'movie': any,
+		}) 
+		,
+		ReturnType< $mol_link['arg'] >
+	>
+	type $mol_link__sub_hyoo_play_49 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_link['sub'] >
+	>
+	type $mol_frame__uri_hyoo_play_50 = $mol_type_enforce<
+		ReturnType< $hyoo_play['player_uri'] >
+		,
+		ReturnType< $mol_frame['uri'] >
+	>
+	type $mol_page__head_hyoo_play_51 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_page['head'] >
+	>
+	type $mol_page__body_content_hyoo_play_52 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_page['body_content'] >
+	>
+	type $mol_book2__Placeholder_hyoo_play_53 = $mol_type_enforce<
+		any
+		,
+		ReturnType< $mol_book2['Placeholder'] >
+	>
+	type $mol_book2__pages_hyoo_play_54 = $mol_type_enforce<
+		ReturnType< $hyoo_play['pages'] >
+		,
+		ReturnType< $mol_book2['pages'] >
 	>
 	export class $hyoo_play extends $mol_drop {
 		Playing_icon( ): $mol_icon_play
@@ -2678,10 +3534,29 @@ declare namespace $ {
 		files_add( next?: readonly(any)[] ): readonly(any)[]
 		Open( ): $mol_button_open
 		Sources( ): $mol_link_source
-		play_title( ): string
-		chat_pages( ): ReturnType< ReturnType< $hyoo_play['Chat'] >['pages'] >
-		Chat( ): $mol_chat
+		movie_search( next?: string ): string
+		Movie_search( ): $mol_search
+		movie_id( id: any): string
+		movie_title( id: any): string
+		Movie_title( id: any): $mol_paragraph
+		movie_bookmark( id: any, next?: boolean ): boolean
+		Movie_bookmark_icon( id: any): $mol_icon_bookmark
+		Movie_bookmark( id: any): $mol_check_icon
+		Movie_info( id: any): $mol_view
+		movie_poster( id: any): string
+		Movie_poster( id: any): $mol_image
+		Movie( id: any): $mol_link
+		queue_movies( ): readonly(any)[]
+		file_title( id: any): string
+		file_enabled( id: any): boolean
+		file_play( id: any, next?: any ): any
+		File_play( id: any): $mol_button_minor
+		file_drop( id: any, next?: any ): any
+		File_drop_icon( id: any): $mol_icon_close
+		File_drop( id: any): $mol_button_minor
+		File( id: any): $mol_view
 		queue_files( ): readonly(any)[]
+		queue_items( ): readonly(any)[]
 		Queue_files( ): $mol_list
 		Water_icon( ): $mol_icon_waves
 		Water( ): $mol_link
@@ -2692,25 +3567,29 @@ declare namespace $ {
 		Fire_icon( ): $mol_icon_fire
 		Fire( ): $mol_link
 		Movie_icon( ): $mol_icon_filmstrip
-		Movie( ): $mol_link
+		Movies( ): $mol_link
 		Queue( ): $mol_page
+		play_title( ): string
 		play_uri( ): string
 		playing( next?: ReturnType< ReturnType< $hyoo_play['Player'] >['playing'] > ): ReturnType< ReturnType< $hyoo_play['Player'] >['playing'] >
 		Player( ): $mol_video_player
+		player_id( id: any, next?: string ): string
+		player_options( id: any): readonly(any)[]
+		Player_id( id: any): $mol_switch
+		Moview_close_icon( ): $mol_icon_close
+		Movie_close( ): $mol_link
+		player_uri( id: any): string
+		Player_ext( id: any): $mol_frame
+		Movie_page( id: any): $mol_page
 		pages( ): readonly(any)[]
 		Book( ): $mol_book2
-		file_title( id: any): string
-		file_enabled( id: any): boolean
-		file_play( id: any, next?: any ): any
-		File_play( id: any): $mol_button_minor
-		file_drop( id: any, next?: any ): any
-		File_drop_icon( id: any): $mol_icon_cross
-		File_drop( id: any): $mol_button_minor
 		playlist( ): string
 		files( next?: readonly(any)[] ): readonly(any)[]
 		file_current( next?: any ): any
+		attr( ): ({ 
+			'mol_theme': string,
+		})  & ReturnType< $mol_drop['attr'] >
 		Sub( ): ReturnType< $hyoo_play['Book'] >
-		File( id: any): $mol_view
 	}
 	
 }
@@ -2735,7 +3614,19 @@ declare namespace $.$$ {
         file_enabled(file: Entry): boolean;
         file_play(file: Entry): void;
         file_drop(file: Entry): void;
-        pages(): any[];
+        movie_search(next?: string): string;
+        movie_current_id(): number;
+        player_uri(id: number): string;
+        player_id(id: number, next?: string): string;
+        player_options(id: number): string[];
+        movies(): Map<number, $hyoo_play_api_movie>;
+        movie_current(): $hyoo_play_api_movie | null;
+        movies_found(): Map<number, $hyoo_play_api_movie>;
+        queue_movies(): $.$mol_link[];
+        movie_poster(id: number): string;
+        movie_id(id: number): string;
+        movie_title(id: number): string;
+        pages(): ($.$mol_video_player | $mol_page)[];
         play_title(): any;
         play_uri(): any;
         jump_next(): void;

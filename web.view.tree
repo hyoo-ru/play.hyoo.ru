@@ -48,6 +48,7 @@ $mol_icon $mol_svg_root
 $mol_icon_play $mol_icon path \M8,5.14V19.14L19,12.14L8,5.14Z
 
 $mol_speck $mol_view
+	minimal_width 12
 	attr *
 		^
 		mol_theme <= theme \$mol_theme_accent
@@ -148,62 +149,210 @@ $mol_link_source $mol_link
 	sub /
 		<= Icon $mol_icon_script_text
 
-$mol_icon_forum $mol_icon path \M17,12V3C17,2.45 16.55,2 16,2H3C2.45,2 2,2.45 2,3V17L6,13H16C16.55,13 17,12.55 17,12M21,6H19V15H6V17C6,17.55 6.45,18 7,18H18L22,22V7C22,6.45 21.55,6 21,6Z
+$mol_pop $mol_view
+	showed? false
+	align_vert \
+	align_hor \
+	prefer \vert
+	sub /
+		<= Anchor null
+	sub_visible /
+		<= Anchor
+		<= Bubble $mol_pop_bubble
+			align <= align \bottom_center
+			content <= bubble_content /$mol_view_content
+			height_max <= height_max 9999
 
-$mol_icon_forum_outline $mol_icon path \M15,4V11H5.17L4,12.17V4H15M16,2H3C2.45,2 2,2.45 2,3V17L6,13H16C16.55,13 17,12.55 17,12V3C17,2.45 16.55,2 16,2M21,6H19V15H6V17C6,17.55 6.45,18 7,18H18L22,22V7C22,6.45 21.55,6 21,6Z
-
-$mol_icon_open_in_new $mol_icon path \M14,3V5H17.59L7.76,14.83L9.17,16.24L19,6.41V10H21V3M19,19H5V5H12V3H5C3.89,3 3,3.9 3,5V19C3,20.1 3.9,21 5,21H19C20.1,21 21,20.1 21,19V12H19V19Z
-
-$mol_icon_cross $mol_icon path \M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z
+$mol_pop_bubble $mol_view
+	sub <= content /$mol_view_content
+	style *
+		^
+		maxHeight <= height_max 9999
+	attr *
+		^
+		mol_pop_align <= align \
+		tabindex 0
 
 $mol_scroll $mol_view
 	scroll_top? 0
 	scroll_left? 0
-	field *
+	attr *
 		^
-		tabIndex <= tabindex -1
+		tabindex <= tabindex -1
 	event *
 		^
 		scroll?event <=> event_scroll?event null
 
-$mol_embed_native $mol_scroll
-	uri? \
-	dom_name \object
-	window null
-	attr *
+$mol_hotkey $mol_plugin
+	event *
 		^
-		data <= uri
-		type <= mime \
-	sub /
-		<= Fallback $mol_link
-			uri <= uri
-			sub /
-				<= title \
-	message *
-		hashchange? <=> uri_change? null
+		keydown?event <=> keydown?event null
+	key *
+	mod_ctrl false
+	mod_alt false
+	mod_shift false
 
-$mol_frame $mol_embed_native
-	dom_name \iframe
+$mol_nav $mol_plugin
+	cycle? false
+	-
+	mod_ctrl false
+	mod_shift false
+	mod_alt false
+	-
+	keys_x? /
+	keys_y? /
+	-
+	current_x? null
+	current_y? null
+	-
+	event_up?event null
+	event_down?event null
+	event_left?event null
+	event_right?event null
+	event *
+		^
+		keydown?event <=> event_key?event null
+
+$mol_string $mol_view
+	dom_name \input
+	enabled true
+	minimal_height 40
+	autocomplete false
+	selection? /number
+		0
+		0
+	auto /
+		<= selection_watcher null
+		<= error_report null
+	field *
+		^
+		disabled <= disabled false
+		value <= value_changed? <=> value? \
+		placeholder <= hint_visible <= hint \
+		spellcheck <= spellcheck true
+		autocomplete <= autocomplete_native \
+		selectionEnd <= selection_end 0
+		selectionStart <= selection_start 0
+		inputMode <= keyboard \text
+		enterkeyhint <= enter \go
 	attr *
 		^
-		data null
-		type null
-		src <= uri? \about:config
-		srcdoc <= html null
-		allow <= allow \
-		- allowfullscreen <=
-	fullscreen true
-	accelerometer true
-	autoplay true
-	encription true
-	gyroscope true
-	pip true
-	clipboard_read true
-	clipboard_write true
+		maxlength <= length_max +Infinity
+		type <= type? \text
+	event *
+		^
+		input?event <=> event_change?event null
+	plugins /
+		<= Submit $mol_hotkey
+			mod_ctrl <= submit_with_ctrl false
+			key * enter?event <=> submit?event null
+
+$mol_icon_close $mol_icon path \M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z
+
+$mol_list $mol_view
+	render_visible_only true
+	render_over 0
+	sub <= rows /$mol_view
+	Empty $mol_view
+	Gap_before $mol_view style * paddingTop <= gap_before 0
+	Gap_after $mol_view style * paddingTop <= gap_after 0
+	item_height_min* 1
+	item_width_min* 1
+	view_window /
+		0
+		0
+
+$mol_paragraph $mol_view
+	line_height 24
+	letter_width 7
+	width_limit +Infinity
+	row_width 0
+	sub / <= title
+
+$mol_dimmer $mol_paragraph
+	haystack \
+	needle \
+	sub <= parts /$mol_view_content
+	Low* $mol_paragraph
+		sub /
+			<= string* \
+	High* $mol_paragraph
+		sub /
+			<= string* \
+
+$mol_search $mol_pop
+	query? \
+	suggests /string
+	plugins /$mol_plugin
+		^
+		<= Hotkey $mol_hotkey
+			key * escape? <=> clear? null
+		<= Nav $mol_nav
+			keys_y <= nav_components /$mol_view
+			current_y?component <=> nav_focused?component null
+	showed? <=> suggests_showed? false
+	align_hor \right
+	Anchor $mol_view
+		sub <= anchor_content /
+			<= Query $mol_string
+				value? <=> query? \
+				hint <= hint @ \Search...
+				submit?event <=> submit?event null
+				enabled <= enabled true
+				keyboard <= keyboard \search
+				enter <= enter \search
+				bring => bring
+			<= Clear $mol_button_minor
+				hint @ \Clear
+				enabled <= enabled true
+				click?event <=> clear?event null
+				sub /
+					<= Clear_icon $mol_icon_close
+	bubble_content /$mol_view_content
+		<= Bubble_pane $mol_scroll
+			sub /
+				<= Menu $mol_list
+					rows <= menu_items /$mol_view
+	Suggest* $mol_button_minor
+		click?event <=> suggest_select*?event null
+		sub <= suggest_content* /$mol_view_content
+			<= Suggest_label* $mol_dimmer
+				haystack <= suggest_label* \
+				needle <= query? \
+
+$mol_icon_bookmark $mol_icon path \M17,3H7A2,2 0 0,0 5,5V21L12,18L19,21V5C19,3.89 18.1,3 17,3Z
+
+$mol_image $mol_view
+	dom_name \img
+	attr *any
+		^
+		src <= uri \
+		alt <= title
+		loading <= loading \eager
+		decoding <= decoding \async
+		crossOrigin <= cors null
+		width <= natural_width 0
+		height <= natural_height 0
+	event *any
+		load? <=> load? null
+	minimal_width 16
+	minimal_height 16
+
+$mol_icon_waves $mol_icon path \M20,12H22V14H20C18.62,14 17.26,13.65 16,13C13.5,14.3 10.5,14.3 8,13C6.74,13.65 5.37,14 4,14H2V12H4C5.39,12 6.78,11.53 8,10.67C10.44,12.38 13.56,12.38 16,10.67C17.22,11.53 18.61,12 20,12M20,6H22V8H20C18.62,8 17.26,7.65 16,7C13.5,8.3 10.5,8.3 8,7C6.74,7.65 5.37,8 4,8H2V6H4C5.39,6 6.78,5.53 8,4.67C10.44,6.38 13.56,6.38 16,4.67C17.22,5.53 18.61,6 20,6M20,18H22V20H20C18.62,20 17.26,19.65 16,19C13.5,20.3 10.5,20.3 8,19C6.74,19.65 5.37,20 4,20H2V18H4C5.39,18 6.78,17.53 8,16.67C10.44,18.38 13.56,18.38 16,16.67C17.22,17.53 18.61,18 20,18Z
+
+$mol_icon_weather_windy $mol_icon path \M4,10A1,1 0 0,1 3,9A1,1 0 0,1 4,8H12A2,2 0 0,0 14,6A2,2 0 0,0 12,4C11.45,4 10.95,4.22 10.59,4.59C10.2,5 9.56,5 9.17,4.59C8.78,4.2 8.78,3.56 9.17,3.17C9.9,2.45 10.9,2 12,2A4,4 0 0,1 16,6A4,4 0 0,1 12,10H4M19,12A1,1 0 0,0 20,11A1,1 0 0,0 19,10C18.72,10 18.47,10.11 18.29,10.29C17.9,10.68 17.27,10.68 16.88,10.29C16.5,9.9 16.5,9.27 16.88,8.88C17.42,8.34 18.17,8 19,8A3,3 0 0,1 22,11A3,3 0 0,1 19,14H5A1,1 0 0,1 4,13A1,1 0 0,1 5,12H19M18,18H4A1,1 0 0,1 3,17A1,1 0 0,1 4,16H18A3,3 0 0,1 21,19A3,3 0 0,1 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20A1,1 0 0,0 19,19A1,1 0 0,0 18,18Z
+
+$mol_icon_flash $mol_icon path \M7,2V13H10V22L17,10H13L17,2H7Z
+
+$mol_icon_flash_outline $mol_icon path \M7,2H17L13.5,9H17L10,22V14H7V2M9,4V12H12V14.66L14,11H10.24L13.76,4H9Z
+
+$mol_icon_fire $mol_icon path \M17.66 11.2C17.43 10.9 17.15 10.64 16.89 10.38C16.22 9.78 15.46 9.35 14.82 8.72C13.33 7.26 13 4.85 13.95 3C13 3.23 12.17 3.75 11.46 4.32C8.87 6.4 7.85 10.07 9.07 13.22C9.11 13.32 9.15 13.42 9.15 13.55C9.15 13.77 9 13.97 8.8 14.05C8.57 14.15 8.33 14.09 8.14 13.93C8.08 13.88 8.04 13.83 8 13.76C6.87 12.33 6.69 10.28 7.45 8.64C5.78 10 4.87 12.3 5 14.47C5.06 14.97 5.12 15.47 5.29 15.97C5.43 16.57 5.7 17.17 6 17.7C7.08 19.43 8.95 20.67 10.96 20.92C13.1 21.19 15.39 20.8 17.03 19.32C18.86 17.66 19.5 15 18.56 12.72L18.43 12.46C18.22 12 17.66 11.2 17.66 11.2M14.5 17.5C14.22 17.74 13.76 18 13.4 18.1C12.28 18.5 11.16 17.94 10.5 17.28C11.69 17 12.4 16.12 12.61 15.23C12.78 14.43 12.46 13.77 12.33 13C12.21 12.26 12.23 11.63 12.5 10.94C12.69 11.32 12.89 11.7 13.13 12C13.9 13 15.11 13.44 15.37 14.8C15.41 14.94 15.43 15.08 15.43 15.23C15.46 16.05 15.1 16.95 14.5 17.5H14.5Z
+
+$mol_icon_filmstrip $mol_icon path \M18,9H16V7H18M18,13H16V11H18M18,17H16V15H18M8,9H6V7H8M8,13H6V11H8M8,17H6V15H8M18,3V5H16V3H8V5H6V3H4V21H6V19H8V21H16V19H18V21H20V3H18Z
 
 $mol_page $mol_view
 	dom_name \article
-	field *
+	attr *
 		^
 		tabIndex <= tabindex -1
 	sub /
@@ -226,51 +375,6 @@ $mol_page $mol_view
 		<= Foot $mol_view
 			dom_name \footer
 			sub <= foot /$mol_view
-
-$mol_chat $mol_link
-	seed \
-	opened false
-	arg * mol_chat \
-	hint <= title
-	sub /
-		<= Icon $mol_icon_forum_outline
-	pages /
-		<= Page $mol_page
-			title <= title @ \Discussion
-			tools /
-				<= Esternal $mol_link
-					uri <= standalone \
-					sub /
-						<= Standalone_icon $mol_icon_open_in_new
-				<= Close $mol_link
-					arg * mol_chat null
-					sub /
-						<= Close_icon $mol_icon_cross
-			Body <= Embed $mol_frame
-				uri <= embed \
-
-$mol_list $mol_view
-	render_visible_only true
-	render_over 0
-	sub <= rows /$mol_view
-	Empty $mol_view
-	Gap_before $mol_view style * paddingTop <= gap_before 0
-	Gap_after $mol_view style * paddingTop <= gap_after 0
-	view_window /
-		0
-		0
-
-$mol_icon_waves $mol_icon path \M20,12H22V14H20C18.62,14 17.26,13.65 16,13C13.5,14.3 10.5,14.3 8,13C6.74,13.65 5.37,14 4,14H2V12H4C5.39,12 6.78,11.53 8,10.67C10.44,12.38 13.56,12.38 16,10.67C17.22,11.53 18.61,12 20,12M20,6H22V8H20C18.62,8 17.26,7.65 16,7C13.5,8.3 10.5,8.3 8,7C6.74,7.65 5.37,8 4,8H2V6H4C5.39,6 6.78,5.53 8,4.67C10.44,6.38 13.56,6.38 16,4.67C17.22,5.53 18.61,6 20,6M20,18H22V20H20C18.62,20 17.26,19.65 16,19C13.5,20.3 10.5,20.3 8,19C6.74,19.65 5.37,20 4,20H2V18H4C5.39,18 6.78,17.53 8,16.67C10.44,18.38 13.56,18.38 16,16.67C17.22,17.53 18.61,18 20,18Z
-
-$mol_icon_weather_windy $mol_icon path \M4,10C3.45,10 3,9.55 3,9C3,8.45 3.45,8 4,8H12C13.1,8 14,7.1 14,6C14,4.9 13.1,4 12,4C11.45,4 10.95,4.22 10.59,4.59C10.2,5 9.56,5 9.17,4.59C8.78,4.2 8.78,3.56 9.17,3.17C9.9,2.45 10.9,2 12,2C14.21,2 16,3.79 16,6C16,8.21 14.21,10 12,10H4M19,12C19.55,12 20,11.55 20,11C20,10.45 19.55,10 19,10C18.72,10 18.47,10.11 18.29,10.29C17.9,10.68 17.27,10.68 16.88,10.29C16.5,9.9 16.5,9.27 16.88,8.88C17.42,8.34 18.17,8 19,8C20.66,8 22,9.34 22,11C22,12.66 20.66,14 19,14H5C4.45,14 4,13.55 4,13C4,12.45 4.45,12 5,12H19M18,18H4C3.45,18 3,17.55 3,17C3,16.45 3.45,16 4,16H18C19.66,16 21,17.34 21,19C21,20.66 19.66,22 18,22C17.17,22 16.42,21.66 15.88,21.12C15.5,20.73 15.5,20.1 15.88,19.71C16.27,19.32 16.9,19.32 17.29,19.71C17.47,19.89 17.72,20 18,20C18.55,20 19,19.55 19,19C19,18.45 18.55,18 18,18Z
-
-$mol_icon_flash $mol_icon path \M7,2V13H10V22L17,10H13L17,2H7Z
-
-$mol_icon_flash_outline $mol_icon path \M7,2H17L13.5,9H17L10,22V14H7V2M9,4V12H12V14.66L14,11H10.24L13.76,4H9Z
-
-$mol_icon_fire $mol_icon path \M17.55,11.2C17.32,10.9 17.05,10.64 16.79,10.38C16.14,9.78 15.39,9.35 14.76,8.72C13.3,7.26 13,4.85 13.91,3C13,3.23 12.16,3.75 11.46,4.32C8.92,6.4 7.92,10.07 9.12,13.22C9.16,13.32 9.2,13.42 9.2,13.55C9.2,13.77 9.05,13.97 8.85,14.05C8.63,14.15 8.39,14.09 8.21,13.93C8.15,13.88 8.11,13.83 8.06,13.76C6.96,12.33 6.78,10.28 7.53,8.64C5.89,10 5,12.3 5.14,14.47C5.18,14.97 5.24,15.47 5.41,15.97C5.55,16.57 5.81,17.17 6.13,17.7C7.17,19.43 9,20.67 10.97,20.92C13.07,21.19 15.32,20.8 16.93,19.32C18.73,17.66 19.38,15 18.43,12.72L18.3,12.46C18.1,12 17.83,11.59 17.5,11.21L17.55,11.2M14.45,17.5C14.17,17.74 13.72,18 13.37,18.1C12.27,18.5 11.17,17.94 10.5,17.28C11.69,17 12.39,16.12 12.59,15.23C12.76,14.43 12.45,13.77 12.32,13C12.2,12.26 12.22,11.63 12.5,10.94C12.67,11.32 12.87,11.7 13.1,12C13.86,13 15.05,13.44 15.3,14.8C15.34,14.94 15.36,15.08 15.36,15.23C15.39,16.05 15.04,16.95 14.44,17.5H14.45Z
-
-$mol_icon_filmstrip $mol_icon path \M18,9H16V7H18M18,13H16V11H18M18,17H16V15H18M8,9H6V7H8M8,13H6V11H8M8,17H6V15H8M18,3V5H16V3H8V5H6V3H4V21H6V19H8V21H16V19H18V21H20V3H18Z
 
 $mol_video_player $mol_view
 	dom_name \video
@@ -298,23 +402,71 @@ $mol_video_player $mol_view
 		play? <=> play_event? null
 		pause? <=> pause_event? null
 
+$mol_check_list $mol_view
+	dictionary *
+	Option* $mol_check
+		checked? <=> option_checked*? false
+		label <= option_label* /
+			<= option_title* \
+		enabled <= option_enabled* <= enabled true
+		hint <= option_hint* \
+		minimal_height 24
+	options *
+	keys /string
+	sub <= items /$mol_check
+
+$mol_switch $mol_check_list
+	value? \
+
+$mol_embed_native $mol_scroll
+	dom_name \iframe
+	window null
+	attr *
+		^
+		src <= uri? \about:config
+	sub /
+		<= Fallback $mol_link
+			uri <= uri
+			sub /
+				<= title \
+	message *
+		hashchange? <=> uri_change? null
+
+$mol_frame $mol_embed_native
+	attr *
+		^
+		allow <= allow \
+		srcdoc <= html null
+	fullscreen true
+	accelerometer true
+	autoplay true
+	encription true
+	gyroscope true
+	pip true
+	clipboard_read true
+	clipboard_write true
+
 $mol_book2 $mol_scroll
 	menu_title \
-	sub <= pages /$mol_view
+	sub /$mol_view
+		^ pages <= pages_deep /$mol_view
+		^ placeholders /$mol_view
+			<= Placeholder $mol_view
 	minimal_width 0
-	Placeholder $mol_view
 	Gap* $mol_view title \
 
 $hyoo_play $mol_drop
 	playlist \
 	files?next /
 	file_current?val null
+	attr *
+		^
+		mol_theme \$mol_theme_dark
 	Sub <= Book $mol_book2
 		Placeholder null
-		attr * mol_theme \$mol_theme_dark
 		pages <= pages /
 			<= Queue $mol_page
-				title @ \Media Player
+				title @ \Hyper Player
 				tools /
 					<= Playing $mol_check_icon
 						checked?next <=> playing?next
@@ -323,11 +475,39 @@ $hyoo_play $mol_drop
 						files?next <=> files_add?next /
 					<= Sources $mol_link_source
 						uri \https://github.com/hyoo-ru/play.hyoo.ru
-					<= Chat $mol_chat
+					- <= Chat $mol_chat
 						seed <= play_title \
 						pages => chat_pages
 				body /
-					<= Queue_files $mol_list rows <= queue_files /
+					<= Movie_search $mol_search
+						hint @ \Movie search...
+						query? <=> movie_search? \
+					<= Queue_files $mol_list
+						rows <= queue_items /
+							^ queue_movies /
+								<= Movie*0 $mol_link
+									minimal_height 498
+									arg * movie <= movie_id* \
+									sub /
+										<= Movie_info* $mol_view sub /
+											<= Movie_title* $mol_paragraph title <= movie_title* \
+											<= Movie_bookmark* $mol_check_icon
+												enabled false
+												checked? <=> movie_bookmark*? false
+												Icon <= Movie_bookmark_icon* $mol_icon_bookmark
+										<= Movie_poster* $mol_image
+											uri <= movie_poster* \
+							^ queue_files /
+								<= File*0 $mol_view
+									sub /
+										<= File_play* $mol_button_minor
+											title <= file_title* \
+											enabled <= file_enabled* true
+											click? <=> file_play*? null
+										<= File_drop* $mol_button_minor
+											click? <=> file_drop*? null
+											sub /
+												<= File_drop_icon* $mol_icon_close
 				foot /
 					<= Water $mol_link
 						hint @ \Relaxing
@@ -349,8 +529,8 @@ $hyoo_play $mol_drop
 						arg * playlist \./hyoo/play/lib/fire.m3u8
 						sub /
 							<= Fire_icon $mol_icon_fire
-					<= Movie $mol_link
-						hint @ \Movie
+					<= Movies $mol_link
+						hint @ \Movies
 						arg * playlist \./hyoo/play/lib/movie.m3u8
 						sub /
 							<= Movie_icon $mol_icon_filmstrip
@@ -359,13 +539,14 @@ $hyoo_play $mol_drop
 				uri <= play_uri \
 				poster \https://www.koolmusic.com/img/equalizer.gif
 				playing?next => playing?next
-	File!index $mol_view
-		sub /
-			<= File_play!index $mol_button_minor
-				title <= file_title!index \
-				enabled <= file_enabled!index true
-				click?event <=> file_play!index?event null
-			<= File_drop!index $mol_button_minor
-				click?event <=> file_drop!index?event null
-				sub /
-					<= File_drop_icon!index $mol_icon_cross
+			<= Movie_page* $mol_page
+				head /
+					<= Player_id* $mol_switch
+						value? <=> player_id*? \
+						keys <= player_options* /
+					<= Movie_close $mol_link
+						arg * movie null
+						sub /
+							<= Moview_close_icon $mol_icon_close
+				body_content / <= Player_ext* $mol_frame
+					uri <= player_uri* \
