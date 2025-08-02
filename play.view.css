@@ -23,3 +23,30 @@
 	flex: 1 0 calc( 100% - 25rem );
 	object-position: top;
 }
+
+[hyoo_play_movie_search] {
+	align-self: stretch;
+}
+
+[hyoo_play_movie] {
+	flex-direction: column;
+	padding: var(--mol_gap_block);
+	gap: 0;
+}
+
+[hyoo_play_movie_title] {
+	flex: 1 1 auto;
+	padding: var(--mol_gap_text);
+}
+
+[hyoo_play_movie_poster] {
+	width: 100%;
+}
+
+[hyoo_play_movie_page] {
+	flex: 1 0 max( 50rem, calc( 100% - 25rem ) );
+}
+
+[hyoo_play_player_id_option] {
+	text-transform: capitalize;
+}

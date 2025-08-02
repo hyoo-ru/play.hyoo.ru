@@ -3,7 +3,7 @@ namespace $.$$ {
 	declare var launchQueue: {
 		setConsumer: ( consumer: ( params: { files: any[] } )=> void )=> void
 	}
-	
+	$hyoo_play_api
 	type Entry = {
 		title: string
 		uri: string
@@ -114,15 +114,88 @@ namespace $.$$ {
 		}
 		
 		file_drop( file: Entry ) {
+			if( this.file_current() === file ) this.file_current( null )
 			this.files( this.files().filter( f => f !== file ) )
+		}
+		
+		movie_search( next?: string ) {
+			return this.$.$mol_state_arg.value( 'search', next ) ?? ''
+		}
+		
+		movie_current_id() {
+			return Number( this.$.$mol_state_arg.value( 'movie' )  )
+		}
+		
+		player_uri( id: number ) {
+			const movie = this.movies().get( id )
+			if( !movie ) return ''
+			return movie.players().get( this.player_id( id ) )?.uri() ?? ''
+		}
+		
+		@ $mol_mem_key
+		player_id( id: number, next?: string ) {
+			return next ?? this.movies().get( id )!.players().keys().next().value ?? ''
+		}
+		
+		@ $mol_mem_key
+		player_options( id: number ) {
+			return [ ... this.movies().get( id )!.players().keys() ]
+		}
+		
+		@ $mol_mem
+		movies() {
+			
+			const current = this.movie_current()
+			
+			return new Map([
+				... ( current ? [[ current.id(), current ]] : [] ) as [ number, $hyoo_play_api_movie ][],
+				... this.movies_found()
+			])
+			
+		}
+		
+		@ $mol_mem
+		movie_current() {
+			const current = this.movie_current_id()
+			if( !current ) return null
+			return $hyoo_play_api_movie.make({ id: $mol_const( current ) })
+		}
+		
+		@ $mol_mem
+		movies_found() {
+			
+			if( !this.movie_search() ) return new Map< number, $hyoo_play_api_movie >()
+			
+			this.$.$mol_wait_timeout( 500 )
+			
+			return this.$.$hyoo_play_api.search( this.movie_search() )
+			
+		}
+		
+		@ $mol_mem
+		queue_movies() {
+			return [ ... this.movies().keys() ].map( id => this.Movie( id ) )
+		}
+		
+		movie_poster( id: number ) {
+			return this.movies().get( id )?.poster() ?? 'about:blank'
+		}
+		
+		movie_id( id: number ) {
+			return id
+		}
+		
+		movie_title( id: number ) {
+			return this.movies().get( id )?.title() ?? ''
 		}
 		
 		@ $mol_mem
 		pages() {
 			return [
 				this.Queue(),
-				... this.file_current() ? [ this.Player() ] : [],
-				... this.file_current() ? this.chat_pages() : [],
+				... this.file_current() ? [ this.Player() ] : [
+					... this.movie_current_id() ? [ this.Movie_page( this.movie_current_id() ) ] : [],
+				],
 			]
 		}
 		

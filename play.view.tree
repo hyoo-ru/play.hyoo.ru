@@ -7,7 +7,7 @@ $hyoo_play $mol_drop
 		attr * mol_theme \$mol_theme_dark
 		pages <= pages /
 			<= Queue $mol_page
-				title @ \Media Player
+				title @ \Hyper Player
 				tools /
 					<= Playing $mol_check_icon
 						checked?next <=> playing?next
@@ -16,11 +16,39 @@ $hyoo_play $mol_drop
 						files?next <=> files_add?next /
 					<= Sources $mol_link_source
 						uri \https://github.com/hyoo-ru/play.hyoo.ru
-					<= Chat $mol_chat
+					- <= Chat $mol_chat
 						seed <= play_title \
 						pages => chat_pages
 				body /
-					<= Queue_files $mol_list rows <= queue_files /
+					<= Movie_search $mol_search
+						hint @ \Movie search...
+						query? <=> movie_search? \
+					<= Queue_files $mol_list
+						rows <= queue_items /
+							^ queue_movies /
+								<= Movie*0 $mol_link
+									minimal_height 498
+									arg * movie <= movie_id* \
+									sub /
+										<= Movie_info* $mol_view sub /
+											<= Movie_title* $mol_paragraph title <= movie_title* \
+											<= Movie_bookmark* $mol_check_icon
+												enabled false
+												checked? <=> movie_bookmark*? false
+												Icon <= Movie_bookmark_icon* $mol_icon_bookmark
+										<= Movie_poster* $mol_image
+											uri <= movie_poster* \
+							^ queue_files /
+								<= File*0 $mol_view
+									sub /
+										<= File_play* $mol_button_minor
+											title <= file_title* \
+											enabled <= file_enabled* true
+											click? <=> file_play*? null
+										<= File_drop* $mol_button_minor
+											click? <=> file_drop*? null
+											sub /
+												<= File_drop_icon* $mol_icon_close
 				foot /
 					<= Water $mol_link
 						hint @ \Relaxing
@@ -42,8 +70,8 @@ $hyoo_play $mol_drop
 						arg * playlist \./hyoo/play/lib/fire.m3u8
 						sub /
 							<= Fire_icon $mol_icon_fire
-					<= Movie $mol_link
-						hint @ \Movie
+					<= Movies $mol_link
+						hint @ \Movies
 						arg * playlist \./hyoo/play/lib/movie.m3u8
 						sub /
 							<= Movie_icon $mol_icon_filmstrip
@@ -52,13 +80,14 @@ $hyoo_play $mol_drop
 				uri <= play_uri \
 				poster \https://www.koolmusic.com/img/equalizer.gif
 				playing?next => playing?next
-	File!index $mol_view
-		sub /
-			<= File_play!index $mol_button_minor
-				title <= file_title!index \
-				enabled <= file_enabled!index true
-				click?event <=> file_play!index?event null
-			<= File_drop!index $mol_button_minor
-				click?event <=> file_drop!index?event null
-				sub /
-					<= File_drop_icon!index $mol_icon_close
+			<= Movie_page* $mol_page
+				head /
+					<= Player_id* $mol_switch
+						value? <=> player_id*? \
+						keys <= player_options* /
+					<= Movie_close $mol_link
+						arg * movie null
+						sub /
+							<= Moview_close_icon $mol_icon_close
+				Body <= Player_ext* $mol_frame
+					uri <= player_uri* \
