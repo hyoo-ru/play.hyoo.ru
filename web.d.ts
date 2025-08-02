@@ -2427,15 +2427,6 @@ declare namespace $ {
 
 declare namespace $ {
 
-	export class $mol_icon_bookmark extends $mol_icon {
-		path( ): string
-	}
-	
-}
-
-//# sourceMappingURL=bookmark.view.tree.d.ts.map
-declare namespace $ {
-
 	export class $mol_image extends $mol_view {
 		uri( ): string
 		loading( ): string
@@ -2671,93 +2662,215 @@ declare namespace $ {
 
 declare namespace $ {
 
-	type $mol_check__checked_mol_check_list_1 = $mol_type_enforce<
-		ReturnType< $mol_check_list['option_checked'] >
+	export class $mol_icon_bookmark extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=bookmark.view.tree.d.ts.map
+declare namespace $ {
+
+	type $mol_check__minimal_width_mol_pick_1 = $mol_type_enforce<
+		number
 		,
-		ReturnType< $mol_check['checked'] >
+		ReturnType< $mol_check['minimal_width'] >
 	>
-	type $mol_check__label_mol_check_list_2 = $mol_type_enforce<
-		ReturnType< $mol_check_list['option_label'] >
-		,
-		ReturnType< $mol_check['label'] >
-	>
-	type $mol_check__enabled_mol_check_list_3 = $mol_type_enforce<
-		ReturnType< $mol_check_list['option_enabled'] >
-		,
-		ReturnType< $mol_check['enabled'] >
-	>
-	type $mol_check__hint_mol_check_list_4 = $mol_type_enforce<
-		ReturnType< $mol_check_list['option_hint'] >
-		,
-		ReturnType< $mol_check['hint'] >
-	>
-	type $mol_check__minimal_height_mol_check_list_5 = $mol_type_enforce<
+	type $mol_check__minimal_height_mol_pick_2 = $mol_type_enforce<
 		number
 		,
 		ReturnType< $mol_check['minimal_height'] >
 	>
-	export class $mol_check_list extends $mol_view {
-		option_checked( id: any, next?: boolean ): boolean
-		option_title( id: any): string
-		option_label( id: any): readonly(any)[]
+	type $mol_check__enabled_mol_pick_3 = $mol_type_enforce<
+		ReturnType< $mol_pick['trigger_enabled'] >
+		,
+		ReturnType< $mol_check['enabled'] >
+	>
+	type $mol_check__checked_mol_pick_4 = $mol_type_enforce<
+		ReturnType< $mol_pick['showed'] >
+		,
+		ReturnType< $mol_check['checked'] >
+	>
+	type $mol_check__clicks_mol_pick_5 = $mol_type_enforce<
+		ReturnType< $mol_pick['clicks'] >
+		,
+		ReturnType< $mol_check['clicks'] >
+	>
+	type $mol_check__sub_mol_pick_6 = $mol_type_enforce<
+		ReturnType< $mol_pick['trigger_content'] >
+		,
+		ReturnType< $mol_check['sub'] >
+	>
+	type $mol_check__hint_mol_pick_7 = $mol_type_enforce<
+		ReturnType< $mol_pick['hint'] >
+		,
+		ReturnType< $mol_check['hint'] >
+	>
+	export class $mol_pick extends $mol_pop {
+		keydown( next?: any ): any
+		trigger_enabled( ): boolean
+		clicks( next?: any ): any
+		trigger_content( ): readonly($mol_view_content)[]
+		hint( ): string
+		Trigger( ): $mol_check
+		event( ): ({ 
+			keydown( next?: ReturnType< $mol_pick['keydown'] > ): ReturnType< $mol_pick['keydown'] >,
+		})  & ReturnType< $mol_pop['event'] >
+		Anchor( ): ReturnType< $mol_pick['Trigger'] >
+	}
+	
+}
+
+//# sourceMappingURL=pick.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_pick extends $.$mol_pick {
+        keydown(event: KeyboardEvent): void;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+
+	export class $mol_icon_dots_vertical extends $mol_icon {
+		path( ): string
+	}
+	
+}
+
+//# sourceMappingURL=vertical.view.tree.d.ts.map
+declare namespace $ {
+    function $mol_match_text<Variant>(query: string, values: (variant: Variant) => readonly string[]): (variant: Variant) => boolean;
+}
+
+declare namespace $ {
+
+	type $mol_dimmer__haystack_mol_select_1 = $mol_type_enforce<
+		ReturnType< $mol_select['option_label'] >
+		,
+		ReturnType< $mol_dimmer['haystack'] >
+	>
+	type $mol_dimmer__needle_mol_select_2 = $mol_type_enforce<
+		ReturnType< $mol_select['filter_pattern'] >
+		,
+		ReturnType< $mol_dimmer['needle'] >
+	>
+	type $mol_nav__keys_y_mol_select_3 = $mol_type_enforce<
+		ReturnType< $mol_select['nav_components'] >
+		,
+		ReturnType< $mol_nav['keys_y'] >
+	>
+	type $mol_nav__current_y_mol_select_4 = $mol_type_enforce<
+		ReturnType< $mol_select['option_focused'] >
+		,
+		ReturnType< $mol_nav['current_y'] >
+	>
+	type $mol_nav__cycle_mol_select_5 = $mol_type_enforce<
+		ReturnType< $mol_select['nav_cycle'] >
+		,
+		ReturnType< $mol_nav['cycle'] >
+	>
+	type $mol_list__rows_mol_select_6 = $mol_type_enforce<
+		ReturnType< $mol_select['menu_content'] >
+		,
+		ReturnType< $mol_list['rows'] >
+	>
+	type $mol_scroll__sub_mol_select_7 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_scroll['sub'] >
+	>
+	type $mol_button_minor__enabled_mol_select_8 = $mol_type_enforce<
+		ReturnType< $mol_select['enabled'] >
+		,
+		ReturnType< $mol_button_minor['enabled'] >
+	>
+	type $mol_button_minor__event_click_mol_select_9 = $mol_type_enforce<
+		ReturnType< $mol_select['event_select'] >
+		,
+		ReturnType< $mol_button_minor['event_click'] >
+	>
+	type $mol_button_minor__sub_mol_select_10 = $mol_type_enforce<
+		ReturnType< $mol_select['option_content'] >
+		,
+		ReturnType< $mol_button_minor['sub'] >
+	>
+	type $mol_view__sub_mol_select_11 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_view['sub'] >
+	>
+	type $mol_search__query_mol_select_12 = $mol_type_enforce<
+		ReturnType< $mol_select['filter_pattern'] >
+		,
+		ReturnType< $mol_search['query'] >
+	>
+	type $mol_search__hint_mol_select_13 = $mol_type_enforce<
+		ReturnType< $mol_select['filter_hint'] >
+		,
+		ReturnType< $mol_search['hint'] >
+	>
+	type $mol_search__submit_mol_select_14 = $mol_type_enforce<
+		ReturnType< $mol_select['submit'] >
+		,
+		ReturnType< $mol_search['submit'] >
+	>
+	type $mol_search__enabled_mol_select_15 = $mol_type_enforce<
+		ReturnType< $mol_select['enabled'] >
+		,
+		ReturnType< $mol_search['enabled'] >
+	>
+	export class $mol_select extends $mol_pick {
 		enabled( ): boolean
-		option_enabled( id: any): ReturnType< $mol_check_list['enabled'] >
-		option_hint( id: any): string
-		items( ): readonly($mol_check)[]
-		dictionary( ): Record<string, any>
-		Option( id: any): $mol_check
-		options( ): Record<string, any>
-		keys( ): readonly(string)[]
-		sub( ): ReturnType< $mol_check_list['items'] >
-	}
-	
-}
-
-//# sourceMappingURL=list.view.tree.d.ts.map
-declare namespace $.$$ {
-    class $mol_check_list extends $.$mol_check_list {
-        options(): {
-            [key: string]: string;
-        };
-        dictionary(next?: Record<string, boolean>): Record<string, boolean>;
-        option_checked(id: string, next?: boolean | null): boolean;
-        keys(): readonly string[];
-        items(): $.$mol_check[];
-        option_title(key: string): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_state_session<Value> extends $mol_object {
-        static 'native()': Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
-        static native(): Storage | {
-            getItem(key: string): any;
-            setItem(key: string, value: string): void;
-            removeItem(key: string): void;
-        };
-        static value<Value>(key: string, next?: Value): Value;
-        prefix(): string;
-        value(key: string, next?: Value): Value;
-    }
-}
-
-declare namespace $ {
-
-	export class $mol_switch extends $mol_check_list {
+		event_select( id: any, next?: any ): any
+		option_label( id: any): string
+		filter_pattern( next?: string ): string
+		Option_label( id: any): $mol_dimmer
+		option_content( id: any): readonly(any)[]
+		no_options_message( ): string
+		nav_components( ): readonly($mol_view)[]
+		option_focused( next?: any ): any
+		nav_cycle( next?: boolean ): boolean
+		Nav( ): $mol_nav
+		menu_content( ): readonly($mol_view)[]
+		Menu( ): $mol_list
+		Bubble_pane( ): $mol_scroll
+		filter_hint( ): string
+		submit( next?: any ): any
+		dictionary( next?: Record<string, any> ): Record<string, any>
+		options( ): readonly(string)[]
 		value( next?: string ): string
+		option_label_default( ): string
+		Option_row( id: any): $mol_button_minor
+		No_options( ): $mol_view
+		plugins( ): readonly(any)[]
+		hint( ): string
+		bubble_content( ): readonly(any)[]
+		Filter( ): $mol_search
+		Trigger_icon( ): $mol_icon_dots_vertical
 	}
 	
 }
 
-//# sourceMappingURL=switch.view.tree.d.ts.map
+//# sourceMappingURL=select.view.tree.d.ts.map
 declare namespace $.$$ {
-    class $mol_switch extends $.$mol_switch {
-        value(next?: string): string;
-        option_checked(key: string, next?: boolean): boolean;
+    class $mol_select extends $.$mol_select {
+        filter_pattern(next?: string): string;
+        open(): void;
+        options(): readonly string[];
+        options_filtered(): readonly string[];
+        option_label(id: string): any;
+        option_rows(): $mol_button_minor[];
+        option_focused(component?: $mol_view): $mol_view | $.$mol_search | null;
+        event_select(id: string, event?: MouseEvent): void;
+        nav_components(): ($mol_button_minor | $.$mol_search)[];
+        trigger_content(): readonly $mol_view_content[];
+        menu_content(): $mol_view[];
     }
+}
+
+declare namespace $ {
 }
 
 declare namespace $ {
@@ -3137,82 +3250,85 @@ declare namespace $ {
 		,
 		ReturnType< $mol_search['query'] >
 	>
-	type $mol_paragraph__title_hyoo_play_7 = $mol_type_enforce<
-		ReturnType< $hyoo_play['movie_title'] >
+	type $mol_image__minimal_height_hyoo_play_7 = $mol_type_enforce<
+		number
 		,
-		ReturnType< $mol_paragraph['title'] >
+		ReturnType< $mol_image['minimal_height'] >
 	>
-	type $mol_check_icon__checked_hyoo_play_8 = $mol_type_enforce<
-		ReturnType< $hyoo_play['movie_bookmark'] >
-		,
-		ReturnType< $mol_check_icon['checked'] >
-	>
-	type $mol_check_icon__Icon_hyoo_play_9 = $mol_type_enforce<
-		ReturnType< $hyoo_play['Movie_bookmark_icon'] >
-		,
-		ReturnType< $mol_check_icon['Icon'] >
-	>
-	type $mol_view__sub_hyoo_play_10 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_view['sub'] >
-	>
-	type $mol_image__uri_hyoo_play_11 = $mol_type_enforce<
+	type $mol_image__uri_hyoo_play_8 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_poster'] >
 		,
 		ReturnType< $mol_image['uri'] >
 	>
-	type $mol_link__minimal_height_hyoo_play_12 = $mol_type_enforce<
-		number
+	type $mol_link__hint_hyoo_play_9 = $mol_type_enforce<
+		ReturnType< $hyoo_play['movie_title'] >
 		,
-		ReturnType< $mol_link['minimal_height'] >
+		ReturnType< $mol_link['hint'] >
 	>
-	type $mol_link__arg_hyoo_play_13 = $mol_type_enforce<
+	type $mol_link__arg_hyoo_play_10 = $mol_type_enforce<
 		({ 
 			'movie': ReturnType< $hyoo_play['movie_id'] >,
 		}) 
 		,
 		ReturnType< $mol_link['arg'] >
 	>
-	type $mol_link__sub_hyoo_play_14 = $mol_type_enforce<
+	type $mol_link__sub_hyoo_play_11 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_link['sub'] >
 	>
-	type $mol_button_minor__title_hyoo_play_15 = $mol_type_enforce<
+	type $mol_button_minor__title_hyoo_play_12 = $mol_type_enforce<
 		ReturnType< $hyoo_play['file_title'] >
 		,
 		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__enabled_hyoo_play_16 = $mol_type_enforce<
+	type $mol_button_minor__enabled_hyoo_play_13 = $mol_type_enforce<
 		ReturnType< $hyoo_play['file_enabled'] >
 		,
 		ReturnType< $mol_button_minor['enabled'] >
 	>
-	type $mol_button_minor__click_hyoo_play_17 = $mol_type_enforce<
+	type $mol_button_minor__click_hyoo_play_14 = $mol_type_enforce<
 		ReturnType< $hyoo_play['file_play'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__click_hyoo_play_18 = $mol_type_enforce<
+	type $mol_button_minor__click_hyoo_play_15 = $mol_type_enforce<
 		ReturnType< $hyoo_play['file_drop'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__sub_hyoo_play_19 = $mol_type_enforce<
+	type $mol_button_minor__sub_hyoo_play_16 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_button_minor['sub'] >
 	>
-	type $mol_view__sub_hyoo_play_20 = $mol_type_enforce<
+	type $mol_view__sub_hyoo_play_17 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_list__rows_hyoo_play_21 = $mol_type_enforce<
+	type $mol_list__rows_hyoo_play_18 = $mol_type_enforce<
 		ReturnType< $hyoo_play['queue_items'] >
 		,
 		ReturnType< $mol_list['rows'] >
+	>
+	type $mol_link__hint_hyoo_play_19 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_link['hint'] >
+	>
+	type $mol_link__arg_hyoo_play_20 = $mol_type_enforce<
+		({ 
+			'playlist': string,
+			'search': any,
+		}) 
+		,
+		ReturnType< $mol_link['arg'] >
+	>
+	type $mol_link__sub_hyoo_play_21 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_link['sub'] >
 	>
 	type $mol_link__hint_hyoo_play_22 = $mol_type_enforce<
 		string
@@ -3286,112 +3402,114 @@ declare namespace $ {
 		,
 		ReturnType< $mol_link['sub'] >
 	>
-	type $mol_link__hint_hyoo_play_34 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_link['hint'] >
-	>
-	type $mol_link__arg_hyoo_play_35 = $mol_type_enforce<
-		({ 
-			'playlist': string,
-			'search': any,
-		}) 
-		,
-		ReturnType< $mol_link['arg'] >
-	>
-	type $mol_link__sub_hyoo_play_36 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_link['sub'] >
-	>
-	type $mol_page__title_hyoo_play_37 = $mol_type_enforce<
+	type $mol_page__title_hyoo_play_34 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_page['title'] >
 	>
-	type $mol_page__tools_hyoo_play_38 = $mol_type_enforce<
+	type $mol_page__tools_hyoo_play_35 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['tools'] >
 	>
-	type $mol_page__body_hyoo_play_39 = $mol_type_enforce<
+	type $mol_page__body_hyoo_play_36 = $mol_type_enforce<
 		ReturnType< $hyoo_play['queue_body'] >
 		,
 		ReturnType< $mol_page['body'] >
 	>
-	type $mol_page__foot_hyoo_play_40 = $mol_type_enforce<
+	type $mol_page__foot_hyoo_play_37 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['foot'] >
 	>
-	type __hyoo_play_41 = $mol_type_enforce<
+	type __hyoo_play_38 = $mol_type_enforce<
 		Parameters< $hyoo_play['playing'] >[0]
 		,
 		Parameters< ReturnType< $hyoo_play['Player'] >['playing'] >[0]
 	>
-	type $mol_video_player__title_hyoo_play_42 = $mol_type_enforce<
+	type $mol_video_player__title_hyoo_play_39 = $mol_type_enforce<
 		ReturnType< $hyoo_play['play_title'] >
 		,
 		ReturnType< $mol_video_player['title'] >
 	>
-	type $mol_video_player__uri_hyoo_play_43 = $mol_type_enforce<
+	type $mol_video_player__uri_hyoo_play_40 = $mol_type_enforce<
 		ReturnType< $hyoo_play['play_uri'] >
 		,
 		ReturnType< $mol_video_player['uri'] >
 	>
-	type $mol_video_player__poster_hyoo_play_44 = $mol_type_enforce<
+	type $mol_video_player__poster_hyoo_play_41 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_video_player['poster'] >
 	>
-	type $mol_switch__value_hyoo_play_45 = $mol_type_enforce<
+	type $mol_check_icon__hint_hyoo_play_42 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_check_icon['hint'] >
+	>
+	type $mol_check_icon__checked_hyoo_play_43 = $mol_type_enforce<
+		ReturnType< $hyoo_play['movie_bookmark'] >
+		,
+		ReturnType< $mol_check_icon['checked'] >
+	>
+	type $mol_check_icon__Icon_hyoo_play_44 = $mol_type_enforce<
+		ReturnType< $hyoo_play['Movie_bookmark_icon'] >
+		,
+		ReturnType< $mol_check_icon['Icon'] >
+	>
+	type $mol_select__hint_hyoo_play_45 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_select['hint'] >
+	>
+	type $mol_select__value_hyoo_play_46 = $mol_type_enforce<
 		ReturnType< $hyoo_play['player_id'] >
 		,
-		ReturnType< $mol_switch['value'] >
+		ReturnType< $mol_select['value'] >
 	>
-	type $mol_switch__keys_hyoo_play_46 = $mol_type_enforce<
+	type $mol_select__options_hyoo_play_47 = $mol_type_enforce<
 		ReturnType< $hyoo_play['player_options'] >
 		,
-		ReturnType< $mol_switch['keys'] >
+		ReturnType< $mol_select['options'] >
 	>
-	type $mol_link__arg_hyoo_play_47 = $mol_type_enforce<
+	type $mol_link__arg_hyoo_play_48 = $mol_type_enforce<
 		({ 
 			'movie': any,
 		}) 
 		,
 		ReturnType< $mol_link['arg'] >
 	>
-	type $mol_link__sub_hyoo_play_48 = $mol_type_enforce<
+	type $mol_link__sub_hyoo_play_49 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_link['sub'] >
 	>
-	type $mol_frame__uri_hyoo_play_49 = $mol_type_enforce<
+	type $mol_frame__uri_hyoo_play_50 = $mol_type_enforce<
 		ReturnType< $hyoo_play['player_uri'] >
 		,
 		ReturnType< $mol_frame['uri'] >
 	>
-	type $mol_page__title_hyoo_play_50 = $mol_type_enforce<
+	type $mol_page__title_hyoo_play_51 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_title'] >
 		,
 		ReturnType< $mol_page['title'] >
 	>
-	type $mol_page__head_hyoo_play_51 = $mol_type_enforce<
+	type $mol_page__tools_hyoo_play_52 = $mol_type_enforce<
 		readonly(any)[]
 		,
-		ReturnType< $mol_page['head'] >
+		ReturnType< $mol_page['tools'] >
 	>
-	type $mol_page__body_content_hyoo_play_52 = $mol_type_enforce<
+	type $mol_page__body_content_hyoo_play_53 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['body_content'] >
 	>
-	type $mol_book2__Placeholder_hyoo_play_53 = $mol_type_enforce<
+	type $mol_book2__Placeholder_hyoo_play_54 = $mol_type_enforce<
 		any
 		,
 		ReturnType< $mol_book2['Placeholder'] >
 	>
-	type $mol_book2__pages_hyoo_play_54 = $mol_type_enforce<
+	type $mol_book2__pages_hyoo_play_55 = $mol_type_enforce<
 		ReturnType< $hyoo_play['pages'] >
 		,
 		ReturnType< $mol_book2['pages'] >
@@ -3404,13 +3522,8 @@ declare namespace $ {
 		Sources( ): $mol_link_source
 		movie_search( next?: string ): string
 		Movie_search( ): $mol_search
-		movie_id( id: any): string
 		movie_title( id: any): string
-		Movie_title( id: any): $mol_paragraph
-		movie_bookmark( id: any, next?: boolean ): boolean
-		Movie_bookmark_icon( id: any): $mol_icon_bookmark
-		Movie_bookmark( id: any): $mol_check_icon
-		Movie_info( id: any): $mol_view
+		movie_id( id: any): string
 		movie_poster( id: any): string
 		Movie_poster( id: any): $mol_image
 		Movie( id: any): $mol_link
@@ -3442,9 +3555,12 @@ declare namespace $ {
 		play_uri( ): string
 		playing( next?: ReturnType< ReturnType< $hyoo_play['Player'] >['playing'] > ): ReturnType< ReturnType< $hyoo_play['Player'] >['playing'] >
 		Player( ): $mol_video_player
+		movie_bookmark( id: any, next?: boolean ): boolean
+		Movie_bookmark_icon( id: any): $mol_icon_bookmark
+		Movie_bookmark( id: any): $mol_check_icon
 		player_id( id: any, next?: string ): string
 		player_options( id: any): readonly(any)[]
-		Player_id( id: any): $mol_switch
+		Player_id( id: any): $mol_select
 		Moview_close_icon( ): $mol_icon_close
 		Movie_close( ): $mol_link
 		player_uri( id: any): string

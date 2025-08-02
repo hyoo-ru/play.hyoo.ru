@@ -1,12 +1,17 @@
 {
 	"$hyoo_play_Fire_hint": "Aggressive",
 	"$hyoo_play_Light_hint": "Inspiring",
+	"$hyoo_play_Movie_bookmark_hint": "Bookmarked",
 	"$hyoo_play_Movie_search_hint": "Movie search...",
 	"$hyoo_play_Movies_hint": "Movies",
+	"$hyoo_play_Player_id_hint": "Player",
 	"$hyoo_play_Queue_title": "Hyper Player",
 	"$hyoo_play_Water_hint": "Relaxing",
 	"$hyoo_play_Wind_hint": "Touching",
 	"$mol_link_source_hint": "Source code",
 	"$mol_search_Clear_hint": "Clear",
-	"$mol_search_hint": "Search..."
+	"$mol_search_hint": "Search...",
+	"$mol_select_filter_hint": "Filter..",
+	"$mol_select_hint": "Pick..",
+	"$mol_select_no_options_message": "No options"
 }

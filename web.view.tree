@@ -320,8 +320,6 @@ $mol_search $mol_pop
 				haystack <= suggest_label* \
 				needle <= query? \
 
-$mol_icon_bookmark $mol_icon path \M17,3H7A2,2 0 0,0 5,5V21L12,18L19,21V5C19,3.89 18.1,3 17,3Z
-
 $mol_image $mol_view
 	dom_name \img
 	attr *any
@@ -402,21 +400,58 @@ $mol_video_player $mol_view
 		play? <=> play_event? null
 		pause? <=> pause_event? null
 
-$mol_check_list $mol_view
-	dictionary *
-	Option* $mol_check
-		checked? <=> option_checked*? false
-		label <= option_label* /
-			<= option_title* \
-		enabled <= option_enabled* <= enabled true
-		hint <= option_hint* \
-		minimal_height 24
-	options *
-	keys /string
-	sub <= items /$mol_check
+$mol_icon_bookmark $mol_icon path \M17,3H7A2,2 0 0,0 5,5V21L12,18L19,21V5C19,3.89 18.1,3 17,3Z
 
-$mol_switch $mol_check_list
+$mol_pick $mol_pop
+	event *
+		^
+		keydown?event <=> keydown?event null
+	Anchor <= Trigger $mol_check
+		minimal_width 40
+		minimal_height 40
+		enabled <= trigger_enabled true
+		checked? <=> showed?
+		clicks? <=> clicks? null
+		sub <= trigger_content /$mol_view_content
+			<= title
+		hint <= hint \
+
+$mol_icon_dots_vertical $mol_icon path \M12,16A2,2 0 0,1 14,18A2,2 0 0,1 12,20A2,2 0 0,1 10,18A2,2 0 0,1 12,16M12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12A2,2 0 0,1 12,10M12,4A2,2 0 0,1 14,6A2,2 0 0,1 12,8A2,2 0 0,1 10,6A2,2 0 0,1 12,4Z
+
+$mol_select $mol_pick
+	dictionary? *
+	options /string
 	value? \
+	option_label_default \
+	Option_row* $mol_button_minor
+		enabled <= enabled true
+		event_click?event <=> event_select*?event null
+		sub <= option_content* /
+			<= Option_label* $mol_dimmer
+				haystack <= option_label* \
+				needle <= filter_pattern? \
+	No_options $mol_view
+		sub /
+			<= no_options_message @ \No options
+	plugins /
+		^
+		<= Nav $mol_nav
+			keys_y <= nav_components /$mol_view
+			current_y?component <=> option_focused?component null
+			cycle? <=> nav_cycle? true
+	hint @ \Pick..
+	bubble_content /
+		<= Filter
+		<= Bubble_pane $mol_scroll
+			sub /
+				<= Menu $mol_list
+					rows <= menu_content /$mol_view
+	Filter $mol_search
+		query? <=> filter_pattern? \
+		hint <= filter_hint @ \Filter..
+		submit?event <=> submit?event null
+		enabled <= enabled true
+	Trigger_icon $mol_icon_dots_vertical
 
 $mol_embed_native $mol_scroll
 	dom_name \iframe
@@ -487,15 +522,11 @@ $hyoo_play $mol_drop
 						rows <= queue_items /
 							^ queue_movies /
 								<= Movie*0 $mol_link
-									minimal_height 470
+									hint <= movie_title* \
 									arg * movie <= movie_id* \
 									sub /
-										<= Movie_info* $mol_view sub /
-											<= Movie_title* $mol_paragraph title <= movie_title* \
-											<= Movie_bookmark* $mol_check_icon
-												checked? <=> movie_bookmark*? false
-												Icon <= Movie_bookmark_icon* $mol_icon_bookmark
 										<= Movie_poster* $mol_image
+											minimal_height 450
 											uri <= movie_poster* \
 							^ queue_files /
 								<= File*0 $mol_view
@@ -551,10 +582,15 @@ $hyoo_play $mol_drop
 				playing?next => playing?next
 			<= Movie_page* $mol_page
 				title <= movie_title*
-				head /
-					<= Player_id* $mol_switch
+				tools /
+					<= Movie_bookmark* $mol_check_icon
+						hint @ \Bookmarked
+						checked? <=> movie_bookmark*? false
+						Icon <= Movie_bookmark_icon* $mol_icon_bookmark
+					<= Player_id* $mol_select
+						hint @ \Player
 						value? <=> player_id*? \
-						keys <= player_options* /
+						options <= player_options* /
 					<= Movie_close $mol_link
 						arg * movie null
 						sub /
