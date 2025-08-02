@@ -12,8 +12,8 @@ namespace $.$$ {
 	export class $hyoo_play extends $.$hyoo_play {
 		
 		@ $mol_mem
-		playlist() {
-			return this.$.$mol_state_arg.value( 'playlist' ) ?? super.playlist()
+		playlist( next?: string | null ) {
+			return this.$.$mol_state_arg.value( 'playlist', next ) ?? super.playlist()
 		}
 		
 		@ $mol_mem
@@ -119,6 +119,7 @@ namespace $.$$ {
 		}
 		
 		movie_search( next?: string ) {
+			if( next ) this.playlist( null )
 			return this.$.$mol_state_arg.value( 'search', next ) ?? ''
 		}
 		
@@ -164,7 +165,9 @@ namespace $.$$ {
 		@ $mol_mem
 		movies_found() {
 			
-			if( !this.movie_search() ) return new Map< number, $hyoo_play_api_movie >()
+			if( !this.movie_search() ) return new Map< number, $hyoo_play_api_movie >(
+				this.bookmarks().toReversed().map( id => [ id, this.$.$hyoo_play_api_movie.make({ id: $mol_const( id ) }) ] )
+			)
 			
 			this.$.$mol_wait_timeout( 500 )
 			
@@ -175,6 +178,11 @@ namespace $.$$ {
 		@ $mol_mem
 		queue_movies() {
 			return [ ... this.movies().keys() ].map( id => this.Movie( id ) )
+		}
+		
+		@ $mol_mem
+		queue_items() {
+			return this.playlist() || this.file_current() ? this.queue_files() : this.queue_movies()
 		}
 		
 		movie_poster( id: number ) {
@@ -211,7 +219,7 @@ namespace $.$$ {
 		}
 		
 		jump_next() {
-			console.log(1)
+			
 			const player = this.Player()
 			const files = this.files()
 			let index = ( files.indexOf( this.file_current() ) + 1 ) % files.length
@@ -269,6 +277,23 @@ namespace $.$$ {
 			navigator.mediaSession.setActionHandler( 'previoustrack', details => this.jump_prev() )
 			
 			return null
+		}
+		
+		@ $mol_mem
+		bookmarks( next?: readonly number[]) {
+			return this.$.$mol_state_local.value( 'bookmarks', next ) ?? []
+		}
+		
+		@ $mol_mem_key
+		movie_bookmark( id: number, next?: boolean ) {
+			
+			const list = this.bookmarks()
+			if( next === undefined ) return list.includes( id )
+			
+			if( next ) this.bookmarks([ ... list, id ])
+			else this.bookmarks( list.filter( i => i != id ) )
+		
+			return next
 		}
 		
 		auto() {

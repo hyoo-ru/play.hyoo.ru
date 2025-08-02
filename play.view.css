@@ -26,6 +26,7 @@
 
 [hyoo_play_movie_search] {
 	align-self: stretch;
+	justify-self: flex-start;
 }
 
 [hyoo_play_movie] {
