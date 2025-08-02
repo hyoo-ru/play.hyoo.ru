@@ -2,7 +2,9 @@ $hyoo_play $mol_drop
 	playlist \
 	files?next /
 	file_current?val null
-	attr * mol_theme \$mol_theme_dark
+	attr *
+		^
+		mol_theme \$mol_theme_dark
 	Sub <= Book $mol_book2
 		Placeholder null
 		pages <= pages /
