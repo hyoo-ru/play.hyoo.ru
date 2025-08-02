@@ -7910,10 +7910,10 @@ var $;
 		}
 		attr(){
 			return {
-				...(super.attr()), 
+				"tabindex": (this.tabindex()), 
 				"allow": (this.allow()), 
-				"srcdoc": (this.html()), 
-				"src": (this.uri())
+				"src": (this.uri()), 
+				"srcdoc": (this.html())
 			};
 		}
 		fullscreen(){

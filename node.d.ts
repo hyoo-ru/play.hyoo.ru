@@ -2933,10 +2933,11 @@ declare namespace $ {
 		allow( ): string
 		html( ): any
 		attr( ): ({ 
+			'tabindex': ReturnType< $mol_frame['tabindex'] >,
 			'allow': ReturnType< $mol_frame['allow'] >,
-			'srcdoc': ReturnType< $mol_frame['html'] >,
 			'src': ReturnType< $mol_frame['uri'] >,
-		})  & ReturnType< $mol_embed_native['attr'] >
+			'srcdoc': ReturnType< $mol_frame['html'] >,
+		}) 
 		fullscreen( ): boolean
 		accelerometer( ): boolean
 		autoplay( ): boolean

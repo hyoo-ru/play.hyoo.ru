@@ -434,10 +434,10 @@ $mol_embed_native $mol_scroll
 
 $mol_frame $mol_embed_native
 	attr *
-		^
+		tabindex <= tabindex
 		allow <= allow \
-		srcdoc <= html null
 		src <= uri
+		srcdoc <= html null
 	fullscreen true
 	accelerometer true
 	autoplay true
