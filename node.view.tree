@@ -457,7 +457,7 @@ $mol_book2 $mol_scroll
 	Gap* $mol_view title \
 
 $hyoo_play $mol_drop
-	playlist \
+	playlist? \
 	files?next /
 	file_current?val null
 	attr *
@@ -479,7 +479,7 @@ $hyoo_play $mol_drop
 					- <= Chat $mol_chat
 						seed <= play_title \
 						pages => chat_pages
-				body /
+				body <= queue_body /
 					<= Movie_search $mol_search
 						hint @ \Movie search...
 						query? <=> movie_search? \
@@ -493,7 +493,6 @@ $hyoo_play $mol_drop
 										<= Movie_info* $mol_view sub /
 											<= Movie_title* $mol_paragraph title <= movie_title* \
 											<= Movie_bookmark* $mol_check_icon
-												enabled false
 												checked? <=> movie_bookmark*? false
 												Icon <= Movie_bookmark_icon* $mol_icon_bookmark
 										<= Movie_poster* $mol_image
@@ -512,27 +511,37 @@ $hyoo_play $mol_drop
 				foot /
 					<= Water $mol_link
 						hint @ \Relaxing
-						arg * playlist \./hyoo/play/lib/water.m3u8
+						arg *
+							playlist \./hyoo/play/lib/water.m3u8
+							search null
 						sub /
 							<= Water_icon $mol_icon_waves
 					<= Wind $mol_link
 						hint @ \Touching
-						arg * playlist \./hyoo/play/lib/wind.m3u8
+						arg *
+							playlist \./hyoo/play/lib/wind.m3u8
+							search null
 						sub /
 							<= Wind_icon $mol_icon_weather_windy
 					<= Light $mol_link
 						hint @ \Inspiring
-						arg * playlist \./hyoo/play/lib/light.m3u8
+						arg *
+							playlist \./hyoo/play/lib/light.m3u8
+							search null
 						sub /
 							<= Light_icon $mol_icon_flash_outline
 					<= Fire $mol_link
 						hint @ \Aggressive
-						arg * playlist \./hyoo/play/lib/fire.m3u8
+						arg *
+							playlist \./hyoo/play/lib/fire.m3u8
+							search null
 						sub /
 							<= Fire_icon $mol_icon_fire
 					<= Movies $mol_link
 						hint @ \Movies
-						arg * playlist \./hyoo/play/lib/movie.m3u8
+						arg *
+							playlist \./hyoo/play/lib/movie.m3u8
+							search null
 						sub /
 							<= Movie_icon $mol_icon_filmstrip
 			<= Player $mol_video_player

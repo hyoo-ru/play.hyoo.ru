@@ -8626,7 +8626,6 @@ var $;
 		}
 		Movie_bookmark(id){
 			const obj = new this.$.$mol_check_icon();
-			(obj.enabled) = () => (false);
 			(obj.checked) = (next) => ((this.movie_bookmark(id, next)));
 			(obj.Icon) = () => ((this.Movie_bookmark_icon(id)));
 			return obj;
@@ -8701,6 +8700,9 @@ var $;
 			(obj.rows) = () => ((this.queue_items()));
 			return obj;
 		}
+		queue_body(){
+			return [(this.Movie_search()), (this.Queue_files())];
+		}
 		Water_icon(){
 			const obj = new this.$.$mol_icon_waves();
 			return obj;
@@ -8708,7 +8710,7 @@ var $;
 		Water(){
 			const obj = new this.$.$mol_link();
 			(obj.hint) = () => ((this.$.$mol_locale.text("$hyoo_play_Water_hint")));
-			(obj.arg) = () => ({"playlist": "./hyoo/play/lib/water.m3u8"});
+			(obj.arg) = () => ({"playlist": "./hyoo/play/lib/water.m3u8", "search": null});
 			(obj.sub) = () => ([(this.Water_icon())]);
 			return obj;
 		}
@@ -8719,7 +8721,7 @@ var $;
 		Wind(){
 			const obj = new this.$.$mol_link();
 			(obj.hint) = () => ((this.$.$mol_locale.text("$hyoo_play_Wind_hint")));
-			(obj.arg) = () => ({"playlist": "./hyoo/play/lib/wind.m3u8"});
+			(obj.arg) = () => ({"playlist": "./hyoo/play/lib/wind.m3u8", "search": null});
 			(obj.sub) = () => ([(this.Wind_icon())]);
 			return obj;
 		}
@@ -8730,7 +8732,7 @@ var $;
 		Light(){
 			const obj = new this.$.$mol_link();
 			(obj.hint) = () => ((this.$.$mol_locale.text("$hyoo_play_Light_hint")));
-			(obj.arg) = () => ({"playlist": "./hyoo/play/lib/light.m3u8"});
+			(obj.arg) = () => ({"playlist": "./hyoo/play/lib/light.m3u8", "search": null});
 			(obj.sub) = () => ([(this.Light_icon())]);
 			return obj;
 		}
@@ -8741,7 +8743,7 @@ var $;
 		Fire(){
 			const obj = new this.$.$mol_link();
 			(obj.hint) = () => ((this.$.$mol_locale.text("$hyoo_play_Fire_hint")));
-			(obj.arg) = () => ({"playlist": "./hyoo/play/lib/fire.m3u8"});
+			(obj.arg) = () => ({"playlist": "./hyoo/play/lib/fire.m3u8", "search": null});
 			(obj.sub) = () => ([(this.Fire_icon())]);
 			return obj;
 		}
@@ -8752,7 +8754,7 @@ var $;
 		Movies(){
 			const obj = new this.$.$mol_link();
 			(obj.hint) = () => ((this.$.$mol_locale.text("$hyoo_play_Movies_hint")));
-			(obj.arg) = () => ({"playlist": "./hyoo/play/lib/movie.m3u8"});
+			(obj.arg) = () => ({"playlist": "./hyoo/play/lib/movie.m3u8", "search": null});
 			(obj.sub) = () => ([(this.Movie_icon())]);
 			return obj;
 		}
@@ -8764,7 +8766,7 @@ var $;
 				(this.Open()), 
 				(this.Sources())
 			]);
-			(obj.body) = () => ([(this.Movie_search()), (this.Queue_files())]);
+			(obj.body) = () => ((this.queue_body()));
 			(obj.foot) = () => ([
 				(this.Water()), 
 				(this.Wind()), 
@@ -8840,7 +8842,8 @@ var $;
 			(obj.pages) = () => ((this.pages()));
 			return obj;
 		}
-		playlist(){
+		playlist(next){
+			if(next !== undefined) return next;
 			return "";
 		}
 		files(next){
@@ -8898,6 +8901,7 @@ var $;
 	($mol_mem_key(($.$hyoo_play.prototype), "Player_ext"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_page"));
 	($mol_mem(($.$hyoo_play.prototype), "Book"));
+	($mol_mem(($.$hyoo_play.prototype), "playlist"));
 	($mol_mem(($.$hyoo_play.prototype), "files"));
 	($mol_mem(($.$hyoo_play.prototype), "file_current"));
 
@@ -9378,8 +9382,8 @@ var $;
     (function ($$) {
         $hyoo_play_api;
         class $hyoo_play extends $.$hyoo_play {
-            playlist() {
-                return this.$.$mol_state_arg.value('playlist') ?? super.playlist();
+            playlist(next) {
+                return this.$.$mol_state_arg.value('playlist', next) ?? super.playlist();
             }
             playlist_files() {
                 const uri = this.playlist();
@@ -9434,6 +9438,8 @@ var $;
                 this.files(this.files().filter(f => f !== file));
             }
             movie_search(next) {
+                if (next)
+                    this.playlist(null);
                 return this.$.$mol_state_arg.value('search', next) ?? '';
             }
             movie_current_id() {
@@ -9466,12 +9472,15 @@ var $;
             }
             movies_found() {
                 if (!this.movie_search())
-                    return new Map();
+                    return new Map(this.bookmarks().toReversed().map(id => [id, this.$.$hyoo_play_api_movie.make({ id: $mol_const(id) })]));
                 this.$.$mol_wait_timeout(500);
                 return this.$.$hyoo_play_api.search(this.movie_search());
             }
             queue_movies() {
                 return [...this.movies().keys()].map(id => this.Movie(id));
+            }
+            queue_items() {
+                return this.playlist() || this.file_current() ? this.queue_files() : this.queue_movies();
             }
             movie_poster(id) {
                 return this.movies().get(id)?.poster() ?? 'about:blank';
@@ -9498,7 +9507,6 @@ var $;
                 return this.file_current()?.uri ?? 'about:blank';
             }
             jump_next() {
-                console.log(1);
                 const player = this.Player();
                 const files = this.files();
                 let index = (files.indexOf(this.file_current()) + 1) % files.length;
@@ -9542,6 +9550,19 @@ var $;
                 navigator.mediaSession.setActionHandler('previoustrack', details => this.jump_prev());
                 return null;
             }
+            bookmarks(next) {
+                return this.$.$mol_state_local.value('bookmarks', next) ?? [];
+            }
+            movie_bookmark(id, next) {
+                const list = this.bookmarks();
+                if (next === undefined)
+                    return list.includes(id);
+                if (next)
+                    this.bookmarks([...list, id]);
+                else
+                    this.bookmarks(list.filter(i => i != id));
+                return next;
+            }
             auto() {
                 this.auto_switch();
                 this.handle_files();
@@ -9580,6 +9601,9 @@ var $;
         ], $hyoo_play.prototype, "queue_movies", null);
         __decorate([
             $mol_mem
+        ], $hyoo_play.prototype, "queue_items", null);
+        __decorate([
+            $mol_mem
         ], $hyoo_play.prototype, "pages", null);
         __decorate([
             $mol_mem
@@ -9596,6 +9620,12 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_play.prototype, "handle_actions", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_play.prototype, "bookmarks", null);
+        __decorate([
+            $mol_mem_key
+        ], $hyoo_play.prototype, "movie_bookmark", null);
         $$.$hyoo_play = $hyoo_play;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -9604,7 +9634,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("hyoo/play/play.view.css", "[hyoo_play_queue],\n[hyoo_play_chat_page] {\n\tflex: 0 0 25rem;\n}\n\n[hyoo_play_file] {\n\talign-items: flex-start;\n}\n\n[hyoo_play_file_play][disabled=\"true\"] {\n\tcolor: var(--mol_theme_current);\n}\n\n[hyoo_play_file_play] {\n\tflex: 1 1 auto;\n}\n\n[hyoo_play_queue_foot] {\n\tjustify-content: flex-start;\n}\n\n[hyoo_play_player] {\n\tflex: 1 0 calc( 100% - 25rem );\n\tobject-position: top;\n}\n\n[hyoo_play_movie_search] {\n\talign-self: stretch;\n}\n\n[hyoo_play_movie] {\n\tflex-direction: column;\n\tpadding: var(--mol_gap_block);\n\tgap: 0;\n}\n\n[hyoo_play_movie_title] {\n\tflex: 1 1 auto;\n\tpadding: var(--mol_gap_text);\n}\n\n[hyoo_play_movie_poster] {\n\twidth: 100%;\n}\n\n[hyoo_play_movie_page] {\n\tflex: 1 0 max( 50rem, calc( 100% - 25rem ) );\n}\n\n[hyoo_play_player_ext] {\n\tjustify-self: stretch;\n}\n\n[hyoo_play_player_id_option] {\n\ttext-transform: capitalize;\n}\n");
+    $mol_style_attach("hyoo/play/play.view.css", "[hyoo_play_queue],\n[hyoo_play_chat_page] {\n\tflex: 0 0 25rem;\n}\n\n[hyoo_play_file] {\n\talign-items: flex-start;\n}\n\n[hyoo_play_file_play][disabled=\"true\"] {\n\tcolor: var(--mol_theme_current);\n}\n\n[hyoo_play_file_play] {\n\tflex: 1 1 auto;\n}\n\n[hyoo_play_queue_foot] {\n\tjustify-content: flex-start;\n}\n\n[hyoo_play_player] {\n\tflex: 1 0 calc( 100% - 25rem );\n\tobject-position: top;\n}\n\n[hyoo_play_movie_search] {\n\talign-self: stretch;\n\tjustify-self: flex-start;\n}\n\n[hyoo_play_movie] {\n\tflex-direction: column;\n\tpadding: var(--mol_gap_block);\n\tgap: 0;\n}\n\n[hyoo_play_movie_title] {\n\tflex: 1 1 auto;\n\tpadding: var(--mol_gap_text);\n}\n\n[hyoo_play_movie_poster] {\n\twidth: 100%;\n}\n\n[hyoo_play_movie_page] {\n\tflex: 1 0 max( 50rem, calc( 100% - 25rem ) );\n}\n\n[hyoo_play_player_ext] {\n\tjustify-self: stretch;\n}\n\n[hyoo_play_player_id_option] {\n\ttext-transform: capitalize;\n}\n");
 })($ || ($ = {}));
 
 ;
