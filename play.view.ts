@@ -182,7 +182,7 @@ namespace $.$$ {
 		}
 		
 		movie_id( id: number ) {
-			return id
+			return String( id )
 		}
 		
 		movie_title( id: number ) {
