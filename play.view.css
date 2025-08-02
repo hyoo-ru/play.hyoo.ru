@@ -47,6 +47,10 @@
 	flex: 1 0 max( 50rem, calc( 100% - 25rem ) );
 }
 
+[hyoo_play_player_ext] {
+	justify-self: stretch;
+}
+
 [hyoo_play_player_id_option] {
 	text-transform: capitalize;
 }

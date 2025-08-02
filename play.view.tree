@@ -89,5 +89,5 @@ $hyoo_play $mol_drop
 						arg * movie null
 						sub /
 							<= Moview_close_icon $mol_icon_close
-				Body_content <= Player_ext* $mol_frame
+				body_content / <= Player_ext* $mol_frame
 					uri <= player_uri* \
