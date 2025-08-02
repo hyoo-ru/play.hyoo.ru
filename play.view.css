@@ -1,3 +1,7 @@
+[hyoo_play_queue_body_content] {
+	gap: var(--mol_gap_block);
+}
+
 [hyoo_play_queue],
 [hyoo_play_chat_page] {
 	flex: 0 0 25rem;
@@ -42,6 +46,10 @@
 
 [hyoo_play_movie_poster] {
 	width: 100%;
+	box-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;
+}
+[hyoo_play_movie][mol_link_current] [hyoo_play_movie_poster] {
+	box-shadow: 0 0 0 2px var(--mol_theme_current), 0 0 1rem black;
 }
 
 [hyoo_play_movie_page] {
@@ -52,6 +60,6 @@
 	justify-self: stretch;
 }
 
-[hyoo_play_player_id_option] {
+[hyoo_play_player_id_option_label] {
 	text-transform: capitalize;
 }

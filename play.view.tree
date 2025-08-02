@@ -29,15 +29,11 @@ $hyoo_play $mol_drop
 						rows <= queue_items /
 							^ queue_movies /
 								<= Movie*0 $mol_link
-									minimal_height 470
+									hint <= movie_title* \
 									arg * movie <= movie_id* \
 									sub /
-										<= Movie_info* $mol_view sub /
-											<= Movie_title* $mol_paragraph title <= movie_title* \
-											<= Movie_bookmark* $mol_check_icon
-												checked? <=> movie_bookmark*? false
-												Icon <= Movie_bookmark_icon* $mol_icon_bookmark
 										<= Movie_poster* $mol_image
+											minimal_height 450
 											uri <= movie_poster* \
 							^ queue_files /
 								<= File*0 $mol_view
@@ -93,10 +89,15 @@ $hyoo_play $mol_drop
 				playing?next => playing?next
 			<= Movie_page* $mol_page
 				title <= movie_title*
-				head /
-					<= Player_id* $mol_switch
+				tools /
+					<= Movie_bookmark* $mol_check_icon
+						hint @ \Bookmarked
+						checked? <=> movie_bookmark*? false
+						Icon <= Movie_bookmark_icon* $mol_icon_bookmark
+					<= Player_id* $mol_select
+						hint @ \Player
 						value? <=> player_id*? \
-						keys <= player_options* /
+						options <= player_options* /
 					<= Movie_close $mol_link
 						arg * movie null
 						sub /

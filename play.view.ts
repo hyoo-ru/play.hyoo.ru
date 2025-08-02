@@ -147,10 +147,11 @@ namespace $.$$ {
 		movies() {
 			
 			const current = this.movie_current()
+			const found = this.movies_found()
 			
 			return new Map([
-				... ( current ? [[ current.id(), current ]] : [] ) as [ number, $hyoo_play_api_movie ][],
-				... this.movies_found()
+				... ( current && !found.has( current.id() ) ? [[ current.id(), current ]] : [] ) as [ number, $hyoo_play_api_movie ][],
+				... found,
 			])
 			
 		}
