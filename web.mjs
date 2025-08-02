@@ -8642,7 +8642,7 @@ var $;
         poster: $mol_data_string,
     });
     $.$hyoo_play_api_movie_data = $mol_data_record({
-        name_original: $mol_data_string,
+        name_ru: $mol_data_string,
         year: $mol_data_integer,
         poster_url_preview: $mol_data_string,
     });
@@ -8676,7 +8676,7 @@ var $;
             return $.$hyoo_play_api_movie_data(this.$.$mol_fetch.json(`https://api4.rhhhhhhh.live/kp_info2/${this.id()}`));
         }
         title() {
-            return this.data().name_original;
+            return this.data().name_ru;
         }
         year() {
             return this.data().year;

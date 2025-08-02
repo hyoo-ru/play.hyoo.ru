@@ -3151,21 +3151,21 @@ declare namespace $ {
     };
     const $hyoo_play_api_movie_data: ((val: {
         year: number;
-        name_original: string;
+        name_ru: string;
         poster_url_preview: string;
     }) => Readonly<{
         year: number;
-        name_original: string;
+        name_ru: string;
         poster_url_preview: string;
     }>) & {
         config: {
-            name_original: (val: string) => string;
+            name_ru: (val: string) => string;
             year: typeof $mol_data_integer;
             poster_url_preview: (val: string) => string;
         };
         Value: Readonly<{
             year: number;
-            name_original: string;
+            name_ru: string;
             poster_url_preview: string;
         }>;
     };
@@ -3192,7 +3192,7 @@ declare namespace $ {
         id(): number;
         data(): Readonly<{
             year: number;
-            name_original: string;
+            name_ru: string;
             poster_url_preview: string;
         }>;
         title(): string;
