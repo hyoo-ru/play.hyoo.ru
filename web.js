@@ -8356,6 +8356,7 @@ var $;
 		}
 		Movie_page(id){
 			const obj = new this.$.$mol_page();
+			(obj.title) = () => ((this.movie_title(id)));
 			(obj.head) = () => ([(this.Player_id(id)), (this.Movie_close())]);
 			(obj.body_content) = () => ([(this.Player_ext(id))]);
 			return obj;

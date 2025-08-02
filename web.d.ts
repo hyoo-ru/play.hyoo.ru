@@ -3371,22 +3371,27 @@ declare namespace $ {
 		,
 		ReturnType< $mol_frame['uri'] >
 	>
-	type $mol_page__head_hyoo_play_50 = $mol_type_enforce<
+	type $mol_page__title_hyoo_play_50 = $mol_type_enforce<
+		ReturnType< $hyoo_play['movie_title'] >
+		,
+		ReturnType< $mol_page['title'] >
+	>
+	type $mol_page__head_hyoo_play_51 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['head'] >
 	>
-	type $mol_page__body_content_hyoo_play_51 = $mol_type_enforce<
+	type $mol_page__body_content_hyoo_play_52 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['body_content'] >
 	>
-	type $mol_book2__Placeholder_hyoo_play_52 = $mol_type_enforce<
+	type $mol_book2__Placeholder_hyoo_play_53 = $mol_type_enforce<
 		any
 		,
 		ReturnType< $mol_book2['Placeholder'] >
 	>
-	type $mol_book2__pages_hyoo_play_53 = $mol_type_enforce<
+	type $mol_book2__pages_hyoo_play_54 = $mol_type_enforce<
 		ReturnType< $hyoo_play['pages'] >
 		,
 		ReturnType< $mol_book2['pages'] >

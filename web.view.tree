@@ -550,6 +550,7 @@ $hyoo_play $mol_drop
 				poster \https://www.koolmusic.com/img/equalizer.gif
 				playing?next => playing?next
 			<= Movie_page* $mol_page
+				title <= movie_title*
 				head /
 					<= Player_id* $mol_switch
 						value? <=> player_id*? \
