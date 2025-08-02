@@ -486,7 +486,7 @@ $hyoo_play $mol_drop
 						rows <= queue_items /
 							^ queue_movies /
 								<= Movie*0 $mol_link
-									minimal_height 498
+									minimal_height 470
 									arg * movie <= movie_id* \
 									sub /
 										<= Movie_info* $mol_view sub /

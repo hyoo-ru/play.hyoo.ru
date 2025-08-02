@@ -8645,7 +8645,7 @@ var $;
 		}
 		Movie(id){
 			const obj = new this.$.$mol_link();
-			(obj.minimal_height) = () => (498);
+			(obj.minimal_height) = () => (470);
 			(obj.arg) = () => ({"movie": (this.movie_id(id))});
 			(obj.sub) = () => ([(this.Movie_info(id)), (this.Movie_poster(id))]);
 			return obj;
