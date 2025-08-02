@@ -7010,7 +7010,7 @@ var $;
 			return "";
 		}
 		loading(){
-			return "eager";
+			return "lazy";
 		}
 		decoding(){
 			return "async";
@@ -7912,7 +7912,8 @@ var $;
 			return {
 				...(super.attr()), 
 				"allow": (this.allow()), 
-				"srcdoc": (this.html())
+				"srcdoc": (this.html()), 
+				"src": (this.uri())
 			};
 		}
 		fullscreen(){

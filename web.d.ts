@@ -2820,6 +2820,7 @@ declare namespace $ {
 		attr( ): ({ 
 			'allow': ReturnType< $mol_frame['allow'] >,
 			'srcdoc': ReturnType< $mol_frame['html'] >,
+			'src': ReturnType< $mol_frame['uri'] >,
 		})  & ReturnType< $mol_embed_native['attr'] >
 		fullscreen( ): boolean
 		accelerometer( ): boolean
