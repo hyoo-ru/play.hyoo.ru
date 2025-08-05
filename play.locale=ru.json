@@ -5,5 +5,8 @@
 	"$hyoo_play_Light_hint": "Воодушевляющее",
 	"$hyoo_play_Fire_hint": "Агрессивное",
 	"$hyoo_play_Movies_hint": "Ролики",
-	"$hyoo_play_Movie_search_hint": "Поиск кино..."
+	"$hyoo_play_Movie_search_hint": "Поиск кино...",
+	"$hyoo_play_Movie_bookmark_hint": "Закладка",
+	"$hyoo_play_Player_id_hint": "Источник",
+	"$hyoo_play_player_none": "Инфо"
 }

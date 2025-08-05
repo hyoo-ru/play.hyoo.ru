@@ -135,12 +135,12 @@ namespace $.$$ {
 		
 		@ $mol_mem_key
 		player_id( id: number, next?: string ) {
-			return next ?? this.movies().get( id )!.players().keys().next().value ?? ''
+			return this.$.$mol_state_local.value( `player=${id}`, next ) ?? ''
 		}
 		
 		@ $mol_mem_key
 		player_options( id: number ) {
-			return [ ... this.movies().get( id )!.players().keys() ]
+			return [ '', ... this.movies().get( id )!.players().keys() ]
 		}
 		
 		@ $mol_mem
@@ -194,8 +194,10 @@ namespace $.$$ {
 			return String( id )
 		}
 		
+		@ $mol_mem_key
 		movie_title( id: number ) {
-			return this.movies().get( id )?.title() ?? ''
+			const movie = this.movies().get( id )
+			return ( movie?.title() ?? '' ) + ' (' + movie?.year() + ')'
 		}
 		
 		@ $mol_mem
@@ -295,6 +297,28 @@ namespace $.$$ {
 			else this.bookmarks( list.filter( i => i != id ) )
 		
 			return next
+		}
+		
+		@ $mol_mem_key
+		movie_content( id: number ) {
+			return [
+				... this.player_id( id ) ? [ this.Player_ext( id ) ] : [ this.Movie_descr( id ) ]
+			]
+		}
+		
+		movie_descr( id: number ) {
+			return this.movies().get( id )!.descr()
+		}
+		
+		movie_genres( id: number ) {
+			return this.movies().get( id )!.genres().join( ', ' )
+		}
+		
+		@ $mol_mem
+		cover() {
+			const poster = this.movie_current()?.poster()
+			if( !poster ) return null
+			return `linear-gradient( #000000DF ), url( ${JSON.stringify( poster )} )`
 		}
 		
 		auto() {

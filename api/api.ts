@@ -2,15 +2,23 @@ namespace $ {
 	
 	export const $hyoo_play_api_search_movie_data = $mol_data_record({
 		id: $mol_data_integer,
-		title: $mol_data_string,
 		year: $mol_data_pipe( $mol_data_string, Number ),
 		poster: $mol_data_string,
+		raw_data: $mol_data_record({
+			nameEn: $mol_data_string,
+			nameRu: $mol_data_string,
+			description: $mol_data_string,
+			genres: $mol_data_array( $mol_data_record({
+				genre: $mol_data_string,
+			}) )
+		})
 	})
 	
 	export const $hyoo_play_api_movie_data = $mol_data_record({
 		name_ru: $mol_data_string,
 		year: $mol_data_integer,
 		poster_url_preview: $mol_data_string,
+		description: $mol_data_string,
 	})
 	
 	export const $hyoo_play_api_player_data = $mol_data_record({
@@ -31,9 +39,11 @@ namespace $ {
 			return new Map(
 				resp.map( data => [ data.id, $hyoo_play_api_movie.make({
 					id: $mol_const( data.id ),
-					title: $mol_const( data.title ),
+					title: $mol_const( data.raw_data.nameRu || data.raw_data.nameEn ),
 					poster: $mol_const( data.poster ),
 					year: $mol_const( data.year ),
+					descr: $mol_const( data.raw_data.description ),
+					genres: $mol_const( data.raw_data.genres.map( g => g.genre ) ),
 				}) ] )
 			)
 			
@@ -64,6 +74,14 @@ namespace $ {
 		
 		poster() {
 			return this.data().poster_url_preview
+		}
+		
+		descr() {
+			return this.data().description
+		}
+		
+		genres() {
+			return [] as string[]
 		}
 		
 		@ $mol_mem

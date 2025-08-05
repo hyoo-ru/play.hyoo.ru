@@ -5,6 +5,9 @@ $hyoo_play $mol_drop
 	attr *
 		^
 		mol_theme \$mol_theme_dark
+	style *
+		^
+		backgroundImage <= cover \
 	Sub <= Book $mol_book2
 		Placeholder null
 		pages <= pages /
@@ -32,9 +35,13 @@ $hyoo_play $mol_drop
 									hint <= movie_title* \
 									arg * movie <= movie_id* \
 									sub /
+										<= Movie_title* $mol_paragraph
+											title <= movie_title*
 										<= Movie_poster* $mol_image
 											minimal_height 450
 											uri <= movie_poster* \
+										<= Movie_genres* $mol_text
+											text <= movie_genres* \
 							^ queue_files /
 								<= File*0 $mol_view
 									sub /
@@ -89,18 +96,27 @@ $hyoo_play $mol_drop
 				playing?next => playing?next
 			<= Movie_page* $mol_page
 				title <= movie_title*
-				tools /
+				Title => Moview_page_title*
+				Tools => Moview_page_tools*
+				head /
 					<= Movie_bookmark* $mol_check_icon
 						hint @ \Bookmarked
 						checked? <=> movie_bookmark*? false
 						Icon <= Movie_bookmark_icon* $mol_icon_bookmark
+					<= Moview_page_title*
+					<= Moview_page_tools*
+				tools /
 					<= Player_id* $mol_select
-						hint @ \Player
+						hint @ \Source
 						value? <=> player_id*? \
 						options <= player_options* /
+						option_label_default <= player_none @ \Info
 					<= Movie_close $mol_link
 						arg * movie null
 						sub /
 							<= Moview_close_icon $mol_icon_close
-				body_content / <= Player_ext* $mol_frame
-					uri <= player_uri* \
+				body_content <= movie_content* /
+					<= Player_ext* $mol_frame
+						uri <= player_uri* \
+					<= Movie_info $mol_list rows /
+						<= Movie_descr* $mol_text text <= movie_descr* \
