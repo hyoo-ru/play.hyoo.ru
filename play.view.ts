@@ -317,7 +317,7 @@ namespace $.$$ {
 		@ $mol_mem
 		cover() {
 			const poster = this.movie_current()?.poster()
-			if( !poster ) return null
+			if( !poster ) return ''
 			return `linear-gradient( #000000DF ), url( ${JSON.stringify( poster )} )`
 		}
 		
