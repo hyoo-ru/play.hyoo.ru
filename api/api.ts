@@ -19,6 +19,9 @@ namespace $ {
 		year: $mol_data_integer,
 		poster_url_preview: $mol_data_string,
 		description: $mol_data_string,
+		genres: $mol_data_array( $mol_data_record({
+			genre: $mol_data_string,
+		}) )
 	})
 	
 	export const $hyoo_play_api_player_data = $mol_data_record({
@@ -80,8 +83,9 @@ namespace $ {
 			return this.data().description
 		}
 		
+		@ $mol_mem
 		genres() {
-			return [] as string[]
+			return this.data().genres.map( g => g.genre )
 		}
 		
 		@ $mol_mem
