@@ -302,7 +302,7 @@ namespace $.$$ {
 		@ $mol_mem_key
 		movie_content( id: number ) {
 			return [
-				... this.player_id( id ) ? [ this.Player_ext( id ) ] : [ this.Movie_descr( id ) ]
+				... this.player_id( id ) ? [ this.Player_ext( id ) ] : [ this.Movie_info( id ) ]
 			]
 		}
 		
@@ -319,6 +319,23 @@ namespace $.$$ {
 			const poster = this.movie_current()?.poster()
 			if( !poster ) return null
 			return `linear-gradient( #000000DF ), url( ${JSON.stringify( poster )} )`
+		}
+		
+		@ $mol_mem
+		similars() {
+			return [ ... this.movie_current()!.similars().keys() ].map( id => this.Similar( id ) )
+		}
+		
+		similar_title( id: number ) {
+			return this.movie_current()!.similars().get( id )!.title()
+		}
+		
+		similar_poster( id: number ) {
+			return this.movie_current()!.similars().get( id )!.poster()
+		}
+		
+		similar_id( id: number ) {
+			return String( id )
 		}
 		
 		auto() {

@@ -76,3 +76,17 @@
 [hyoo_play_movie_descr] {
 	padding: var(--mol_gap_block);
 }
+
+[hyoo_play_similars] {
+	align-items: flex-end;
+}
+
+[hyoo_play_similar] {
+	flex-direction: column;
+	width: 10rem;
+}
+
+[hyoo_play_similar_poster] {
+	aspect-ratio: 0.7;
+}
+

@@ -118,5 +118,16 @@ $hyoo_play $mol_drop
 				body_content <= movie_content* /
 					<= Player_ext* $mol_frame
 						uri <= player_uri* \
-					<= Movie_info $mol_list rows /
+					<= Movie_info* $mol_list rows /
 						<= Movie_descr* $mol_text text <= movie_descr* \
+						<= Similars_block $mol_expander
+							title @ \Similars
+							content / <= Similars $mol_row sub <= similars /
+								<= Similar*0 $mol_link
+									arg *
+										movie <= similar_id* \
+									sub /
+										<= Similar_title* $mol_paragraph
+											title <= similar_title* \
+										<= Similar_poster* $mol_image
+											uri <= similar_poster* \

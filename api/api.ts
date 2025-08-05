@@ -21,6 +21,12 @@ namespace $ {
 		description: $mol_data_string,
 		genres: $mol_data_array( $mol_data_record({
 			genre: $mol_data_string,
+		}) ),
+		similars: $mol_data_array( $mol_data_record({
+			film_id: $mol_data_integer,
+			name_en: $mol_data_nullable( $mol_data_string ),
+			name_ru: $mol_data_string,
+			poster_url_preview: $mol_data_string,
 		}) )
 	})
 	
@@ -86,6 +92,17 @@ namespace $ {
 		@ $mol_mem
 		genres() {
 			return this.data().genres.map( g => g.genre )
+		}
+		
+		@ $mol_mem
+		similars() {
+			return new Map(
+				this.data().similars.map( sim => [ sim.film_id, $hyoo_play_api_movie.make({
+					id: $mol_const( sim.film_id ),
+					title: $mol_const( sim.name_ru || sim.name_en || '???' ),
+					poster: $mol_const( sim.poster_url_preview ),
+				}) ] )
+			)
 		}
 		
 		@ $mol_mem

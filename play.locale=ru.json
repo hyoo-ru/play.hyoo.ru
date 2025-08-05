@@ -8,5 +8,6 @@
 	"$hyoo_play_Movie_search_hint": "Поиск кино...",
 	"$hyoo_play_Movie_bookmark_hint": "Закладка",
 	"$hyoo_play_Player_id_hint": "Источник",
-	"$hyoo_play_player_none": "Инфо"
+	"$hyoo_play_player_none": "Инфо",
+	"$hyoo_play_Similars_block_title": "Похожее"
 }
