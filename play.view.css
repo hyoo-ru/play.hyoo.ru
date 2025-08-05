@@ -88,5 +88,6 @@
 
 [hyoo_play_similar_poster] {
 	aspect-ratio: 0.7;
+	box-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;
 }
 
