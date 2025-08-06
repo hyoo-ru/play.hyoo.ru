@@ -4583,6 +4583,7 @@ declare namespace $ {
     };
     const $hyoo_play_api_movie_data: ((val: {
         year: number;
+        slogan: string | null;
         genres: readonly {
             genre: string;
         }[];
@@ -4597,6 +4598,7 @@ declare namespace $ {
         description: string;
     }) => Readonly<{
         year: number;
+        slogan: string | null;
         genres: readonly Readonly<{
             genre: string;
         }>[];
@@ -4615,6 +4617,10 @@ declare namespace $ {
             year: typeof $mol_data_integer;
             poster_url_preview: (val: string) => string;
             description: (val: string) => string;
+            slogan: ((val: string | null) => string | null) & {
+                config: (val: string) => string;
+                Value: string | null;
+            };
             genres: ((val: readonly {
                 genre: string;
             }[]) => readonly Readonly<{
@@ -4684,6 +4690,7 @@ declare namespace $ {
         };
         Value: Readonly<{
             year: number;
+            slogan: string | null;
             genres: readonly Readonly<{
                 genre: string;
             }>[];
@@ -4721,6 +4728,7 @@ declare namespace $ {
         id(): number;
         data(): Readonly<{
             year: number;
+            slogan: string | null;
             genres: readonly Readonly<{
                 genre: string;
             }>[];
@@ -4738,6 +4746,7 @@ declare namespace $ {
         year(): number;
         poster(): string;
         descr(): string;
+        slogan(): string | null;
         genres(): string[];
         similars(): Map<number, $hyoo_play_api_movie>;
         players(): Map<string, $hyoo_play_api_player>;

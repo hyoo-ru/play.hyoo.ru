@@ -11832,6 +11832,7 @@ var $;
         year: $mol_data_integer,
         poster_url_preview: $mol_data_string,
         description: $mol_data_string,
+        slogan: $mol_data_nullable($mol_data_string),
         genres: $mol_data_array($mol_data_record({
             genre: $mol_data_string,
         })),
@@ -11884,6 +11885,9 @@ var $;
         }
         descr() {
             return this.data().description;
+        }
+        slogan() {
+            return this.data().slogan;
         }
         genres() {
             return this.data().genres.map(g => g.genre);
@@ -12192,7 +12196,11 @@ var $;
                 ];
             }
             movie_descr(id) {
-                return this.movies().get(id).descr();
+                const movie = this.movies().get(id);
+                let descr = movie.descr();
+                if (movie.slogan())
+                    descr = '" ' + movie.slogan() + '\n' + descr;
+                return descr;
             }
             movie_genres(id) {
                 return this.movies().get(id).genres().join(', ');
@@ -12284,6 +12292,9 @@ var $;
         __decorate([
             $mol_mem_key
         ], $hyoo_play.prototype, "movie_content", null);
+        __decorate([
+            $mol_mem_key
+        ], $hyoo_play.prototype, "movie_descr", null);
         __decorate([
             $mol_mem
         ], $hyoo_play.prototype, "cover", null);
