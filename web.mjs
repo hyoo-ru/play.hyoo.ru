@@ -10866,9 +10866,36 @@ var $;
 			(obj.content) = () => ([(this.Similars())]);
 			return obj;
 		}
+		movie_uri_kp(){
+			return "";
+		}
+		Movie_kp(id){
+			const obj = new this.$.$mol_link_iconed();
+			(obj.title) = () => ("Kinopoisk");
+			(obj.uri) = () => ((this.movie_uri_kp()));
+			return obj;
+		}
+		movie_uri_imdb(){
+			return "";
+		}
+		Movie_imdb(id){
+			const obj = new this.$.$mol_link_iconed();
+			(obj.title) = () => ("IMDB");
+			(obj.uri) = () => ((this.movie_uri_imdb()));
+			return obj;
+		}
+		Movie_links(id){
+			const obj = new this.$.$mol_row();
+			(obj.sub) = () => ([(this.Movie_kp(id)), (this.Movie_imdb(id))]);
+			return obj;
+		}
 		Movie_info(id){
 			const obj = new this.$.$mol_list();
-			(obj.rows) = () => ([(this.Movie_descr(id)), (this.Similars_block())]);
+			(obj.rows) = () => ([
+				(this.Movie_descr(id)), 
+				(this.Similars_block()), 
+				(this.Movie_links(id))
+			]);
 			return obj;
 		}
 		movie_content(id){
@@ -10971,6 +10998,9 @@ var $;
 	($mol_mem_key(($.$hyoo_play.prototype), "Similar"));
 	($mol_mem(($.$hyoo_play.prototype), "Similars"));
 	($mol_mem(($.$hyoo_play.prototype), "Similars_block"));
+	($mol_mem_key(($.$hyoo_play.prototype), "Movie_kp"));
+	($mol_mem_key(($.$hyoo_play.prototype), "Movie_imdb"));
+	($mol_mem_key(($.$hyoo_play.prototype), "Movie_links"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_info"));
 	($mol_mem(($.$hyoo_play.prototype), "Thanks"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_page"));
@@ -11245,8 +11275,9 @@ var $;
         ...$.$hyoo_play_api_movie_data_short.config,
         film_id: $mol_data_integer,
     });
-    $.$hyoo_play_api_movie_data = $mol_data_record({
+    $.$hyoo_play_api_movie_data_full = $mol_data_record({
         ...$.$hyoo_play_api_movie_data_short.config,
+        imdb_id: $mol_data_string,
         year: $mol_data_integer,
         description: $mol_data_nullable($mol_data_string),
         slogan: $mol_data_nullable($mol_data_string),
@@ -11283,8 +11314,14 @@ var $;
         id() {
             return 0;
         }
+        uri_kp() {
+            return `https://kinopoisk.ru/film/${this.id()}/`;
+        }
+        uri_imdb() {
+            return `https://imdb.com/title/${this.data().imdb_id}/`;
+        }
         data() {
-            return $.$hyoo_play_api_movie_data(this.$.$mol_fetch.json(`https://api4.rhhhhhhh.live/kp_info2/${this.id()}`));
+            return $.$hyoo_play_api_movie_data_full(this.$.$mol_fetch.json(`https://api4.rhhhhhhh.live/kp_info2/${this.id()}`));
         }
         title() {
             return this.data().name_ru || this.data().name_en || this.data().name_original || '???';
@@ -11700,6 +11737,12 @@ var $;
                     ...this.player_id(id) ? [this.Player_ext(id)] : [this.Movie_info(id)],
                 ];
             }
+            movie_uri_kp() {
+                return this.movie_current().uri_kp();
+            }
+            movie_uri_imdb() {
+                return this.movie_current().uri_imdb();
+            }
             movie_descr(id) {
                 const movie = this.movies().get(id);
                 let descr = movie.descr();
@@ -11797,6 +11840,12 @@ var $;
         __decorate([
             $mol_mem_key
         ], $hyoo_play.prototype, "movie_content", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_play.prototype, "movie_uri_kp", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_play.prototype, "movie_uri_imdb", null);
         __decorate([
             $mol_mem_key
         ], $hyoo_play.prototype, "movie_descr", null);

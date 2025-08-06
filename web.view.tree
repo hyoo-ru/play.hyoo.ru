@@ -945,6 +945,13 @@ $hyoo_play $mol_drop
 											title <= similar_title* \
 										<= Similar_poster* $mol_image
 											uri <= similar_poster* \
+						<= Movie_links* $mol_row sub /
+							<= Movie_kp* $mol_link_iconed
+								title \Kinopoisk
+								uri <= movie_uri_kp \
+							<= Movie_imdb* $mol_link_iconed
+								title \IMDB
+								uri <= movie_uri_imdb \
 				foot /
 					<= Thanks $mol_text
 						text @ \Thanks to \\ReYohoho\https://github.com/reyohoho/reyohoho\\ project for content.
