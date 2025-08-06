@@ -4634,6 +4634,7 @@ declare namespace $ {
                 genre: string;
             }[];
             description: string;
+            nameOriginal: string;
             nameEn: string;
             nameRu: string;
         };
@@ -4646,6 +4647,7 @@ declare namespace $ {
                 genre: string;
             }>[];
             description: string;
+            nameOriginal: string;
             nameEn: string;
             nameRu: string;
         }>;
@@ -4664,6 +4666,7 @@ declare namespace $ {
                     genre: string;
                 }[];
                 description: string;
+                nameOriginal: string;
                 nameEn: string;
                 nameRu: string;
             }) => Readonly<{
@@ -4671,10 +4674,12 @@ declare namespace $ {
                     genre: string;
                 }>[];
                 description: string;
+                nameOriginal: string;
                 nameEn: string;
                 nameRu: string;
             }>) & {
                 config: {
+                    nameOriginal: (val: string) => string;
                     nameEn: (val: string) => string;
                     nameRu: (val: string) => string;
                     description: (val: string) => string;
@@ -4705,6 +4710,7 @@ declare namespace $ {
                         genre: string;
                     }>[];
                     description: string;
+                    nameOriginal: string;
                     nameEn: string;
                     nameRu: string;
                 }>;
@@ -4719,9 +4725,80 @@ declare namespace $ {
                     genre: string;
                 }>[];
                 description: string;
+                nameOriginal: string;
                 nameEn: string;
                 nameRu: string;
             }>;
+        }>;
+    };
+    const $hyoo_play_api_movie_data_short: ((val: {
+        name_original: string | null;
+        name_en: string | null;
+        name_ru: string | null;
+        poster_url_preview: string;
+    }) => Readonly<{
+        name_original: string | null;
+        name_en: string | null;
+        name_ru: string | null;
+        poster_url_preview: string;
+    }>) & {
+        config: {
+            name_original: ((val: string | null) => string | null) & {
+                config: (val: string) => string;
+                Value: string | null;
+            };
+            name_en: ((val: string | null) => string | null) & {
+                config: (val: string) => string;
+                Value: string | null;
+            };
+            name_ru: ((val: string | null) => string | null) & {
+                config: (val: string) => string;
+                Value: string | null;
+            };
+            poster_url_preview: (val: string) => string;
+        };
+        Value: Readonly<{
+            name_original: string | null;
+            name_en: string | null;
+            name_ru: string | null;
+            poster_url_preview: string;
+        }>;
+    };
+    const $hyoo_play_api_similar_data: ((val: {
+        name_original: string | null;
+        name_en: string | null;
+        name_ru: string | null;
+        poster_url_preview: string;
+        film_id: number;
+    }) => Readonly<{
+        name_original: string | null;
+        name_en: string | null;
+        name_ru: string | null;
+        poster_url_preview: string;
+        film_id: number;
+    }>) & {
+        config: {
+            film_id: typeof $mol_data_integer;
+            name_original: ((val: string | null) => string | null) & {
+                config: (val: string) => string;
+                Value: string | null;
+            };
+            name_en: ((val: string | null) => string | null) & {
+                config: (val: string) => string;
+                Value: string | null;
+            };
+            name_ru: ((val: string | null) => string | null) & {
+                config: (val: string) => string;
+                Value: string | null;
+            };
+            poster_url_preview: (val: string) => string;
+        };
+        Value: Readonly<{
+            name_original: string | null;
+            name_en: string | null;
+            name_ru: string | null;
+            poster_url_preview: string;
+            film_id: number;
         }>;
     };
     const $hyoo_play_api_movie_data: ((val: {
@@ -4731,14 +4808,17 @@ declare namespace $ {
             genre: string;
         }[];
         similars: readonly {
-            name_ru: string;
+            name_original: string | null;
+            name_en: string | null;
+            name_ru: string | null;
             poster_url_preview: string;
             film_id: number;
-            name_en: string | null;
         }[];
-        name_ru: string;
+        name_original: string | null;
+        name_en: string | null;
+        name_ru: string | null;
         poster_url_preview: string;
-        description: string;
+        description: string | null;
     }) => Readonly<{
         year: number;
         slogan: string | null;
@@ -4746,20 +4826,24 @@ declare namespace $ {
             genre: string;
         }>[];
         similars: readonly Readonly<{
-            name_ru: string;
+            name_original: string | null;
+            name_en: string | null;
+            name_ru: string | null;
             poster_url_preview: string;
             film_id: number;
-            name_en: string | null;
         }>[];
-        name_ru: string;
+        name_original: string | null;
+        name_en: string | null;
+        name_ru: string | null;
         poster_url_preview: string;
-        description: string;
+        description: string | null;
     }>) & {
         config: {
-            name_ru: (val: string) => string;
             year: typeof $mol_data_integer;
-            poster_url_preview: (val: string) => string;
-            description: (val: string) => string;
+            description: ((val: string | null) => string | null) & {
+                config: (val: string) => string;
+                Value: string | null;
+            };
             slogan: ((val: string | null) => string | null) & {
                 config: (val: string) => string;
                 Value: string | null;
@@ -4786,50 +4870,76 @@ declare namespace $ {
                 }>[];
             };
             similars: ((val: readonly {
-                name_ru: string;
+                name_original: string | null;
+                name_en: string | null;
+                name_ru: string | null;
                 poster_url_preview: string;
                 film_id: number;
-                name_en: string | null;
             }[]) => readonly Readonly<{
-                name_ru: string;
+                name_original: string | null;
+                name_en: string | null;
+                name_ru: string | null;
                 poster_url_preview: string;
                 film_id: number;
-                name_en: string | null;
             }>[]) & {
                 config: ((val: {
-                    name_ru: string;
+                    name_original: string | null;
+                    name_en: string | null;
+                    name_ru: string | null;
                     poster_url_preview: string;
                     film_id: number;
-                    name_en: string | null;
                 }) => Readonly<{
-                    name_ru: string;
+                    name_original: string | null;
+                    name_en: string | null;
+                    name_ru: string | null;
                     poster_url_preview: string;
                     film_id: number;
-                    name_en: string | null;
                 }>) & {
                     config: {
                         film_id: typeof $mol_data_integer;
+                        name_original: ((val: string | null) => string | null) & {
+                            config: (val: string) => string;
+                            Value: string | null;
+                        };
                         name_en: ((val: string | null) => string | null) & {
                             config: (val: string) => string;
                             Value: string | null;
                         };
-                        name_ru: (val: string) => string;
+                        name_ru: ((val: string | null) => string | null) & {
+                            config: (val: string) => string;
+                            Value: string | null;
+                        };
                         poster_url_preview: (val: string) => string;
                     };
                     Value: Readonly<{
-                        name_ru: string;
+                        name_original: string | null;
+                        name_en: string | null;
+                        name_ru: string | null;
                         poster_url_preview: string;
                         film_id: number;
-                        name_en: string | null;
                     }>;
                 };
                 Value: readonly Readonly<{
-                    name_ru: string;
+                    name_original: string | null;
+                    name_en: string | null;
+                    name_ru: string | null;
                     poster_url_preview: string;
                     film_id: number;
-                    name_en: string | null;
                 }>[];
             };
+            name_original: ((val: string | null) => string | null) & {
+                config: (val: string) => string;
+                Value: string | null;
+            };
+            name_en: ((val: string | null) => string | null) & {
+                config: (val: string) => string;
+                Value: string | null;
+            };
+            name_ru: ((val: string | null) => string | null) & {
+                config: (val: string) => string;
+                Value: string | null;
+            };
+            poster_url_preview: (val: string) => string;
         };
         Value: Readonly<{
             year: number;
@@ -4838,14 +4948,17 @@ declare namespace $ {
                 genre: string;
             }>[];
             similars: readonly Readonly<{
-                name_ru: string;
+                name_original: string | null;
+                name_en: string | null;
+                name_ru: string | null;
                 poster_url_preview: string;
                 film_id: number;
-                name_en: string | null;
             }>[];
-            name_ru: string;
+            name_original: string | null;
+            name_en: string | null;
+            name_ru: string | null;
             poster_url_preview: string;
-            description: string;
+            description: string | null;
         }>;
     };
     const $hyoo_play_api_player_data: ((val: {
@@ -4876,20 +4989,23 @@ declare namespace $ {
                 genre: string;
             }>[];
             similars: readonly Readonly<{
-                name_ru: string;
+                name_original: string | null;
+                name_en: string | null;
+                name_ru: string | null;
                 poster_url_preview: string;
                 film_id: number;
-                name_en: string | null;
             }>[];
-            name_ru: string;
+            name_original: string | null;
+            name_en: string | null;
+            name_ru: string | null;
             poster_url_preview: string;
-            description: string;
+            description: string | null;
         }>;
         title(): string;
         year(): number;
         poster(): string;
         descr(): string;
-        slogan(): string | null;
+        slogan(): string;
         genres(): string[];
         similars(): Map<number, $hyoo_play_api_movie>;
         players(): Map<string, $hyoo_play_api_player>;
