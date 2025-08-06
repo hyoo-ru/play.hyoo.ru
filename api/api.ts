@@ -19,6 +19,7 @@ namespace $ {
 		year: $mol_data_integer,
 		poster_url_preview: $mol_data_string,
 		description: $mol_data_string,
+		slogan: $mol_data_nullable( $mol_data_string ),
 		genres: $mol_data_array( $mol_data_record({
 			genre: $mol_data_string,
 		}) ),
@@ -87,6 +88,10 @@ namespace $ {
 		
 		descr() {
 			return this.data().description
+		}
+		
+		slogan() {
+			return this.data().slogan
 		}
 		
 		@ $mol_mem

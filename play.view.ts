@@ -306,8 +306,15 @@ namespace $.$$ {
 			]
 		}
 		
+		@ $mol_mem_key
 		movie_descr( id: number ) {
-			return this.movies().get( id )!.descr()
+			
+			const movie = this.movies().get( id )!
+			let descr = movie.descr()
+			
+			if( movie.slogan() ) descr = '" ' + movie.slogan() + '\n' + descr
+			
+			return descr
 		}
 		
 		movie_genres( id: number ) {
