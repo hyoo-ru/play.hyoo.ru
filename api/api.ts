@@ -27,8 +27,9 @@ namespace $ {
 		film_id: $mol_data_integer,
 	})
 	
-	export const $hyoo_play_api_movie_data = $mol_data_record({
+	export const $hyoo_play_api_movie_data_full = $mol_data_record({
 		... $hyoo_play_api_movie_data_short.config,
+		imdb_id: $mol_data_string,
 		year: $mol_data_integer,
 		description: $mol_data_nullable( $mol_data_string ),
 		slogan: $mol_data_nullable( $mol_data_string ),
@@ -74,9 +75,17 @@ namespace $ {
 			return 0
 		}
 		
+		uri_kp() {
+			return `https://kinopoisk.ru/film/${ this.id() }/`
+		}
+		
+		uri_imdb() {
+			return `https://imdb.com/title/${ this.data().imdb_id }/`
+		}
+		
 		@ $mol_mem
 		data() {
-			return $hyoo_play_api_movie_data(
+			return $hyoo_play_api_movie_data_full(
 				this.$.$mol_fetch.json( `https://api4.rhhhhhhh.live/kp_info2/${ this.id() }` )  as any
 			) 
 		}

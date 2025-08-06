@@ -306,6 +306,16 @@ namespace $.$$ {
 			]
 		}
 		
+		@ $mol_mem
+		movie_uri_kp() {
+			return this.movie_current()!.uri_kp()
+		}
+		
+		@ $mol_mem
+		movie_uri_imdb() {
+			return this.movie_current()!.uri_imdb()
+		}
+		
 		@ $mol_mem_key
 		movie_descr( id: number ) {
 			
