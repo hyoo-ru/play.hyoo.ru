@@ -302,7 +302,7 @@ namespace $.$$ {
 		@ $mol_mem_key
 		movie_content( id: number ) {
 			return [
-				... this.player_id( id ) ? [ this.Player_ext( id ) ] : [ this.Movie_info( id ) ]
+				... this.player_id( id ) ? [ this.Player_ext( id ) ] : [ this.Movie_info( id ) ],
 			]
 		}
 		
