@@ -5,6 +5,7 @@ namespace $ {
 		year: $mol_data_pipe( $mol_data_string, Number ),
 		poster: $mol_data_string,
 		raw_data: $mol_data_record({
+			nameOriginal: $mol_data_string,
 			nameEn: $mol_data_string,
 			nameRu: $mol_data_string,
 			description: $mol_data_string,
@@ -14,21 +15,27 @@ namespace $ {
 		})
 	})
 	
-	export const $hyoo_play_api_movie_data = $mol_data_record({
-		name_ru: $mol_data_string,
-		year: $mol_data_integer,
+	export const $hyoo_play_api_movie_data_short = $mol_data_record({
+		name_original: $mol_data_nullable( $mol_data_string ),
+		name_en: $mol_data_nullable( $mol_data_string ),
+		name_ru: $mol_data_nullable( $mol_data_string ),
 		poster_url_preview: $mol_data_string,
-		description: $mol_data_string,
+	})
+	
+	export const $hyoo_play_api_similar_data = $mol_data_record({
+		... $hyoo_play_api_movie_data_short.config,
+		film_id: $mol_data_integer,
+	})
+	
+	export const $hyoo_play_api_movie_data = $mol_data_record({
+		... $hyoo_play_api_movie_data_short.config,
+		year: $mol_data_integer,
+		description: $mol_data_nullable( $mol_data_string ),
 		slogan: $mol_data_nullable( $mol_data_string ),
 		genres: $mol_data_array( $mol_data_record({
 			genre: $mol_data_string,
 		}) ),
-		similars: $mol_data_array( $mol_data_record({
-			film_id: $mol_data_integer,
-			name_en: $mol_data_nullable( $mol_data_string ),
-			name_ru: $mol_data_string,
-			poster_url_preview: $mol_data_string,
-		}) )
+		similars: $mol_data_array( $hyoo_play_api_similar_data )
 	})
 	
 	export const $hyoo_play_api_player_data = $mol_data_record({
@@ -49,7 +56,7 @@ namespace $ {
 			return new Map(
 				resp.map( data => [ data.id, $hyoo_play_api_movie.make({
 					id: $mol_const( data.id ),
-					title: $mol_const( data.raw_data.nameRu || data.raw_data.nameEn ),
+					title: $mol_const( data.raw_data.nameRu || data.raw_data.nameEn || data.raw_data.nameOriginal ),
 					poster: $mol_const( data.poster ),
 					year: $mol_const( data.year ),
 					descr: $mol_const( data.raw_data.description ),
@@ -75,7 +82,7 @@ namespace $ {
 		}
 		
 		title() {
-			return this.data().name_ru
+			return this.data().name_ru || this.data().name_en || this.data().name_original || '???'
 		}
 		
 		year() {
@@ -87,11 +94,11 @@ namespace $ {
 		}
 		
 		descr() {
-			return this.data().description
+			return this.data().description ?? ''
 		}
 		
 		slogan() {
-			return this.data().slogan
+			return this.data().slogan ?? ''
 		}
 		
 		@ $mol_mem
@@ -104,7 +111,7 @@ namespace $ {
 			return new Map(
 				this.data().similars.map( sim => [ sim.film_id, $hyoo_play_api_movie.make({
 					id: $mol_const( sim.film_id ),
-					title: $mol_const( sim.name_ru || sim.name_en || '???' ),
+					title: $mol_const( sim.name_ru || sim.name_en || sim.name_original || '???' ),
 					poster: $mol_const( sim.poster_url_preview ),
 				}) ] )
 			)
