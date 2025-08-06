@@ -10874,6 +10874,11 @@ var $;
 		movie_content(id){
 			return [(this.Player_ext(id)), (this.Movie_info(id))];
 		}
+		Thanks(){
+			const obj = new this.$.$mol_text();
+			(obj.text) = () => ((this.$.$mol_locale.text("$hyoo_play_Thanks_text")));
+			return obj;
+		}
 		Movie_page(id){
 			const obj = new this.$.$mol_page();
 			(obj.title) = () => ((this.movie_title(id)));
@@ -10884,6 +10889,7 @@ var $;
 			]);
 			(obj.tools) = () => ([(this.Player_id(id)), (this.Movie_close())]);
 			(obj.body_content) = () => ((this.movie_content(id)));
+			(obj.foot) = () => ([(this.Thanks())]);
 			return obj;
 		}
 		pages(){
@@ -10966,6 +10972,7 @@ var $;
 	($mol_mem(($.$hyoo_play.prototype), "Similars"));
 	($mol_mem(($.$hyoo_play.prototype), "Similars_block"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_info"));
+	($mol_mem(($.$hyoo_play.prototype), "Thanks"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_page"));
 	($mol_mem(($.$hyoo_play.prototype), "Book"));
 	($mol_mem(($.$hyoo_play.prototype), "playlist"));
@@ -11685,7 +11692,7 @@ var $;
             }
             movie_content(id) {
                 return [
-                    ...this.player_id(id) ? [this.Player_ext(id)] : [this.Movie_info(id)]
+                    ...this.player_id(id) ? [this.Player_ext(id)] : [this.Movie_info(id)],
                 ];
             }
             movie_descr(id) {
