@@ -313,7 +313,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		movie_uri_imdb() {
-			return this.movie_current()!.uri_imdb()
+			return this.movie_current()!.uri_imdb() ?? ''
 		}
 		
 		@ $mol_mem_key
