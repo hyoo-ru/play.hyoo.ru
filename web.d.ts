@@ -4675,7 +4675,7 @@ declare namespace $ {
         name_en: string | null;
         name_ru: string | null;
         poster_url_preview: string;
-        imdb_id: string;
+        imdb_id: string | null;
         description: string | null;
     }) => Readonly<{
         year: number;
@@ -4694,11 +4694,14 @@ declare namespace $ {
         name_en: string | null;
         name_ru: string | null;
         poster_url_preview: string;
-        imdb_id: string;
+        imdb_id: string | null;
         description: string | null;
     }>) & {
         config: {
-            imdb_id: (val: string) => string;
+            imdb_id: ((val: string | null) => string | null) & {
+                config: (val: string) => string;
+                Value: string | null;
+            };
             year: typeof $mol_data_integer;
             description: ((val: string | null) => string | null) & {
                 config: (val: string) => string;
@@ -4818,7 +4821,7 @@ declare namespace $ {
             name_en: string | null;
             name_ru: string | null;
             poster_url_preview: string;
-            imdb_id: string;
+            imdb_id: string | null;
             description: string | null;
         }>;
     };
@@ -4844,7 +4847,7 @@ declare namespace $ {
     class $hyoo_play_api_movie extends $mol_object {
         id(): number;
         uri_kp(): string;
-        uri_imdb(): string;
+        uri_imdb(): string | null;
         data(): Readonly<{
             year: number;
             slogan: string | null;
@@ -4862,7 +4865,7 @@ declare namespace $ {
             name_en: string | null;
             name_ru: string | null;
             poster_url_preview: string;
-            imdb_id: string;
+            imdb_id: string | null;
             description: string | null;
         }>;
         title(): string;
