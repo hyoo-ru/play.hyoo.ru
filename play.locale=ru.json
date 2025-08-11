@@ -1,5 +1,6 @@
 {
 	"$hyoo_play_Queue_title": "Гипер Плеер",
+	"$hyoo_play_Source_title": "Источник",
 	"$hyoo_play_Water_hint": "Расслабляющее",
 	"$hyoo_play_Wind_hint": "Трогательное",
 	"$hyoo_play_Light_hint": "Воодушевляющее",
@@ -7,8 +8,7 @@
 	"$hyoo_play_Movies_hint": "Ролики",
 	"$hyoo_play_Movie_search_hint": "Поиск кино...",
 	"$hyoo_play_Movie_bookmark_hint": "Закладка",
-	"$hyoo_play_Player_id_hint": "Источник",
-	"$hyoo_play_player_none": "Инфо",
+	"$hyoo_play_player_name_none": "Инфо",
 	"$hyoo_play_Similars_block_title": "Похожее",
 	"$hyoo_play_Thanks_text": "Спасибо проекту \\\\ReYohoho\\https://github.com/reyohoho/reyohoho\\\\ за контент."
 }

@@ -57,15 +57,23 @@
 	box-shadow: 0 0 0 2px var(--mol_theme_current), 0 0 1rem black;
 }
 
+[hyoo_play_config] {
+	flex: 0 0 10rem;
+}
+
 [hyoo_play_movie_page] {
-	flex: 1 0 max( 50rem, calc( 100% - 25rem ) );
+	flex: 1 0 max( 50rem, calc( 100% - 35rem ) );
 }
 
 [hyoo_play_player_ext] {
 	justify-self: stretch;
 }
 
-[hyoo_play_player_id_option_label] {
+[hyoo_play_player_id] {
+	flex-direction: column;
+}
+
+[hyoo_play_player_id_option] {
 	text-transform: capitalize;
 }
 

@@ -9,7 +9,14 @@ $hyoo_play $mol_drop
 		^
 		backgroundImage <= cover \
 	Sub <= Book $mol_book2
-		Placeholder null
+		placeholders <= sidebars /
+			<= Source*0 $mol_page
+				title @ \Source
+				body /
+					<= Player_id* $mol_switch
+						value? <=> player_id*? \
+						keys <= player_options* /
+						option_title* <= player_name* <= player_name_none @ \Info
 		pages <= pages /
 			<= Queue $mol_page
 				title @ \Hyper Player
@@ -106,11 +113,6 @@ $hyoo_play $mol_drop
 					<= Moview_page_title*
 					<= Moview_page_tools*
 				tools /
-					<= Player_id* $mol_select
-						hint @ \Source
-						value? <=> player_id*? \
-						options <= player_options* /
-						option_label_default <= player_none @ \Info
 					<= Movie_close $mol_link
 						arg * movie null
 						sub /

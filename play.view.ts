@@ -143,6 +143,11 @@ namespace $.$$ {
 			return [ '', ... this.movies().get( id )!.players().keys() ]
 		}
 		
+		@ $mol_mem_key
+		player_name( id: number ) {
+			return id || this.player_name_none()
+		}
+		
 		@ $mol_mem
 		movies() {
 			
@@ -198,6 +203,13 @@ namespace $.$$ {
 		movie_title( id: number ) {
 			const movie = this.movies().get( id )
 			return ( movie?.title() ?? '' ) + ' (' + movie?.year() + ')'
+		}
+		
+		@ $mol_mem
+		sidebars() {
+			return [
+				... this.movie_current_id() ? [ this.Source( this.movie_current_id() ) ] : []
+			]
 		}
 		
 		@ $mol_mem
