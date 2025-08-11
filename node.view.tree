@@ -736,58 +736,23 @@ $mol_video_player $mol_view
 
 $mol_icon_bookmark $mol_icon path \M17,3H7A2,2 0 0,0 5,5V21L12,18L19,21V5C19,3.89 18.1,3 17,3Z
 
-$mol_pick $mol_pop
-	event *
-		^
-		keydown?event <=> keydown?event null
-	Anchor <= Trigger $mol_check
-		minimal_width 40
-		minimal_height 40
-		enabled <= trigger_enabled true
-		checked? <=> showed?
-		clicks? <=> clicks? null
-		sub <= trigger_content /$mol_view_content
-			<= title
-		hint <= hint \
-
-$mol_icon_dots_vertical $mol_icon path \M12,16A2,2 0 0,1 14,18A2,2 0 0,1 12,20A2,2 0 0,1 10,18A2,2 0 0,1 12,16M12,10A2,2 0 0,1 14,12A2,2 0 0,1 12,14A2,2 0 0,1 10,12A2,2 0 0,1 12,10M12,4A2,2 0 0,1 14,6A2,2 0 0,1 12,8A2,2 0 0,1 10,6A2,2 0 0,1 12,4Z
-
-$mol_select $mol_pick
-	dictionary? *
-	options /string
-	value? \
-	option_label_default \
-	Option_row* $mol_button_minor
-		enabled <= enabled true
-		event_click?event <=> event_select*?event null
-		sub <= option_content* /
-			<= Option_label* $mol_dimmer
-				haystack <= option_label* \
-				needle <= filter_pattern? \
-	No_options $mol_view
-		sub /
-			<= no_options_message @ \No options
-	plugins /
-		^
-		<= Nav $mol_nav
-			keys_y <= nav_components /$mol_view
-			current_y?component <=> option_focused?component null
-			cycle? <=> nav_cycle? true
-	hint @ \Pick..
-	bubble_content /
-		<= Filter
-		<= Bubble_pane $mol_scroll
-			sub /
-				<= Menu $mol_list
-					rows <= menu_content /$mol_view
-	Filter $mol_search
-		query? <=> filter_pattern? \
-		hint <= filter_hint @ \Filter..
-		submit?event <=> submit?event null
-		enabled <= enabled true
-	Trigger_icon $mol_icon_dots_vertical
-
 $mol_row $mol_view
+
+$mol_check_list $mol_view
+	dictionary *
+	Option* $mol_check
+		checked? <=> option_checked*? false
+		label <= option_label* /
+			<= option_title* \
+		enabled <= option_enabled* <= enabled true
+		hint <= option_hint* \
+		minimal_height 24
+	options *
+	keys /string
+	sub <= items /$mol_check
+
+$mol_switch $mol_check_list
+	value? \
 
 $mol_book2 $mol_scroll
 	menu_title \
@@ -823,7 +788,6 @@ $hyoo_play $mol_drop
 		^
 		backgroundImage <= cover \
 	Sub <= Book $mol_book2
-		Placeholder null
 		pages <= pages /
 			<= Queue $mol_page
 				title @ \Hyper Player
@@ -909,7 +873,7 @@ $hyoo_play $mol_drop
 				poster \https://www.koolmusic.com/img/equalizer.gif
 				playing?next => playing?next
 			<= Movie_page* $mol_page
-				title <= movie_title*
+				title <= movie_current_title \
 				Title => Moview_page_title*
 				Tools => Moview_page_tools*
 				head /
@@ -920,18 +884,13 @@ $hyoo_play $mol_drop
 					<= Moview_page_title*
 					<= Moview_page_tools*
 				tools /
-					<= Player_id* $mol_select
-						hint @ \Source
-						value? <=> player_id*? \
-						options <= player_options* /
-						option_label_default <= player_none @ \Info
 					<= Movie_close $mol_link
 						arg * movie null
 						sub /
 							<= Moview_close_icon $mol_icon_close
 				body_content <= movie_content* /
 					<= Player_ext* $mol_frame
-						uri <= player_uri* \
+						uri <= player_uri \
 					<= Movie_info* $mol_list rows /
 						<= Movie_descr* $mol_text text <= movie_descr* \
 						<= Similars_block $mol_expander
@@ -955,3 +914,11 @@ $hyoo_play $mol_drop
 				foot /
 					<= Thanks $mol_text
 						text @ \Thanks to \\ReYohoho\https://github.com/reyohoho/reyohoho\\ project for content.
+		placeholders <= sidebars /
+			<= Source*0 $mol_page
+				title @ \Source
+				body /
+					<= Player_id $mol_switch
+						value? <=> player_id? \
+						keys <= player_options /
+						option_title* <= player_name* <= player_name_none @ \Info
