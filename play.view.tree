@@ -13,7 +13,7 @@ $hyoo_play $mol_drop
 			<= Queue $mol_page
 				title @ \Hyper Player
 				tools /
-					<= Playing $mol_check_icon
+					- <= Playing $mol_check_icon
 						checked?next <=> playing?next
 						Icon <= Playing_icon $mol_icon_play
 					<= Open $mol_button_open
