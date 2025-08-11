@@ -127,38 +127,41 @@ namespace $.$$ {
 			return Number( this.$.$mol_state_arg.value( 'movie' )  )
 		}
 		
-		player_uri( id: number ) {
-			const movie = this.movies().get( id )
+		movie_current_title() {
+			return this.movie_current()!.title()
+		}
+		
+		@ $mol_mem
+		player_uri() {
+			const movie = this.movie_current()
 			if( !movie ) return ''
-			return movie.players().get( this.player_id( id ) )?.uri() ?? ''
+			return movie.players().get( this.player_id() )?.uri() ?? ''
 		}
 		
-		@ $mol_mem_key
-		player_id( id: number, next?: string ) {
-			return this.$.$mol_state_local.value( `player=${id}`, next ) ?? ''
+		@ $mol_mem
+		player_id( next?: string ) {
+			return this.$.$mol_state_local.value( `player=${ this.movie_current_id() }`, next ) ?? ''
 		}
 		
-		@ $mol_mem_key
-		player_options( id: number ) {
-			return [ '', ... this.movies().get( id )!.players().keys() ]
+		@ $mol_mem
+		player_options() {
+			return [ '', ... this.movie_current()!.players().keys() ]
 		}
 		
 		@ $mol_mem_key
 		player_name( id: number ) {
-			return id || this.player_name_none()
+			return String( id || this.player_name_none() )
 		}
 		
 		@ $mol_mem
 		movies() {
 			
+			const movies = new Map( this.movies_found() )
+			
 			const current = this.movie_current()
-			const found = this.movies_found()
+			if( current ) movies.set( current.id(), current  )
 			
-			return new Map([
-				... ( current && !found.has( current.id() ) ? [[ current.id(), current ]] : [] ) as [ number, $hyoo_play_api_movie ][],
-				... found,
-			])
-			
+			return movies
 		}
 		
 		@ $mol_mem
@@ -314,7 +317,7 @@ namespace $.$$ {
 		@ $mol_mem_key
 		movie_content( id: number ) {
 			return [
-				... this.player_id( id ) ? [ this.Player_ext( id ) ] : [ this.Movie_info( id ) ],
+				... this.player_id() ? [ this.Player_ext( id ) ] : [ this.Movie_info( id ) ],
 			]
 		}
 		
