@@ -16,37 +16,6 @@ $mol_drop $mol_ghost
 		\move
 		\link
 
-$mol_svg $mol_view
-	dom_name \svg
-	dom_name_space \http://www.w3.org/2000/svg
-	font_size 16
-	font_family \
-	style_size *
-
-$mol_svg_root $mol_svg
-	dom_name \svg
-	attr *
-		^
-		viewBox <= view_box \0 0 100 100
-		preserveAspectRatio <= aspect \xMidYMid
-
-$mol_svg_path $mol_svg
-	dom_name \path
-	attr *
-		^
-		d <= geometry \
-
-
-$mol_icon $mol_svg_root
-	view_box \0 0 24 24
-	minimal_width 16
-	minimal_height 16
-	sub /
-		<= Path $mol_svg_path
-			geometry <= path \
-
-$mol_icon_play $mol_icon path \M8,5.14V19.14L19,12.14L8,5.14Z
-
 $mol_speck $mol_view
 	minimal_width 12
 	attr *
@@ -84,20 +53,34 @@ $mol_button_typed $mol_button
 
 $mol_button_minor $mol_button_typed
 
-$mol_check $mol_button_minor
+$mol_svg $mol_view
+	dom_name \svg
+	dom_name_space \http://www.w3.org/2000/svg
+	font_size 16
+	font_family \
+	style_size *
+
+$mol_svg_root $mol_svg
+	dom_name \svg
 	attr *
 		^
-		mol_check_checked <= checked? false
-		aria-checked <= aria_checked \false
-		role <= aria_role \checkbox
-	sub /$mol_view_content
-		<= Icon null
-		<= label /
-			<= Title $mol_view
-				sub /
-					<= title \
+		viewBox <= view_box \0 0 100 100
+		preserveAspectRatio <= aspect \xMidYMid
 
-$mol_check_icon $mol_check
+$mol_svg_path $mol_svg
+	dom_name \path
+	attr *
+		^
+		d <= geometry \
+
+
+$mol_icon $mol_svg_root
+	view_box \0 0 24 24
+	minimal_width 16
+	minimal_height 16
+	sub /
+		<= Path $mol_svg_path
+			geometry <= path \
 
 $mol_icon_upload $mol_icon path \M9,16V10H5L12,3L19,10H15V16H9M5,20V18H19V20H5Z
 
@@ -418,6 +401,19 @@ $mol_float $mol_view
 		^
 		minHeight \auto
 
+$mol_check $mol_button_minor
+	attr *
+		^
+		mol_check_checked <= checked? false
+		aria-checked <= aria_checked \false
+		role <= aria_role \checkbox
+	sub /$mol_view_content
+		<= Icon null
+		<= label /
+			<= Title $mol_view
+				sub /
+					<= title \
+
 $mol_icon_chevron $mol_icon path \M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z
 
 $mol_check_expand $mol_check
@@ -736,6 +732,8 @@ $mol_video_player $mol_view
 
 $mol_icon_bookmark $mol_icon path \M17,3H7A2,2 0 0,0 5,5V21L12,18L19,21V5C19,3.89 18.1,3 17,3Z
 
+$mol_check_icon $mol_check
+
 $mol_row $mol_view
 
 $mol_check_list $mol_view
@@ -792,7 +790,7 @@ $hyoo_play $mol_drop
 			<= Queue $mol_page
 				title @ \Hyper Player
 				tools /
-					<= Playing $mol_check_icon
+					- <= Playing $mol_check_icon
 						checked?next <=> playing?next
 						Icon <= Playing_icon $mol_icon_play
 					<= Open $mol_button_open
