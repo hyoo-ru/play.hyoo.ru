@@ -16,6 +16,8 @@ $hyoo_play $mol_drop
 					- <= Playing $mol_check_icon
 						checked?next <=> playing?next
 						Icon <= Playing_icon $mol_icon_play
+					<= Support $mol_link_support
+						uri \https://t.me/hd4ru/2
 					<= Open $mol_button_open
 						files?next <=> files_add?next /
 					<= Sources $mol_link_source
