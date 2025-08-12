@@ -18,6 +18,8 @@ $hyoo_play $mol_drop
 						Icon <= Playing_icon $mol_icon_play
 					<= Support $mol_link_support
 						uri \https://t.me/hd4ru/2
+					<= Support $mol_link_donate
+						uri \https://boosty.to/hyoo
 					<= Open $mol_button_open
 						files?next <=> files_add?next /
 					<= Sources $mol_link_source
