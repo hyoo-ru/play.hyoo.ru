@@ -5159,6 +5159,47 @@ var $;
 "use strict";
 
 ;
+	($.$mol_icon_gift) = class $mol_icon_gift extends ($.$mol_icon) {
+		path(){
+			return "M9.06,1.93C7.17,1.92 5.33,3.74 6.17,6H3A2,2 0 0,0 1,8V10A1,1 0 0,0 2,11H11V8H13V11H22A1,1 0 0,0 23,10V8A2,2 0 0,0 21,6H17.83C19,2.73 14.6,0.42 12.57,3.24L12,4L11.43,3.22C10.8,2.33 9.93,1.94 9.06,1.93M9,4C9.89,4 10.34,5.08 9.71,5.71C9.08,6.34 8,5.89 8,5A1,1 0 0,1 9,4M15,4C15.89,4 16.34,5.08 15.71,5.71C15.08,6.34 14,5.89 14,5A1,1 0 0,1 15,4M2,12V20A2,2 0 0,0 4,22H20A2,2 0 0,0 22,20V12H13V20H11V12H2Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$mol_icon_gift_outline) = class $mol_icon_gift_outline extends ($.$mol_icon) {
+		path(){
+			return "M22,12V20A2,2 0 0,1 20,22H4A2,2 0 0,1 2,20V12A1,1 0 0,1 1,11V8A2,2 0 0,1 3,6H6.17C6.06,5.69 6,5.35 6,5A3,3 0 0,1 9,2C10,2 10.88,2.5 11.43,3.24V3.23L12,4L12.57,3.23V3.24C13.12,2.5 14,2 15,2A3,3 0 0,1 18,5C18,5.35 17.94,5.69 17.83,6H21A2,2 0 0,1 23,8V11A1,1 0 0,1 22,12M4,20H11V12H4V20M20,20V12H13V20H20M9,4A1,1 0 0,0 8,5A1,1 0 0,0 9,6A1,1 0 0,0 10,5A1,1 0 0,0 9,4M15,4A1,1 0 0,0 14,5A1,1 0 0,0 15,6A1,1 0 0,0 16,5A1,1 0 0,0 15,4M3,8V10H11V8H3M13,8V10H21V8H13Z";
+		}
+	};
+
+
+;
+"use strict";
+
+;
+	($.$mol_link_donate) = class $mol_link_donate extends ($.$mol_link) {
+		Icon(){
+			const obj = new this.$.$mol_icon_gift_outline();
+			return obj;
+		}
+		hint(){
+			return (this.$.$mol_locale.text("$mol_link_donate_hint"));
+		}
+		sub(){
+			return [(this.Icon())];
+		}
+	};
+	($mol_mem(($.$mol_link_donate.prototype), "Icon"));
+
+
+;
+"use strict";
+
+;
 	($.$mol_speck) = class $mol_speck extends ($.$mol_view) {
 		theme(){
 			return "$mol_theme_accent";
@@ -10866,6 +10907,11 @@ var $;
 			(obj.uri) = () => ("https://t.me/hd4ru/2");
 			return obj;
 		}
+		Donate(){
+			const obj = new this.$.$mol_link_donate();
+			(obj.uri) = () => ("https://boosty.to/hyoo");
+			return obj;
+		}
 		files_add(next){
 			if(next !== undefined) return next;
 			return [];
@@ -11042,6 +11088,7 @@ var $;
 			(obj.title) = () => ((this.$.$mol_locale.text("$hyoo_play_Queue_title")));
 			(obj.tools) = () => ([
 				(this.Support()), 
+				(this.Donate()), 
 				(this.Open()), 
 				(this.Sources())
 			]);
@@ -11278,6 +11325,7 @@ var $;
 		}
 	};
 	($mol_mem(($.$hyoo_play.prototype), "Support"));
+	($mol_mem(($.$hyoo_play.prototype), "Donate"));
 	($mol_mem(($.$hyoo_play.prototype), "files_add"));
 	($mol_mem(($.$hyoo_play.prototype), "Open"));
 	($mol_mem(($.$hyoo_play.prototype), "Sources"));
