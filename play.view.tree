@@ -41,7 +41,7 @@ $hyoo_play $mol_drop
 										<= Movie_title* $mol_paragraph
 											title <= movie_title*
 										<= Movie_poster* $mol_image
-											minimal_height 450
+											minimal_height 190
 											uri <= movie_poster* \
 										<= Movie_genres* $mol_text
 											text <= movie_genres* \
@@ -123,6 +123,7 @@ $hyoo_play $mol_drop
 							content / <= Similars $mol_row sub <= similars /
 								<= Similar*0 $mol_link
 									arg *
+										search null
 										movie <= similar_id* \
 									sub /
 										<= Similar_title* $mol_paragraph
