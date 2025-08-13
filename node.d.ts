@@ -5277,6 +5277,7 @@ declare namespace $ {
 	>
 	type $mol_link__arg_hyoo_play_55 = $mol_type_enforce<
 		({ 
+			'search': any,
 			'movie': ReturnType< $hyoo_play['similar_id'] >,
 		}) 
 		,
