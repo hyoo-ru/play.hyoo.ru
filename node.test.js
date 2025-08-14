@@ -5970,7 +5970,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/button/typed/typed.view.css", "[mol_button_typed] {\n\talign-content: center;\n\talign-items: center;\n\tpadding: var(--mol_gap_text);\n\tborder-radius: var(--mol_gap_round);\n\tgap: var(--mol_gap_space);\n\tuser-select: none;\n\tcursor: pointer;\n}\n\n[mol_button_typed][disabled] {\n\tpointer-events: none;\n}\n\n[mol_button_typed]:hover ,\n[mol_button_typed]:focus {\n\tbox-shadow: inset 0 0 0 10rem var(--mol_theme_hover);\n}\n\n[mol_button_typed]:active {\n\tcolor: var(--mol_theme_focus);\n}\n\n");
+    $mol_style_attach("mol/button/typed/typed.view.css", "[mol_button_typed] {\n\talign-content: center;\n\talign-items: center;\n\tpadding: var(--mol_gap_text);\n\tborder-radius: var(--mol_gap_round);\n\tgap: var(--mol_gap_space);\n\tuser-select: none;\n\tcursor: pointer;\n}\n\n[mol_button_typed][disabled] {\n\tpointer-events: none;\n}\n\n[mol_button_typed]:hover ,\n[mol_button_typed]:focus-visible {\n\tbox-shadow: inset 0 0 0 10rem var(--mol_theme_hover);\n}\n\n[mol_button_typed]:active {\n\tcolor: var(--mol_theme_focus);\n}\n\n");
 })($ || ($ = {}));
 
 ;
@@ -8660,9 +8660,12 @@ var $;
         },
         ':focus': {
             outline: 'none',
+        },
+        ':focus-visible': {
+            outline: 'none',
             background: {
                 color: $mol_theme.hover,
-            },
+            }
         },
         ':active': {
             color: $mol_theme.focus,
@@ -9316,7 +9319,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/expander/expander.view.css", "[mol_expander] {\n\tflex-direction: column;\n}\n\n[mol_expander_label] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[mol_expander_trigger] {\n\tflex: auto;\n\tposition: relative;\n}\n\n[mol_expander_trigger_icon] {\n\tmargin-left: -.55rem;\n}\n");
+    $mol_style_attach("mol/expander/expander.view.css", "[mol_expander] {\n\tflex-direction: column;\n}\n\n[mol_expander_label] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\tborder-radius: var(--mol_gap_round);\n}\n\n[mol_expander_trigger] {\n\tflex: auto;\n\tposition: relative;\n}\n");
 })($ || ($ = {}));
 
 ;
@@ -10780,7 +10783,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("mol/book2/book2.view.css", "[mol_book2] {\n\tdisplay: flex;\n\tflex-flow: row nowrap;\n\talign-items: stretch;\n\tflex: 1 1 auto;\n\talign-self: stretch;\n\tmargin: 0;\n\t/* box-shadow: 0 0 0 1px var(--mol_theme_line); */\n\t/* transform: translateZ(0); */\n\ttransition: none;\n\tscroll-snap-type: x mandatory;\n\t/* padding: 0 1px;\n\tscroll-padding: 0 1px;\n\tgap: 1px; */\n}\n\n[mol_book2] > * {\n/* \tflex: none; */\n\tscroll-snap-stop: always;\n\tscroll-snap-align: end;\n\tposition: relative;\n\tmin-height: 100%;\n\tmax-height: 100%;\n\tmax-width: 100%;\n\tflex-shrink: 0;\n\tbox-shadow: inset 0 0 0 1px var(--mol_theme_field);\n}\n\n[mol_book2] > *:not(:first-of-type):before,\n[mol_book2] > *:not(:last-of-type)::after {\n\tcontent: '';\n\tposition: absolute;\n\ttop: 1.5rem;\n\twidth: 3px;\n\theight: 1rem;\n\tbackground: linear-gradient(\n\t\tto bottom,\n\t\tvar(--mol_theme_focus) 0%,\n\t\tvar(--mol_theme_focus) 14%,\n\t\ttransparent 15%,\n\t\ttransparent 42%,\n\t\tvar(--mol_theme_focus) 43%,\n\t\tvar(--mol_theme_focus) 57%,\n\t\ttransparent 58%,\n\t\ttransparent 85%,\n\t\tvar(--mol_theme_focus) 86%,\n\t\tvar(--mol_theme_focus) 100%\n\t);\n\topacity: .5;\n\tz-index: var(--mol_layer_speck);\n}\n[mol_book2] > *:not(:first-of-type):before {\n\tleft: -1px;\n}\n[mol_book2] > *:not(:last-of-type)::after {\n\tright: -1px;\n}\n\n:where([mol_book2]) > * {\n\tbackground-color: var(--mol_theme_card);\n\t/* box-shadow: 0 0 0 1px var(--mol_theme_back); */\n}\n\n[mol_book2] > [mol_book2] {\n\tdisplay: contents;\n}\n\n[mol_book2] > *:first-child {\n\tscroll-snap-align: start;\n}\n\n[mol_book2] > [mol_view] {\n\ttransform: none; /* prevent content clipping */\n}\n\n[mol_book2_placeholder] {\n\tflex: 1 1 0;\n\tbackground: none;\n}\n\n[mol_book2_gap] {\n\tbackground: none;\n\tflex-grow: 1;\n\tscroll-snap-align: none;\n\tmargin-right: -1px;\n\tbox-shadow: none;\n}\n\n[mol_book2_gap]::before,\n[mol_book2_gap]::after {\n\tdisplay: none;\n}\n");
+    $mol_style_attach("mol/book2/book2.view.css", "[mol_book2] {\n\tdisplay: flex;\n\tflex-flow: row nowrap;\n\talign-items: stretch;\n\tflex: 1 1 auto;\n\talign-self: stretch;\n\tmargin: 0;\n\t/* box-shadow: 0 0 0 1px var(--mol_theme_line); */\n\t/* transform: translateZ(0); */\n\ttransition: none;\n\tscroll-snap-type: x mandatory;\n\t/* padding: 0 1px;\n\tscroll-padding: 0 1px;\n\tgap: 1px; */\n}\n\n[mol_book2] > * {\n/* \tflex: none; */\n\tscroll-snap-stop: always;\n\tscroll-snap-align: end;\n\tposition: relative;\n\tmin-height: 100%;\n\tmax-height: 100%;\n\tmax-width: 100%;\n\tflex-shrink: 0;\n\tbox-shadow: inset 0 0 0 1px var(--mol_theme_field);\n}\n\n[mol_book2] > *:not(:first-of-type):before,\n[mol_book2] > *:not(:last-of-type)::after {\n\tcontent: '';\n\tposition: absolute;\n\ttop: 1.5rem;\n\twidth: 3px;\n\theight: 1rem;\n\tbackground: linear-gradient(\n\t\tto bottom,\n\t\tvar(--mol_theme_special) 0%,\n\t\tvar(--mol_theme_special) 14%,\n\t\ttransparent 15%,\n\t\ttransparent 42%,\n\t\tvar(--mol_theme_special) 43%,\n\t\tvar(--mol_theme_special) 57%,\n\t\ttransparent 58%,\n\t\ttransparent 85%,\n\t\tvar(--mol_theme_special) 86%,\n\t\tvar(--mol_theme_special) 100%\n\t);\n\topacity: .5;\n\tz-index: var(--mol_layer_speck);\n}\n[mol_book2] > *:not(:first-of-type):before {\n\tleft: -3px;\n}\n[mol_book2] > *:not(:last-of-type)::after {\n\tright: -3px;\n}\n\n:where([mol_book2]) > * {\n\tbackground-color: var(--mol_theme_card);\n\t/* box-shadow: 0 0 0 1px var(--mol_theme_back); */\n}\n\n[mol_book2] > [mol_book2] {\n\tdisplay: contents;\n}\n\n[mol_book2] > *:first-child {\n\tscroll-snap-align: start;\n}\n\n[mol_book2] > [mol_view] {\n\ttransform: none; /* prevent content clipping */\n}\n\n[mol_book2_placeholder] {\n\tflex: 1 1 0;\n\tbackground: none;\n}\n\n[mol_book2_gap] {\n\tbackground: none;\n\tflex-grow: 1;\n\tscroll-snap-align: none;\n\tmargin-right: -1px;\n\tbox-shadow: none;\n}\n\n[mol_book2_gap]::before,\n[mol_book2_gap]::after {\n\tdisplay: none;\n}\n");
 })($ || ($ = {}));
 
 ;
@@ -11032,6 +11035,29 @@ var $;
 			(obj.text) = () => ((this.movie_descr(id)));
 			return obj;
 		}
+		movie_uri_kp(){
+			return "";
+		}
+		Movie_kp(id){
+			const obj = new this.$.$mol_link_iconed();
+			(obj.title) = () => ("Kinopoisk");
+			(obj.uri) = () => ((this.movie_uri_kp()));
+			return obj;
+		}
+		movie_uri_imdb(){
+			return "";
+		}
+		Movie_imdb(id){
+			const obj = new this.$.$mol_link_iconed();
+			(obj.title) = () => ("IMDB");
+			(obj.uri) = () => ((this.movie_uri_imdb()));
+			return obj;
+		}
+		Movie_links(id){
+			const obj = new this.$.$mol_row();
+			(obj.sub) = () => ([(this.Movie_kp(id)), (this.Movie_imdb(id))]);
+			return obj;
+		}
 		similar_id(id){
 			return "";
 		}
@@ -11071,35 +11097,12 @@ var $;
 			(obj.content) = () => ([(this.Similars())]);
 			return obj;
 		}
-		movie_uri_kp(){
-			return "";
-		}
-		Movie_kp(id){
-			const obj = new this.$.$mol_link_iconed();
-			(obj.title) = () => ("Kinopoisk");
-			(obj.uri) = () => ((this.movie_uri_kp()));
-			return obj;
-		}
-		movie_uri_imdb(){
-			return "";
-		}
-		Movie_imdb(id){
-			const obj = new this.$.$mol_link_iconed();
-			(obj.title) = () => ("IMDB");
-			(obj.uri) = () => ((this.movie_uri_imdb()));
-			return obj;
-		}
-		Movie_links(id){
-			const obj = new this.$.$mol_row();
-			(obj.sub) = () => ([(this.Movie_kp(id)), (this.Movie_imdb(id))]);
-			return obj;
-		}
 		Movie_info(id){
 			const obj = new this.$.$mol_list();
 			(obj.rows) = () => ([
 				(this.Movie_descr(id)), 
-				(this.Similars_block()), 
-				(this.Movie_links(id))
+				(this.Movie_links(id)), 
+				(this.Similars_block())
 			]);
 			return obj;
 		}
@@ -11120,7 +11123,7 @@ var $;
 				(this.Moview_page_tools(id))
 			]);
 			(obj.tools) = () => ([(this.Movie_close())]);
-			(obj.body_content) = () => ((this.movie_content(id)));
+			(obj.body) = () => ((this.movie_content(id)));
 			(obj.foot) = () => ([(this.Thanks())]);
 			return obj;
 		}
@@ -11215,14 +11218,14 @@ var $;
 	($mol_mem(($.$hyoo_play.prototype), "Movie_close"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Player_ext"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_descr"));
+	($mol_mem_key(($.$hyoo_play.prototype), "Movie_kp"));
+	($mol_mem_key(($.$hyoo_play.prototype), "Movie_imdb"));
+	($mol_mem_key(($.$hyoo_play.prototype), "Movie_links"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Similar_title"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Similar_poster"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Similar"));
 	($mol_mem(($.$hyoo_play.prototype), "Similars"));
 	($mol_mem(($.$hyoo_play.prototype), "Similars_block"));
-	($mol_mem_key(($.$hyoo_play.prototype), "Movie_kp"));
-	($mol_mem_key(($.$hyoo_play.prototype), "Movie_imdb"));
-	($mol_mem_key(($.$hyoo_play.prototype), "Movie_links"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_info"));
 	($mol_mem(($.$hyoo_play.prototype), "Thanks"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_page"));
@@ -12134,7 +12137,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("hyoo/play/play.view.css", "[hyoo_play] {\n\tbackground-size: cover;\n\tbackground-position: center;;\n}\n\n[hyoo_play_queue_body_content] {\n\tgap: var(--mol_gap_block);\n}\n\n[hyoo_play_queue],\n[hyoo_play_chat_page] {\n\tflex: 0 0 25rem;\n}\n\n[hyoo_play_file] {\n\talign-items: flex-start;\n}\n\n[hyoo_play_file_play][disabled=\"true\"] {\n\tcolor: var(--mol_theme_current);\n}\n\n[hyoo_play_file_play] {\n\tflex: 1 1 auto;\n}\n\n\n[hyoo_play_player] {\n\tflex: 1 0 calc( 100% - 25rem );\n\tobject-position: top;\n}\n\n[hyoo_play_movie_search] {\n\talign-self: stretch;\n\tjustify-self: flex-start;\n}\n\n[hyoo_play_movie] {\n\tflex-direction: column;\n\tpadding: var(--mol_gap_block);\n\tgap: 0;\n\ttext-align: center;\n}\n\n[hyoo_play_movie_title] {\n\tflex: 1 1 auto;\n\tpadding: var(--mol_gap_text);\n\tjustify-content: center;\n}\n\n[hyoo_play_movie_poster] {\n\twidth: auto;\n\tmax-height: 50vh;\n\talign-self: center;\n\taspect-ratio: .67;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;\n}\n[hyoo_play_movie][mol_link_current] [hyoo_play_movie_poster] {\n\tbox-shadow: 0 0 0 2px var(--mol_theme_current), 0 0 1rem black;\n}\n\n[hyoo_play_config] {\n\tflex: 0 0 10rem;\n}\n\n[hyoo_play_movie_page] {\n\tflex: 1 0 max( 50rem, calc( 100% - 35rem ) );\n}\n\n[hyoo_play_player_ext] {\n\tjustify-self: stretch;\n}\n\n[hyoo_play_player_id] {\n\tflex-direction: column;\n}\n\n[hyoo_play_player_id_option] {\n\ttext-transform: capitalize;\n}\n\n[hyoo_play_movie_genres] {\n\tcolor: var(--mol_theme_shade);\n\ttext-align: center;\n}\n\n[hyoo_play_movie_descr] {\n\tpadding: var(--mol_gap_block);\n}\n\n[hyoo_play_similars] {\n\talign-items: flex-end;\n}\n\n[hyoo_play_similar] {\n\tflex-direction: column;\n\twidth: 12rem;\n\ttext-align: center;\n\tpadding: var(--mol_gap_block);\n}\n\n[hyoo_play_similar_title] {\n\tjustify-content: center;\n}\n\n[hyoo_play_similar_poster] {\n\twidth: auto;\n\taspect-ratio: .67;\n\tmax-height: 50vh;\n    align-self: center;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;\n}\n\n");
+    $mol_style_attach("hyoo/play/play.view.css", "[hyoo_play] {\n\tbackground-size: cover;\n\tbackground-position: center;;\n}\n\n[hyoo_play_queue_body_content] {\n\tgap: var(--mol_gap_block);\n}\n\n[hyoo_play_queue],\n[hyoo_play_chat_page] {\n\tflex: 0 0 25rem;\n}\n\n[hyoo_play_file] {\n\talign-items: flex-start;\n}\n\n[hyoo_play_file_play][disabled=\"true\"] {\n\tcolor: var(--mol_theme_current);\n}\n\n[hyoo_play_file_play] {\n\tflex: 1 1 auto;\n}\n\n\n[hyoo_play_player] {\n\tflex: 1 0 calc( 100% - 25rem );\n\tobject-position: top;\n}\n\n[hyoo_play_movie_search] {\n\talign-self: stretch;\n\tjustify-self: flex-start;\n}\n\n[hyoo_play_movie] {\n\tflex-direction: column;\n\tpadding: var(--mol_gap_block);\n\tgap: 0;\n\ttext-align: center;\n}\n\n[hyoo_play_movie_title] {\n\tflex: 1 1 auto;\n\tpadding: var(--mol_gap_text);\n\tjustify-content: center;\n}\n\n[hyoo_play_movie_poster] {\n\twidth: auto;\n\tmax-height: 50vh;\n\talign-self: center;\n\taspect-ratio: .67;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;\n}\n[hyoo_play_movie][mol_link_current] [hyoo_play_movie_poster] {\n\tbox-shadow: 0 0 0 2px var(--mol_theme_current), 0 0 1rem black;\n}\n\n[hyoo_play_config] {\n\tflex: 0 0 10rem;\n}\n\n[hyoo_play_movie_page] {\n\tflex: 1 0 max( 50rem, calc( 100% - 35rem ) );\n}\n\n[hyoo_play_movie_page_head] {\n\tflex-wrap: nowrap;\n\talign-items: flex-start;\n}\n\n[hyoo_play_player_ext] {\n\tjustify-self: stretch;\n}\n\n[hyoo_play_player_id] {\n\tflex-direction: column;\n}\n\n[hyoo_play_player_id_option] {\n\ttext-transform: capitalize;\n}\n\n[hyoo_play_movie_genres] {\n\tcolor: var(--mol_theme_shade);\n\ttext-align: center;\n}\n\n[hyoo_play_similars] {\n\talign-items: flex-end;\n\tpadding: 0;\n}\n\n[hyoo_play_similar] {\n\tflex-direction: column;\n\twidth: 10rem;\n\ttext-align: center;\n\tpadding: var(--mol_gap_block);\n}\n\n[hyoo_play_similar_title] {\n\tjustify-content: center;\n}\n\n[hyoo_play_similar_poster] {\n\twidth: auto;\n\taspect-ratio: .67;\n\tmax-height: 50vh;\n    align-self: center;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;\n}\n\n");
 })($ || ($ = {}));
 
 ;

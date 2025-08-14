@@ -5126,17 +5126,42 @@ declare namespace $ {
 		,
 		ReturnType< $mol_text['text'] >
 	>
-	type $mol_paragraph__title_hyoo_play_39 = $mol_type_enforce<
+	type $mol_link_iconed__title_hyoo_play_39 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_link_iconed['title'] >
+	>
+	type $mol_link_iconed__uri_hyoo_play_40 = $mol_type_enforce<
+		ReturnType< $hyoo_play['movie_uri_kp'] >
+		,
+		ReturnType< $mol_link_iconed['uri'] >
+	>
+	type $mol_link_iconed__title_hyoo_play_41 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_link_iconed['title'] >
+	>
+	type $mol_link_iconed__uri_hyoo_play_42 = $mol_type_enforce<
+		ReturnType< $hyoo_play['movie_uri_imdb'] >
+		,
+		ReturnType< $mol_link_iconed['uri'] >
+	>
+	type $mol_row__sub_hyoo_play_43 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_row['sub'] >
+	>
+	type $mol_paragraph__title_hyoo_play_44 = $mol_type_enforce<
 		ReturnType< $hyoo_play['similar_title'] >
 		,
 		ReturnType< $mol_paragraph['title'] >
 	>
-	type $mol_image__uri_hyoo_play_40 = $mol_type_enforce<
+	type $mol_image__uri_hyoo_play_45 = $mol_type_enforce<
 		ReturnType< $hyoo_play['similar_poster'] >
 		,
 		ReturnType< $mol_image['uri'] >
 	>
-	type $mol_link__arg_hyoo_play_41 = $mol_type_enforce<
+	type $mol_link__arg_hyoo_play_46 = $mol_type_enforce<
 		({ 
 			'search': any,
 			'movie': ReturnType< $hyoo_play['similar_id'] >,
@@ -5144,50 +5169,25 @@ declare namespace $ {
 		,
 		ReturnType< $mol_link['arg'] >
 	>
-	type $mol_link__sub_hyoo_play_42 = $mol_type_enforce<
+	type $mol_link__sub_hyoo_play_47 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_link['sub'] >
 	>
-	type $mol_row__sub_hyoo_play_43 = $mol_type_enforce<
+	type $mol_row__sub_hyoo_play_48 = $mol_type_enforce<
 		ReturnType< $hyoo_play['similars'] >
 		,
 		ReturnType< $mol_row['sub'] >
 	>
-	type $mol_expander__title_hyoo_play_44 = $mol_type_enforce<
+	type $mol_expander__title_hyoo_play_49 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_expander['title'] >
 	>
-	type $mol_expander__content_hyoo_play_45 = $mol_type_enforce<
+	type $mol_expander__content_hyoo_play_50 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_expander['content'] >
-	>
-	type $mol_link_iconed__title_hyoo_play_46 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_link_iconed['title'] >
-	>
-	type $mol_link_iconed__uri_hyoo_play_47 = $mol_type_enforce<
-		ReturnType< $hyoo_play['movie_uri_kp'] >
-		,
-		ReturnType< $mol_link_iconed['uri'] >
-	>
-	type $mol_link_iconed__title_hyoo_play_48 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_link_iconed['title'] >
-	>
-	type $mol_link_iconed__uri_hyoo_play_49 = $mol_type_enforce<
-		ReturnType< $hyoo_play['movie_uri_imdb'] >
-		,
-		ReturnType< $mol_link_iconed['uri'] >
-	>
-	type $mol_row__sub_hyoo_play_50 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_row['sub'] >
 	>
 	type $mol_list__rows_hyoo_play_51 = $mol_type_enforce<
 		readonly(any)[]
@@ -5214,10 +5214,10 @@ declare namespace $ {
 		,
 		ReturnType< $mol_page['tools'] >
 	>
-	type $mol_page__body_content_hyoo_play_56 = $mol_type_enforce<
+	type $mol_page__body_hyoo_play_56 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_content'] >
 		,
-		ReturnType< $mol_page['body_content'] >
+		ReturnType< $mol_page['body'] >
 	>
 	type $mol_page__foot_hyoo_play_57 = $mol_type_enforce<
 		readonly(any)[]
@@ -5306,6 +5306,11 @@ declare namespace $ {
 		Player_ext( id: any): $mol_frame
 		movie_descr( id: any): string
 		Movie_descr( id: any): $mol_text
+		movie_uri_kp( ): string
+		Movie_kp( id: any): $mol_link_iconed
+		movie_uri_imdb( ): string
+		Movie_imdb( id: any): $mol_link_iconed
+		Movie_links( id: any): $mol_row
 		similar_id( id: any): string
 		similar_title( id: any): string
 		Similar_title( id: any): $mol_paragraph
@@ -5315,11 +5320,6 @@ declare namespace $ {
 		similars( ): readonly(any)[]
 		Similars( ): $mol_row
 		Similars_block( ): $mol_expander
-		movie_uri_kp( ): string
-		Movie_kp( id: any): $mol_link_iconed
-		movie_uri_imdb( ): string
-		Movie_imdb( id: any): $mol_link_iconed
-		Movie_links( id: any): $mol_row
 		Movie_info( id: any): $mol_list
 		movie_content( id: any): readonly(any)[]
 		Thanks( ): $mol_text
