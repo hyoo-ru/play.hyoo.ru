@@ -9,7 +9,7 @@
 
 [hyoo_play_queue],
 [hyoo_play_chat_page] {
-	flex: 0 0 20rem;
+	flex: 0 0 25rem;
 }
 
 [hyoo_play_file] {
@@ -29,7 +29,7 @@
 }
 
 [hyoo_play_player] {
-	flex: 1 0 calc( 100% - 20rem );
+	flex: 1 0 calc( 100% - 25rem );
 	object-position: top;
 }
 
@@ -67,7 +67,7 @@
 }
 
 [hyoo_play_movie_page] {
-	flex: 1 0 max( 50rem, calc( 100% - 30rem ) );
+	flex: 1 0 max( 50rem, calc( 100% - 35rem ) );
 }
 
 [hyoo_play_player_ext] {
