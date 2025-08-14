@@ -153,7 +153,7 @@ $hyoo_play $mol_drop
 											uri <= similar_poster* \
 				foot /
 					<= Thanks $mol_text
-						text @ \Thanks to \\ReYohoho\https://github.com/reyohoho/reyohoho\\ project for content.
+						text @ \Thanks to \\ReYohoho\https://github.com/reyohoho/reyohoho\\ for content.
 		placeholders <= sidebars /
 			<= Source*0 $mol_page
 				title @ \Watch
