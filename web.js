@@ -10589,45 +10589,6 @@ var $;
 			(obj.sub) = () => ([(this.Movie_kp(id)), (this.Movie_imdb(id))]);
 			return obj;
 		}
-		similar_id(id){
-			return "";
-		}
-		similar_title(id){
-			return "";
-		}
-		Similar_title(id){
-			const obj = new this.$.$mol_paragraph();
-			(obj.title) = () => ((this.similar_title(id)));
-			return obj;
-		}
-		similar_poster(id){
-			return "";
-		}
-		Similar_poster(id){
-			const obj = new this.$.$mol_image();
-			(obj.uri) = () => ((this.similar_poster(id)));
-			return obj;
-		}
-		Similar(id){
-			const obj = new this.$.$mol_link();
-			(obj.arg) = () => ({"search": null, "movie": (this.similar_id(id))});
-			(obj.sub) = () => ([(this.Similar_title(id)), (this.Similar_poster(id))]);
-			return obj;
-		}
-		similars(){
-			return [(this.Similar("0"))];
-		}
-		Similars(){
-			const obj = new this.$.$mol_row();
-			(obj.sub) = () => ((this.similars()));
-			return obj;
-		}
-		Similars_block(){
-			const obj = new this.$.$mol_expander();
-			(obj.title) = () => ((this.$.$mol_locale.text("$hyoo_play_Similars_block_title")));
-			(obj.content) = () => ([(this.Similars())]);
-			return obj;
-		}
 		member_link(id){
 			return "";
 		}
@@ -10679,13 +10640,52 @@ var $;
 			(obj.content) = () => ([(this.Members())]);
 			return obj;
 		}
+		similar_id(id){
+			return "";
+		}
+		similar_title(id){
+			return "";
+		}
+		Similar_title(id){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.similar_title(id)));
+			return obj;
+		}
+		similar_poster(id){
+			return "";
+		}
+		Similar_poster(id){
+			const obj = new this.$.$mol_image();
+			(obj.uri) = () => ((this.similar_poster(id)));
+			return obj;
+		}
+		Similar(id){
+			const obj = new this.$.$mol_link();
+			(obj.arg) = () => ({"search": null, "movie": (this.similar_id(id))});
+			(obj.sub) = () => ([(this.Similar_title(id)), (this.Similar_poster(id))]);
+			return obj;
+		}
+		similars(){
+			return [(this.Similar("0"))];
+		}
+		Similars(){
+			const obj = new this.$.$mol_row();
+			(obj.sub) = () => ((this.similars()));
+			return obj;
+		}
+		Similars_block(){
+			const obj = new this.$.$mol_expander();
+			(obj.title) = () => ((this.$.$mol_locale.text("$hyoo_play_Similars_block_title")));
+			(obj.content) = () => ([(this.Similars())]);
+			return obj;
+		}
 		Movie_info(id){
 			const obj = new this.$.$mol_list();
 			(obj.rows) = () => ([
 				(this.Movie_descr(id)), 
 				(this.Movie_links(id)), 
-				(this.Similars_block()), 
-				(this.Members_block())
+				(this.Members_block()), 
+				(this.Similars_block())
 			]);
 			return obj;
 		}
@@ -10804,17 +10804,17 @@ var $;
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_kp"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_imdb"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_links"));
-	($mol_mem_key(($.$hyoo_play.prototype), "Similar_title"));
-	($mol_mem_key(($.$hyoo_play.prototype), "Similar_poster"));
-	($mol_mem_key(($.$hyoo_play.prototype), "Similar"));
-	($mol_mem(($.$hyoo_play.prototype), "Similars"));
-	($mol_mem(($.$hyoo_play.prototype), "Similars_block"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Member_name"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Member_photo"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Member_role"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Member"));
 	($mol_mem(($.$hyoo_play.prototype), "Members"));
 	($mol_mem(($.$hyoo_play.prototype), "Members_block"));
+	($mol_mem_key(($.$hyoo_play.prototype), "Similar_title"));
+	($mol_mem_key(($.$hyoo_play.prototype), "Similar_poster"));
+	($mol_mem_key(($.$hyoo_play.prototype), "Similar"));
+	($mol_mem(($.$hyoo_play.prototype), "Similars"));
+	($mol_mem(($.$hyoo_play.prototype), "Similars_block"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_info"));
 	($mol_mem(($.$hyoo_play.prototype), "Thanks"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_page"));

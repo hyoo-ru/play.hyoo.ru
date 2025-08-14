@@ -5164,16 +5164,56 @@ declare namespace $ {
 		ReturnType< $mol_row['sub'] >
 	>
 	type $mol_paragraph__title_hyoo_play_44 = $mol_type_enforce<
-		ReturnType< $hyoo_play['similar_title'] >
+		ReturnType< $hyoo_play['member_name'] >
 		,
 		ReturnType< $mol_paragraph['title'] >
 	>
 	type $mol_image__uri_hyoo_play_45 = $mol_type_enforce<
+		ReturnType< $hyoo_play['member_photo'] >
+		,
+		ReturnType< $mol_image['uri'] >
+	>
+	type $mol_paragraph__title_hyoo_play_46 = $mol_type_enforce<
+		ReturnType< $hyoo_play['member_role'] >
+		,
+		ReturnType< $mol_paragraph['title'] >
+	>
+	type $mol_link__uri_hyoo_play_47 = $mol_type_enforce<
+		ReturnType< $hyoo_play['member_link'] >
+		,
+		ReturnType< $mol_link['uri'] >
+	>
+	type $mol_link__sub_hyoo_play_48 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_link['sub'] >
+	>
+	type $mol_row__sub_hyoo_play_49 = $mol_type_enforce<
+		ReturnType< $hyoo_play['members'] >
+		,
+		ReturnType< $mol_row['sub'] >
+	>
+	type $mol_expander__title_hyoo_play_50 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_expander['title'] >
+	>
+	type $mol_expander__content_hyoo_play_51 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_expander['content'] >
+	>
+	type $mol_paragraph__title_hyoo_play_52 = $mol_type_enforce<
+		ReturnType< $hyoo_play['similar_title'] >
+		,
+		ReturnType< $mol_paragraph['title'] >
+	>
+	type $mol_image__uri_hyoo_play_53 = $mol_type_enforce<
 		ReturnType< $hyoo_play['similar_poster'] >
 		,
 		ReturnType< $mol_image['uri'] >
 	>
-	type $mol_link__arg_hyoo_play_46 = $mol_type_enforce<
+	type $mol_link__arg_hyoo_play_54 = $mol_type_enforce<
 		({ 
 			'search': any,
 			'movie': ReturnType< $hyoo_play['similar_id'] >,
@@ -5181,53 +5221,13 @@ declare namespace $ {
 		,
 		ReturnType< $mol_link['arg'] >
 	>
-	type $mol_link__sub_hyoo_play_47 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_link['sub'] >
-	>
-	type $mol_row__sub_hyoo_play_48 = $mol_type_enforce<
-		ReturnType< $hyoo_play['similars'] >
-		,
-		ReturnType< $mol_row['sub'] >
-	>
-	type $mol_expander__title_hyoo_play_49 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_expander['title'] >
-	>
-	type $mol_expander__content_hyoo_play_50 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_expander['content'] >
-	>
-	type $mol_paragraph__title_hyoo_play_51 = $mol_type_enforce<
-		ReturnType< $hyoo_play['member_name'] >
-		,
-		ReturnType< $mol_paragraph['title'] >
-	>
-	type $mol_image__uri_hyoo_play_52 = $mol_type_enforce<
-		ReturnType< $hyoo_play['member_photo'] >
-		,
-		ReturnType< $mol_image['uri'] >
-	>
-	type $mol_paragraph__title_hyoo_play_53 = $mol_type_enforce<
-		ReturnType< $hyoo_play['member_role'] >
-		,
-		ReturnType< $mol_paragraph['title'] >
-	>
-	type $mol_link__uri_hyoo_play_54 = $mol_type_enforce<
-		ReturnType< $hyoo_play['member_link'] >
-		,
-		ReturnType< $mol_link['uri'] >
-	>
 	type $mol_link__sub_hyoo_play_55 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_link['sub'] >
 	>
 	type $mol_row__sub_hyoo_play_56 = $mol_type_enforce<
-		ReturnType< $hyoo_play['members'] >
+		ReturnType< $hyoo_play['similars'] >
 		,
 		ReturnType< $mol_row['sub'] >
 	>
@@ -5363,15 +5363,6 @@ declare namespace $ {
 		movie_uri_imdb( ): string
 		Movie_imdb( id: any): $mol_link_iconed
 		Movie_links( id: any): $mol_row
-		similar_id( id: any): string
-		similar_title( id: any): string
-		Similar_title( id: any): $mol_paragraph
-		similar_poster( id: any): string
-		Similar_poster( id: any): $mol_image
-		Similar( id: any): $mol_link
-		similars( ): readonly(any)[]
-		Similars( ): $mol_row
-		Similars_block( ): $mol_expander
 		member_link( id: any): string
 		member_name( id: any): string
 		Member_name( id: any): $mol_paragraph
@@ -5383,6 +5374,15 @@ declare namespace $ {
 		members( ): readonly(any)[]
 		Members( ): $mol_row
 		Members_block( ): $mol_expander
+		similar_id( id: any): string
+		similar_title( id: any): string
+		Similar_title( id: any): $mol_paragraph
+		similar_poster( id: any): string
+		Similar_poster( id: any): $mol_image
+		Similar( id: any): $mol_link
+		similars( ): readonly(any)[]
+		Similars( ): $mol_row
+		Similars_block( ): $mol_expander
 		Movie_info( id: any): $mol_list
 		movie_content( id: any): readonly(any)[]
 		Thanks( ): $mol_text
