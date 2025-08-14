@@ -4489,6 +4489,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    function $mol_array_groups<Item, Groups extends string>(all: readonly Item[], group: (item: Item) => Groups): Readonly<Record<Groups, Item[] | undefined>>;
+}
+
+declare namespace $ {
     function $mol_compare_text<Item>(item?: (item: Item) => string): (a: Item, b: Item) => number;
 }
 
@@ -4669,6 +4673,45 @@ declare namespace $ {
             film_id: number;
         }>;
     };
+    const $hyoo_play_api_member: ((val: {
+        name_en: string;
+        name_ru: string;
+        description: string | null;
+        poster_url: string;
+        profession_key: string;
+        profession_text: string;
+        staff_id: number;
+    }) => Readonly<{
+        name_en: string;
+        name_ru: string;
+        description: string | null;
+        poster_url: string;
+        profession_key: string;
+        profession_text: string;
+        staff_id: number;
+    }>) & {
+        config: {
+            description: ((val: string | null) => string | null) & {
+                config: (val: string) => string;
+                Value: string | null;
+            };
+            name_en: (val: string) => string;
+            name_ru: (val: string) => string;
+            poster_url: (val: string) => string;
+            profession_key: (val: string) => string;
+            profession_text: (val: string) => string;
+            staff_id: typeof $mol_data_integer;
+        };
+        Value: Readonly<{
+            name_en: string;
+            name_ru: string;
+            description: string | null;
+            poster_url: string;
+            profession_key: string;
+            profession_text: string;
+            staff_id: number;
+        }>;
+    };
     const $hyoo_play_api_movie_data_full: ((val: {
         year: number;
         slogan: string | null;
@@ -4688,6 +4731,15 @@ declare namespace $ {
         poster_url_preview: string;
         imdb_id: string | null;
         description: string | null;
+        staff: readonly {
+            name_en: string;
+            name_ru: string;
+            description: string | null;
+            poster_url: string;
+            profession_key: string;
+            profession_text: string;
+            staff_id: number;
+        }[];
     }) => Readonly<{
         year: number;
         slogan: string | null;
@@ -4707,6 +4759,15 @@ declare namespace $ {
         poster_url_preview: string;
         imdb_id: string | null;
         description: string | null;
+        staff: readonly Readonly<{
+            name_en: string;
+            name_ru: string;
+            description: string | null;
+            poster_url: string;
+            profession_key: string;
+            profession_text: string;
+            staff_id: number;
+        }>[];
     }>) & {
         config: {
             imdb_id: ((val: string | null) => string | null) & {
@@ -4801,6 +4862,72 @@ declare namespace $ {
                     film_id: number;
                 }>[];
             };
+            staff: ((val: readonly {
+                name_en: string;
+                name_ru: string;
+                description: string | null;
+                poster_url: string;
+                profession_key: string;
+                profession_text: string;
+                staff_id: number;
+            }[]) => readonly Readonly<{
+                name_en: string;
+                name_ru: string;
+                description: string | null;
+                poster_url: string;
+                profession_key: string;
+                profession_text: string;
+                staff_id: number;
+            }>[]) & {
+                config: ((val: {
+                    name_en: string;
+                    name_ru: string;
+                    description: string | null;
+                    poster_url: string;
+                    profession_key: string;
+                    profession_text: string;
+                    staff_id: number;
+                }) => Readonly<{
+                    name_en: string;
+                    name_ru: string;
+                    description: string | null;
+                    poster_url: string;
+                    profession_key: string;
+                    profession_text: string;
+                    staff_id: number;
+                }>) & {
+                    config: {
+                        description: ((val: string | null) => string | null) & {
+                            config: (val: string) => string;
+                            Value: string | null;
+                        };
+                        name_en: (val: string) => string;
+                        name_ru: (val: string) => string;
+                        poster_url: (val: string) => string;
+                        profession_key: (val: string) => string;
+                        profession_text: (val: string) => string;
+                        staff_id: typeof $mol_data_integer;
+                    };
+                    Value: Readonly<{
+                        name_en: string;
+                        name_ru: string;
+                        description: string | null;
+                        poster_url: string;
+                        profession_key: string;
+                        profession_text: string;
+                        staff_id: number;
+                    }>;
+                };
+                Value: readonly Readonly<{
+                    name_en: string;
+                    name_ru: string;
+                    description: string | null;
+                    poster_url: string;
+                    profession_key: string;
+                    profession_text: string;
+                    staff_id: number;
+                }>[];
+            };
             name_original: ((val: string | null) => string | null) & {
                 config: (val: string) => string;
                 Value: string | null;
@@ -4834,6 +4961,15 @@ declare namespace $ {
             poster_url_preview: string;
             imdb_id: string | null;
             description: string | null;
+            staff: readonly Readonly<{
+                name_en: string;
+                name_ru: string;
+                description: string | null;
+                poster_url: string;
+                profession_key: string;
+                profession_text: string;
+                staff_id: number;
+            }>[];
         }>;
     };
     const $hyoo_play_api_player_data: ((val: {
@@ -4878,6 +5014,15 @@ declare namespace $ {
             poster_url_preview: string;
             imdb_id: string | null;
             description: string | null;
+            staff: readonly Readonly<{
+                name_en: string;
+                name_ru: string;
+                description: string | null;
+                poster_url: string;
+                profession_key: string;
+                profession_text: string;
+                staff_id: number;
+            }>[];
         }>;
         title(): string;
         year(): number;
@@ -4886,6 +5031,12 @@ declare namespace $ {
         slogan(): string;
         genres(): string[];
         similars(): Map<number, $hyoo_play_api_movie>;
+        members(): Map<number, {
+            name: string;
+            photo: string;
+            link: string;
+            roles: Set<string>;
+        }>;
         players(): Map<string, $hyoo_play_api_player>;
     }
     class $hyoo_play_api_player extends $mol_object {
@@ -5189,72 +5340,112 @@ declare namespace $ {
 		,
 		ReturnType< $mol_expander['content'] >
 	>
-	type $mol_list__rows_hyoo_play_51 = $mol_type_enforce<
+	type $mol_paragraph__title_hyoo_play_51 = $mol_type_enforce<
+		ReturnType< $hyoo_play['member_name'] >
+		,
+		ReturnType< $mol_paragraph['title'] >
+	>
+	type $mol_image__uri_hyoo_play_52 = $mol_type_enforce<
+		ReturnType< $hyoo_play['member_photo'] >
+		,
+		ReturnType< $mol_image['uri'] >
+	>
+	type $mol_paragraph__title_hyoo_play_53 = $mol_type_enforce<
+		ReturnType< $hyoo_play['member_role'] >
+		,
+		ReturnType< $mol_paragraph['title'] >
+	>
+	type $mol_link__uri_hyoo_play_54 = $mol_type_enforce<
+		ReturnType< $hyoo_play['member_link'] >
+		,
+		ReturnType< $mol_link['uri'] >
+	>
+	type $mol_link__sub_hyoo_play_55 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_link['sub'] >
+	>
+	type $mol_row__sub_hyoo_play_56 = $mol_type_enforce<
+		ReturnType< $hyoo_play['members'] >
+		,
+		ReturnType< $mol_row['sub'] >
+	>
+	type $mol_expander__title_hyoo_play_57 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_expander['title'] >
+	>
+	type $mol_expander__content_hyoo_play_58 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_expander['content'] >
+	>
+	type $mol_list__rows_hyoo_play_59 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_list['rows'] >
 	>
-	type $mol_text__text_hyoo_play_52 = $mol_type_enforce<
+	type $mol_text__text_hyoo_play_60 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_text['text'] >
 	>
-	type $mol_page__title_hyoo_play_53 = $mol_type_enforce<
+	type $mol_page__title_hyoo_play_61 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_current_title'] >
 		,
 		ReturnType< $mol_page['title'] >
 	>
-	type $mol_page__head_hyoo_play_54 = $mol_type_enforce<
+	type $mol_page__head_hyoo_play_62 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['head'] >
 	>
-	type $mol_page__tools_hyoo_play_55 = $mol_type_enforce<
+	type $mol_page__tools_hyoo_play_63 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['tools'] >
 	>
-	type $mol_page__body_hyoo_play_56 = $mol_type_enforce<
+	type $mol_page__body_hyoo_play_64 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_content'] >
 		,
 		ReturnType< $mol_page['body'] >
 	>
-	type $mol_page__foot_hyoo_play_57 = $mol_type_enforce<
+	type $mol_page__foot_hyoo_play_65 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['foot'] >
 	>
-	type $mol_switch__value_hyoo_play_58 = $mol_type_enforce<
+	type $mol_switch__value_hyoo_play_66 = $mol_type_enforce<
 		ReturnType< $hyoo_play['player_id'] >
 		,
 		ReturnType< $mol_switch['value'] >
 	>
-	type $mol_switch__keys_hyoo_play_59 = $mol_type_enforce<
+	type $mol_switch__keys_hyoo_play_67 = $mol_type_enforce<
 		ReturnType< $hyoo_play['player_options'] >
 		,
 		ReturnType< $mol_switch['keys'] >
 	>
-	type $mol_switch__option_title_hyoo_play_60 = $mol_type_enforce<
+	type $mol_switch__option_title_hyoo_play_68 = $mol_type_enforce<
 		ReturnType< $hyoo_play['player_name'] >
 		,
 		ReturnType< $mol_switch['option_title'] >
 	>
-	type $mol_page__title_hyoo_play_61 = $mol_type_enforce<
+	type $mol_page__title_hyoo_play_69 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_page['title'] >
 	>
-	type $mol_page__body_hyoo_play_62 = $mol_type_enforce<
+	type $mol_page__body_hyoo_play_70 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['body'] >
 	>
-	type $mol_book2__pages_hyoo_play_63 = $mol_type_enforce<
+	type $mol_book2__pages_hyoo_play_71 = $mol_type_enforce<
 		ReturnType< $hyoo_play['pages'] >
 		,
 		ReturnType< $mol_book2['pages'] >
 	>
-	type $mol_book2__placeholders_hyoo_play_64 = $mol_type_enforce<
+	type $mol_book2__placeholders_hyoo_play_72 = $mol_type_enforce<
 		ReturnType< $hyoo_play['sidebars'] >
 		,
 		ReturnType< $mol_book2['placeholders'] >
@@ -5320,6 +5511,17 @@ declare namespace $ {
 		similars( ): readonly(any)[]
 		Similars( ): $mol_row
 		Similars_block( ): $mol_expander
+		member_link( id: any): string
+		member_name( id: any): string
+		Member_name( id: any): $mol_paragraph
+		member_photo( id: any): string
+		Member_photo( id: any): $mol_image
+		member_role( id: any): string
+		Member_role( id: any): $mol_paragraph
+		Member( id: any): $mol_link
+		members( ): readonly(any)[]
+		Members( ): $mol_row
+		Members_block( ): $mol_expander
 		Movie_info( id: any): $mol_list
 		movie_content( id: any): readonly(any)[]
 		Thanks( ): $mol_text
@@ -5403,6 +5605,11 @@ declare namespace $.$$ {
         similar_title(id: number): string;
         similar_poster(id: number): string;
         similar_id(id: number): string;
+        members(): $.$mol_link[];
+        member_name(id: number): string;
+        member_role(id: number): string;
+        member_photo(id: number): string;
+        member_link(id: number): string;
         auto(): void;
     }
     export {};

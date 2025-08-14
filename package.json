@@ -245,6 +245,8 @@
     "$mol_data_nullable",
     "$mol_fetch",
     "$mol_dom_parse",
+    "$mol_array_groups",
+    "$mol_array",
     "$mol_compare_text",
     "$hyoo_play_m3u",
     "$mol_guard",

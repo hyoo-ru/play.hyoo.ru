@@ -10628,12 +10628,64 @@ var $;
 			(obj.content) = () => ([(this.Similars())]);
 			return obj;
 		}
+		member_link(id){
+			return "";
+		}
+		member_name(id){
+			return "";
+		}
+		Member_name(id){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.member_name(id)));
+			return obj;
+		}
+		member_photo(id){
+			return "";
+		}
+		Member_photo(id){
+			const obj = new this.$.$mol_image();
+			(obj.uri) = () => ((this.member_photo(id)));
+			return obj;
+		}
+		member_role(id){
+			return "";
+		}
+		Member_role(id){
+			const obj = new this.$.$mol_paragraph();
+			(obj.title) = () => ((this.member_role(id)));
+			return obj;
+		}
+		Member(id){
+			const obj = new this.$.$mol_link();
+			(obj.uri) = () => ((this.member_link(id)));
+			(obj.sub) = () => ([
+				(this.Member_name(id)), 
+				(this.Member_photo(id)), 
+				(this.Member_role(id))
+			]);
+			return obj;
+		}
+		members(){
+			return [(this.Member("0"))];
+		}
+		Members(){
+			const obj = new this.$.$mol_row();
+			(obj.sub) = () => ((this.members()));
+			return obj;
+		}
+		Members_block(){
+			const obj = new this.$.$mol_expander();
+			(obj.title) = () => ((this.$.$mol_locale.text("$hyoo_play_Members_block_title")));
+			(obj.content) = () => ([(this.Members())]);
+			return obj;
+		}
 		Movie_info(id){
 			const obj = new this.$.$mol_list();
 			(obj.rows) = () => ([
 				(this.Movie_descr(id)), 
 				(this.Movie_links(id)), 
-				(this.Similars_block())
+				(this.Similars_block()), 
+				(this.Members_block())
 			]);
 			return obj;
 		}
@@ -10757,6 +10809,12 @@ var $;
 	($mol_mem_key(($.$hyoo_play.prototype), "Similar"));
 	($mol_mem(($.$hyoo_play.prototype), "Similars"));
 	($mol_mem(($.$hyoo_play.prototype), "Similars_block"));
+	($mol_mem_key(($.$hyoo_play.prototype), "Member_name"));
+	($mol_mem_key(($.$hyoo_play.prototype), "Member_photo"));
+	($mol_mem_key(($.$hyoo_play.prototype), "Member_role"));
+	($mol_mem_key(($.$hyoo_play.prototype), "Member"));
+	($mol_mem(($.$hyoo_play.prototype), "Members"));
+	($mol_mem(($.$hyoo_play.prototype), "Members_block"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_info"));
 	($mol_mem(($.$hyoo_play.prototype), "Thanks"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_page"));
@@ -10982,6 +11040,21 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $mol_array_groups(all, group) {
+        const res = {};
+        for (const item of all) {
+            const list = (res[group(item)] ||= []);
+            list.push(item);
+        }
+        return res;
+    }
+    $.$mol_array_groups = $mol_array_groups;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     function $mol_compare_text(item = (item) => String(item)) {
         return (a, b) => {
             const text_a = item(a).trim().toLowerCase();
@@ -11034,6 +11107,15 @@ var $;
         ...$.$hyoo_play_api_movie_data_short.config,
         film_id: $mol_data_integer,
     });
+    $.$hyoo_play_api_member = $mol_data_record({
+        description: $mol_data_nullable($mol_data_string),
+        name_en: $mol_data_string,
+        name_ru: $mol_data_string,
+        poster_url: $mol_data_string,
+        profession_key: $mol_data_string,
+        profession_text: $mol_data_string,
+        staff_id: $mol_data_integer,
+    });
     $.$hyoo_play_api_movie_data_full = $mol_data_record({
         ...$.$hyoo_play_api_movie_data_short.config,
         imdb_id: $mol_data_nullable($mol_data_string),
@@ -11043,7 +11125,8 @@ var $;
         genres: $mol_data_array($mol_data_record({
             genre: $mol_data_string,
         })),
-        similars: $mol_data_array($.$hyoo_play_api_similar_data)
+        similars: $mol_data_array($.$hyoo_play_api_similar_data),
+        staff: $mol_data_array($.$hyoo_play_api_member),
     });
     $.$hyoo_play_api_player_data = $mol_data_record({
         name: $mol_data_string,
@@ -11107,6 +11190,26 @@ var $;
                     poster: $mol_const(sim.poster_url_preview),
                 })]));
         }
+        members() {
+            const members = $mol_array_groups(this.data().staff, item => ' ' + item.staff_id);
+            return new Map([...Object.entries(members)].map(([id, items]) => [
+                parseInt(id),
+                items.reduce((res, item) => {
+                    res.name = item.name_ru || item.name_en || res.name;
+                    res.photo = item.poster_url || res.photo;
+                    if (item.profession_key) {
+                        const prof = item.profession_key.toLowerCase();
+                        res.roles.add(item.description ? `${prof} (${item.description})` : prof);
+                    }
+                    return res;
+                }, {
+                    name: 'Anonymous',
+                    photo: 'about:blank',
+                    link: `https://www.kinopoisk.ru/name/${parseInt(id)}/`,
+                    roles: new Set(),
+                })
+            ]));
+        }
         players() {
             const resp = this.$.$mol_fetch.json(`https://api4.rhhhhhhh.live/cache`, {
                 method: 'POST',
@@ -11130,6 +11233,9 @@ var $;
     __decorate([
         $mol_mem
     ], $hyoo_play_api_movie.prototype, "similars", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_play_api_movie.prototype, "members", null);
     __decorate([
         $mol_mem
     ], $hyoo_play_api_movie.prototype, "players", null);
@@ -11523,7 +11629,7 @@ var $;
                 return this.movies().get(id).genres().join(', ');
             }
             cover() {
-                const poster = this.movie_current()?.poster() || 'https://habrastorage.org/webt/vd/jt/8d/vdjt8dluf8kkeav4ry3aowjx6ua.jpeg';
+                const poster = this.movie_current()?.poster() || 'https://habrastorage.org/webt/6l/sw/vg/6lswvg5cbp8-_-xuhg-aeuehsb4.jpeg';
                 return `linear-gradient( #000000DF ), url( ${JSON.stringify(poster)} )`;
             }
             similars() {
@@ -11537,6 +11643,21 @@ var $;
             }
             similar_id(id) {
                 return String(id);
+            }
+            members() {
+                return [...this.movie_current().members().keys()].map(id => this.Member(id));
+            }
+            member_name(id) {
+                return this.movie_current().members().get(id).name;
+            }
+            member_role(id) {
+                return [...this.movie_current().members().get(id).roles.values()].join(', ');
+            }
+            member_photo(id) {
+                return this.movie_current().members().get(id).photo;
+            }
+            member_link(id) {
+                return this.movie_current().members().get(id).link;
             }
             auto() {
                 this.auto_switch();
@@ -11631,6 +11752,9 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_play.prototype, "similars", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_play.prototype, "members", null);
         $$.$hyoo_play = $hyoo_play;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -11639,7 +11763,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("hyoo/play/play.view.css", "[hyoo_play] {\n\tbackground-size: cover;\n\tbackground-position: center;;\n}\n\n[hyoo_play_queue_body_content] {\n\tgap: var(--mol_gap_block);\n}\n\n[hyoo_play_queue],\n[hyoo_play_chat_page] {\n\tflex: 0 0 25rem;\n}\n\n[hyoo_play_file] {\n\talign-items: flex-start;\n}\n\n[hyoo_play_file_play][disabled=\"true\"] {\n\tcolor: var(--mol_theme_current);\n}\n\n[hyoo_play_file_play] {\n\tflex: 1 1 auto;\n}\n\n\n[hyoo_play_player] {\n\tflex: 1 0 calc( 100% - 25rem );\n\tobject-position: top;\n}\n\n[hyoo_play_movie_search] {\n\talign-self: stretch;\n\tjustify-self: flex-start;\n}\n\n[hyoo_play_movie] {\n\tflex-direction: column;\n\tpadding: var(--mol_gap_block);\n\tgap: 0;\n\ttext-align: center;\n}\n\n[hyoo_play_movie_title] {\n\tflex: 1 1 auto;\n\tpadding: var(--mol_gap_text);\n\tjustify-content: center;\n}\n\n[hyoo_play_movie_poster] {\n\twidth: auto;\n\tmax-height: 50vh;\n\talign-self: center;\n\taspect-ratio: .67;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;\n}\n[hyoo_play_movie][mol_link_current] [hyoo_play_movie_poster] {\n\tbox-shadow: 0 0 0 2px var(--mol_theme_current), 0 0 1rem black;\n}\n\n[hyoo_play_config] {\n\tflex: 0 0 10rem;\n}\n\n[hyoo_play_movie_page] {\n\tflex: 1 0 max( 50rem, calc( 100% - 35rem ) );\n}\n\n[hyoo_play_movie_page_head] {\n\tflex-wrap: nowrap;\n\talign-items: flex-start;\n}\n\n[hyoo_play_player_ext] {\n\tjustify-self: stretch;\n}\n\n[hyoo_play_player_id] {\n\tflex-direction: column;\n}\n\n[hyoo_play_player_id_option] {\n\ttext-transform: capitalize;\n}\n\n[hyoo_play_movie_genres] {\n\tcolor: var(--mol_theme_shade);\n\ttext-align: center;\n}\n\n[hyoo_play_similars] {\n\talign-items: flex-end;\n\tpadding: 0;\n}\n\n[hyoo_play_similar] {\n\tflex-direction: column;\n\twidth: 10rem;\n\ttext-align: center;\n\tpadding: var(--mol_gap_block);\n}\n\n[hyoo_play_similar_title] {\n\tjustify-content: center;\n}\n\n[hyoo_play_similar_poster] {\n\twidth: auto;\n\taspect-ratio: .67;\n\tmax-height: 50vh;\n    align-self: center;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;\n}\n\n");
+    $mol_style_attach("hyoo/play/play.view.css", "[hyoo_play] {\n\tbackground-size: cover;\n\tbackground-position: center;;\n}\n\n[hyoo_play_queue_body_content] {\n\tgap: var(--mol_gap_block);\n}\n\n[hyoo_play_queue],\n[hyoo_play_chat_page] {\n\tflex: 0 0 25rem;\n}\n\n[hyoo_play_file] {\n\talign-items: flex-start;\n}\n\n[hyoo_play_file_play][disabled=\"true\"] {\n\tcolor: var(--mol_theme_current);\n}\n\n[hyoo_play_file_play] {\n\tflex: 1 1 auto;\n}\n\n\n[hyoo_play_player] {\n\tflex: 1 0 calc( 100% - 25rem );\n\tobject-position: top;\n}\n\n[hyoo_play_movie_search] {\n\talign-self: stretch;\n\tjustify-self: flex-start;\n}\n\n[hyoo_play_movie] {\n\tflex-direction: column;\n\tgap: 0;\n\ttext-align: center;\n}\n\n[hyoo_play_movie_title] {\n\tflex: 1 1 auto;\n\tpadding: var(--mol_gap_text);\n\tjustify-content: center;\n}\n\n[hyoo_play_movie_poster] {\n\twidth: auto;\n\tmax-height: 50vh;\n\talign-self: center;\n\taspect-ratio: .67;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;\n}\n[hyoo_play_movie][mol_link_current] [hyoo_play_movie_poster] {\n\tbox-shadow: 0 0 0 2px var(--mol_theme_current), 0 0 1rem black;\n}\n\n[hyoo_play_config] {\n\tflex: 0 0 10rem;\n}\n\n[hyoo_play_movie_page] {\n\tflex: 1 0 max( 50rem, calc( 100% - 35rem ) );\n}\n\n[hyoo_play_movie_page_head] {\n\tflex-wrap: nowrap;\n\talign-items: flex-start;\n}\n\n[hyoo_play_player_ext] {\n\tjustify-self: stretch;\n}\n\n[hyoo_play_player_id] {\n\tflex-direction: column;\n}\n\n[hyoo_play_player_id_option] {\n\ttext-transform: capitalize;\n}\n\n[hyoo_play_movie_genres] {\n\tcolor: var(--mol_theme_shade);\n\ttext-align: center;\n}\n\n[hyoo_play_similars] {\n\talign-items: flex-end;\n\tpadding: 0;\n}\n\n[hyoo_play_similar] {\n\tflex-direction: column;\n\twidth: 10rem;\n\ttext-align: center;\n\tpadding: var(--mol_gap_block);\n}\n\n[hyoo_play_similar_title] {\n\tjustify-content: center;\n}\n\n[hyoo_play_similar_poster] {\n\twidth: auto;\n\taspect-ratio: .67;\n\tmax-height: 50vh;\n    align-self: center;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;\n}\n\n[hyoo_play_members] {\n\tpadding: 0;\n}\n\n[hyoo_play_member] {\n\tflex-direction: column;\n\twidth: 10.5rem;\n\ttext-align: center;\n}\n\n[hyoo_play_member_name] {\n\tjustify-content: center;\n    height: 3rem;\n    align-items: flex-end;\n}\n\n[hyoo_play_member_role] {\n\tjustify-content: center;\n\tcolor: var(--mol_theme_shade);\n}\n\n[hyoo_play_member_photo] {\n\twidth: 10rem;\n\taspect-ratio: .67;\n\tmax-height: 50vh;\n    align-self: center;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;\n}\n\n");
 })($ || ($ = {}));
 
 
