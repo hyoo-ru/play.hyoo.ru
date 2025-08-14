@@ -9,8 +9,7 @@
 	"$hyoo_play_Movies_hint": "Ролики",
 	"$hyoo_play_Movie_search_hint": "Поиск кино...",
 	"$hyoo_play_Movie_bookmark_hint": "Закладка",
-	"$hyoo_play_player_name_none": "Инфо",
+	"$hyoo_play_player_name_none": "Информация",
 	"$hyoo_play_Similars_block_title": "Похожее кино",
-	"$hyoo_play_Members_block_title": "Личный состав",
-	"$hyoo_play_Thanks_text": "Спасибо \\\\ReYohoho\\https://github.com/reyohoho/reyohoho\\\\ за контент."
+	"$hyoo_play_Members_block_title": "Личный состав"
 }

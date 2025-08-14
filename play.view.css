@@ -58,7 +58,7 @@
 	box-shadow: 0 0 0 2px var(--mol_theme_current), 0 0 1rem black;
 }
 
-[hyoo_play_config] {
+[hyoo_play_source] {
 	flex: 0 0 10rem;
 }
 
@@ -86,6 +86,10 @@
 [hyoo_play_movie_genres] {
 	color: var(--mol_theme_shade);
 	text-align: center;
+}
+
+[hyoo_play_movie_info] {
+	padding: var(--mol_gap_block);
 }
 
 [hyoo_play_similars] {
