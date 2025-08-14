@@ -67,6 +67,11 @@
 	flex: 1 0 max( 50rem, calc( 100% - 35rem ) );
 }
 
+[hyoo_play_movie_page_head] {
+	flex-wrap: nowrap;
+	align-items: flex-start;
+}
+
 [hyoo_play_player_ext] {
 	justify-self: stretch;
 }
@@ -84,17 +89,14 @@
 	text-align: center;
 }
 
-[hyoo_play_movie_descr] {
-	padding: var(--mol_gap_block);
-}
-
 [hyoo_play_similars] {
 	align-items: flex-end;
+	padding: 0;
 }
 
 [hyoo_play_similar] {
 	flex-direction: column;
-	width: 12rem;
+	width: 10rem;
 	text-align: center;
 	padding: var(--mol_gap_block);
 }
