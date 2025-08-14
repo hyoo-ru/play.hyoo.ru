@@ -1,6 +1,6 @@
 {
-	"short_name": "$hyoo_play",
-	"name": "$hyoo_play",
+	"short_name": "Hyper Player",
+	"name": "Hyper Player",
 	"icons": [
 		{
 			"src": "../../hyoo/play/logo/logo.svg",
