@@ -1,4 +1,6 @@
 deploy \/hyoo/play/logo/logo.svg
+deploy \/hyoo/play/logo/logo_512.png
+
 deploy \/hyoo/play/manifest.json
 deploy \/hyoo/play/lib/water.m3u8
 deploy \/hyoo/play/lib/fire.m3u8
