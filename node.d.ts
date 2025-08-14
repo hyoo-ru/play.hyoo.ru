@@ -4996,104 +4996,109 @@ declare namespace $ {
 		,
 		ReturnType< $mol_link_donate['uri'] >
 	>
-	type $mol_button_open__files_hyoo_play_3 = $mol_type_enforce<
+	type $mol_button_open__hint_hyoo_play_3 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_button_open['hint'] >
+	>
+	type $mol_button_open__files_hyoo_play_4 = $mol_type_enforce<
 		ReturnType< $hyoo_play['files_add'] >
 		,
 		ReturnType< $mol_button_open['files'] >
 	>
-	type $mol_link_source__uri_hyoo_play_4 = $mol_type_enforce<
+	type $mol_link_source__uri_hyoo_play_5 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_link_source['uri'] >
 	>
-	type $mol_search__hint_hyoo_play_5 = $mol_type_enforce<
+	type $mol_search__hint_hyoo_play_6 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_search['hint'] >
 	>
-	type $mol_search__query_hyoo_play_6 = $mol_type_enforce<
+	type $mol_search__query_hyoo_play_7 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_search'] >
 		,
 		ReturnType< $mol_search['query'] >
 	>
-	type $mol_paragraph__title_hyoo_play_7 = $mol_type_enforce<
+	type $mol_paragraph__title_hyoo_play_8 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_title'] >
 		,
 		ReturnType< $mol_paragraph['title'] >
 	>
-	type $mol_image__minimal_height_hyoo_play_8 = $mol_type_enforce<
+	type $mol_image__minimal_height_hyoo_play_9 = $mol_type_enforce<
 		number
 		,
 		ReturnType< $mol_image['minimal_height'] >
 	>
-	type $mol_image__uri_hyoo_play_9 = $mol_type_enforce<
+	type $mol_image__uri_hyoo_play_10 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_poster'] >
 		,
 		ReturnType< $mol_image['uri'] >
 	>
-	type $mol_text__text_hyoo_play_10 = $mol_type_enforce<
+	type $mol_text__text_hyoo_play_11 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_genres'] >
 		,
 		ReturnType< $mol_text['text'] >
 	>
-	type $mol_link__hint_hyoo_play_11 = $mol_type_enforce<
+	type $mol_link__hint_hyoo_play_12 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_title'] >
 		,
 		ReturnType< $mol_link['hint'] >
 	>
-	type $mol_link__arg_hyoo_play_12 = $mol_type_enforce<
+	type $mol_link__arg_hyoo_play_13 = $mol_type_enforce<
 		({ 
 			'movie': ReturnType< $hyoo_play['movie_id'] >,
 		}) 
 		,
 		ReturnType< $mol_link['arg'] >
 	>
-	type $mol_link__sub_hyoo_play_13 = $mol_type_enforce<
+	type $mol_link__sub_hyoo_play_14 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_link['sub'] >
 	>
-	type $mol_button_minor__title_hyoo_play_14 = $mol_type_enforce<
+	type $mol_button_minor__title_hyoo_play_15 = $mol_type_enforce<
 		ReturnType< $hyoo_play['file_title'] >
 		,
 		ReturnType< $mol_button_minor['title'] >
 	>
-	type $mol_button_minor__enabled_hyoo_play_15 = $mol_type_enforce<
+	type $mol_button_minor__enabled_hyoo_play_16 = $mol_type_enforce<
 		ReturnType< $hyoo_play['file_enabled'] >
 		,
 		ReturnType< $mol_button_minor['enabled'] >
 	>
-	type $mol_button_minor__click_hyoo_play_16 = $mol_type_enforce<
+	type $mol_button_minor__click_hyoo_play_17 = $mol_type_enforce<
 		ReturnType< $hyoo_play['file_play'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__click_hyoo_play_17 = $mol_type_enforce<
+	type $mol_button_minor__click_hyoo_play_18 = $mol_type_enforce<
 		ReturnType< $hyoo_play['file_drop'] >
 		,
 		ReturnType< $mol_button_minor['click'] >
 	>
-	type $mol_button_minor__sub_hyoo_play_18 = $mol_type_enforce<
+	type $mol_button_minor__sub_hyoo_play_19 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_button_minor['sub'] >
 	>
-	type $mol_view__sub_hyoo_play_19 = $mol_type_enforce<
+	type $mol_view__sub_hyoo_play_20 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_view['sub'] >
 	>
-	type $mol_list__rows_hyoo_play_20 = $mol_type_enforce<
+	type $mol_list__rows_hyoo_play_21 = $mol_type_enforce<
 		ReturnType< $hyoo_play['queue_items'] >
 		,
 		ReturnType< $mol_list['rows'] >
 	>
-	type $mol_link__hint_hyoo_play_21 = $mol_type_enforce<
+	type $mol_link__hint_hyoo_play_22 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_link['hint'] >
 	>
-	type $mol_link__arg_hyoo_play_22 = $mol_type_enforce<
+	type $mol_link__arg_hyoo_play_23 = $mol_type_enforce<
 		({ 
 			'playlist': string,
 			'search': any,
@@ -5101,17 +5106,17 @@ declare namespace $ {
 		,
 		ReturnType< $mol_link['arg'] >
 	>
-	type $mol_link__sub_hyoo_play_23 = $mol_type_enforce<
+	type $mol_link__sub_hyoo_play_24 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_link['sub'] >
 	>
-	type $mol_link__hint_hyoo_play_24 = $mol_type_enforce<
+	type $mol_link__hint_hyoo_play_25 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_link['hint'] >
 	>
-	type $mol_link__arg_hyoo_play_25 = $mol_type_enforce<
+	type $mol_link__arg_hyoo_play_26 = $mol_type_enforce<
 		({ 
 			'playlist': string,
 			'search': any,
@@ -5119,17 +5124,17 @@ declare namespace $ {
 		,
 		ReturnType< $mol_link['arg'] >
 	>
-	type $mol_link__sub_hyoo_play_26 = $mol_type_enforce<
+	type $mol_link__sub_hyoo_play_27 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_link['sub'] >
 	>
-	type $mol_link__hint_hyoo_play_27 = $mol_type_enforce<
+	type $mol_link__hint_hyoo_play_28 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_link['hint'] >
 	>
-	type $mol_link__arg_hyoo_play_28 = $mol_type_enforce<
+	type $mol_link__arg_hyoo_play_29 = $mol_type_enforce<
 		({ 
 			'playlist': string,
 			'search': any,
@@ -5137,17 +5142,17 @@ declare namespace $ {
 		,
 		ReturnType< $mol_link['arg'] >
 	>
-	type $mol_link__sub_hyoo_play_29 = $mol_type_enforce<
+	type $mol_link__sub_hyoo_play_30 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_link['sub'] >
 	>
-	type $mol_link__hint_hyoo_play_30 = $mol_type_enforce<
+	type $mol_link__hint_hyoo_play_31 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_link['hint'] >
 	>
-	type $mol_link__arg_hyoo_play_31 = $mol_type_enforce<
+	type $mol_link__arg_hyoo_play_32 = $mol_type_enforce<
 		({ 
 			'playlist': string,
 			'search': any,
@@ -5155,17 +5160,17 @@ declare namespace $ {
 		,
 		ReturnType< $mol_link['arg'] >
 	>
-	type $mol_link__sub_hyoo_play_32 = $mol_type_enforce<
+	type $mol_link__sub_hyoo_play_33 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_link['sub'] >
 	>
-	type $mol_link__hint_hyoo_play_33 = $mol_type_enforce<
+	type $mol_link__hint_hyoo_play_34 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_link['hint'] >
 	>
-	type $mol_link__arg_hyoo_play_34 = $mol_type_enforce<
+	type $mol_link__arg_hyoo_play_35 = $mol_type_enforce<
 		({ 
 			'playlist': string,
 			'search': any,
@@ -5173,109 +5178,109 @@ declare namespace $ {
 		,
 		ReturnType< $mol_link['arg'] >
 	>
-	type $mol_link__sub_hyoo_play_35 = $mol_type_enforce<
+	type $mol_link__sub_hyoo_play_36 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_link['sub'] >
 	>
-	type $mol_page__title_hyoo_play_36 = $mol_type_enforce<
+	type $mol_page__title_hyoo_play_37 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_page['title'] >
 	>
-	type $mol_page__tools_hyoo_play_37 = $mol_type_enforce<
+	type $mol_page__tools_hyoo_play_38 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['tools'] >
 	>
-	type $mol_page__body_hyoo_play_38 = $mol_type_enforce<
+	type $mol_page__body_hyoo_play_39 = $mol_type_enforce<
 		ReturnType< $hyoo_play['queue_body'] >
 		,
 		ReturnType< $mol_page['body'] >
 	>
-	type $mol_page__foot_hyoo_play_39 = $mol_type_enforce<
+	type $mol_page__foot_hyoo_play_40 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['foot'] >
 	>
-	type __hyoo_play_40 = $mol_type_enforce<
+	type __hyoo_play_41 = $mol_type_enforce<
 		Parameters< $hyoo_play['playing'] >[0]
 		,
 		Parameters< ReturnType< $hyoo_play['Player'] >['playing'] >[0]
 	>
-	type $mol_video_player__title_hyoo_play_41 = $mol_type_enforce<
+	type $mol_video_player__title_hyoo_play_42 = $mol_type_enforce<
 		ReturnType< $hyoo_play['play_title'] >
 		,
 		ReturnType< $mol_video_player['title'] >
 	>
-	type $mol_video_player__uri_hyoo_play_42 = $mol_type_enforce<
+	type $mol_video_player__uri_hyoo_play_43 = $mol_type_enforce<
 		ReturnType< $hyoo_play['play_uri'] >
 		,
 		ReturnType< $mol_video_player['uri'] >
 	>
-	type $mol_video_player__poster_hyoo_play_43 = $mol_type_enforce<
+	type $mol_video_player__poster_hyoo_play_44 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_video_player['poster'] >
 	>
-	type __hyoo_play_44 = $mol_type_enforce<
+	type __hyoo_play_45 = $mol_type_enforce<
 		Parameters< $hyoo_play['Moview_page_title'] >[0]
 		,
 		Parameters< $hyoo_play['Movie_page'] >[0]
 	>
-	type __hyoo_play_45 = $mol_type_enforce<
+	type __hyoo_play_46 = $mol_type_enforce<
 		Parameters< $hyoo_play['Moview_page_tools'] >[0]
 		,
 		Parameters< $hyoo_play['Movie_page'] >[0]
 	>
-	type $mol_check_icon__hint_hyoo_play_46 = $mol_type_enforce<
+	type $mol_check_icon__hint_hyoo_play_47 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_check_icon['hint'] >
 	>
-	type $mol_check_icon__checked_hyoo_play_47 = $mol_type_enforce<
+	type $mol_check_icon__checked_hyoo_play_48 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_bookmark'] >
 		,
 		ReturnType< $mol_check_icon['checked'] >
 	>
-	type $mol_check_icon__Icon_hyoo_play_48 = $mol_type_enforce<
+	type $mol_check_icon__Icon_hyoo_play_49 = $mol_type_enforce<
 		ReturnType< $hyoo_play['Movie_bookmark_icon'] >
 		,
 		ReturnType< $mol_check_icon['Icon'] >
 	>
-	type $mol_link__arg_hyoo_play_49 = $mol_type_enforce<
+	type $mol_link__arg_hyoo_play_50 = $mol_type_enforce<
 		({ 
 			'movie': any,
 		}) 
 		,
 		ReturnType< $mol_link['arg'] >
 	>
-	type $mol_link__sub_hyoo_play_50 = $mol_type_enforce<
+	type $mol_link__sub_hyoo_play_51 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_link['sub'] >
 	>
-	type $mol_frame__uri_hyoo_play_51 = $mol_type_enforce<
+	type $mol_frame__uri_hyoo_play_52 = $mol_type_enforce<
 		ReturnType< $hyoo_play['player_uri'] >
 		,
 		ReturnType< $mol_frame['uri'] >
 	>
-	type $mol_text__text_hyoo_play_52 = $mol_type_enforce<
+	type $mol_text__text_hyoo_play_53 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_descr'] >
 		,
 		ReturnType< $mol_text['text'] >
 	>
-	type $mol_paragraph__title_hyoo_play_53 = $mol_type_enforce<
+	type $mol_paragraph__title_hyoo_play_54 = $mol_type_enforce<
 		ReturnType< $hyoo_play['similar_title'] >
 		,
 		ReturnType< $mol_paragraph['title'] >
 	>
-	type $mol_image__uri_hyoo_play_54 = $mol_type_enforce<
+	type $mol_image__uri_hyoo_play_55 = $mol_type_enforce<
 		ReturnType< $hyoo_play['similar_poster'] >
 		,
 		ReturnType< $mol_image['uri'] >
 	>
-	type $mol_link__arg_hyoo_play_55 = $mol_type_enforce<
+	type $mol_link__arg_hyoo_play_56 = $mol_type_enforce<
 		({ 
 			'search': any,
 			'movie': ReturnType< $hyoo_play['similar_id'] >,
@@ -5283,117 +5288,117 @@ declare namespace $ {
 		,
 		ReturnType< $mol_link['arg'] >
 	>
-	type $mol_link__sub_hyoo_play_56 = $mol_type_enforce<
+	type $mol_link__sub_hyoo_play_57 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_link['sub'] >
 	>
-	type $mol_row__sub_hyoo_play_57 = $mol_type_enforce<
+	type $mol_row__sub_hyoo_play_58 = $mol_type_enforce<
 		ReturnType< $hyoo_play['similars'] >
 		,
 		ReturnType< $mol_row['sub'] >
 	>
-	type $mol_expander__title_hyoo_play_58 = $mol_type_enforce<
+	type $mol_expander__title_hyoo_play_59 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_expander['title'] >
 	>
-	type $mol_expander__content_hyoo_play_59 = $mol_type_enforce<
+	type $mol_expander__content_hyoo_play_60 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_expander['content'] >
 	>
-	type $mol_link_iconed__title_hyoo_play_60 = $mol_type_enforce<
+	type $mol_link_iconed__title_hyoo_play_61 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_link_iconed['title'] >
 	>
-	type $mol_link_iconed__uri_hyoo_play_61 = $mol_type_enforce<
+	type $mol_link_iconed__uri_hyoo_play_62 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_uri_kp'] >
 		,
 		ReturnType< $mol_link_iconed['uri'] >
 	>
-	type $mol_link_iconed__title_hyoo_play_62 = $mol_type_enforce<
+	type $mol_link_iconed__title_hyoo_play_63 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_link_iconed['title'] >
 	>
-	type $mol_link_iconed__uri_hyoo_play_63 = $mol_type_enforce<
+	type $mol_link_iconed__uri_hyoo_play_64 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_uri_imdb'] >
 		,
 		ReturnType< $mol_link_iconed['uri'] >
 	>
-	type $mol_row__sub_hyoo_play_64 = $mol_type_enforce<
+	type $mol_row__sub_hyoo_play_65 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_row['sub'] >
 	>
-	type $mol_list__rows_hyoo_play_65 = $mol_type_enforce<
+	type $mol_list__rows_hyoo_play_66 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_list['rows'] >
 	>
-	type $mol_text__text_hyoo_play_66 = $mol_type_enforce<
+	type $mol_text__text_hyoo_play_67 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_text['text'] >
 	>
-	type $mol_page__title_hyoo_play_67 = $mol_type_enforce<
+	type $mol_page__title_hyoo_play_68 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_current_title'] >
 		,
 		ReturnType< $mol_page['title'] >
 	>
-	type $mol_page__head_hyoo_play_68 = $mol_type_enforce<
+	type $mol_page__head_hyoo_play_69 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['head'] >
 	>
-	type $mol_page__tools_hyoo_play_69 = $mol_type_enforce<
+	type $mol_page__tools_hyoo_play_70 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['tools'] >
 	>
-	type $mol_page__body_content_hyoo_play_70 = $mol_type_enforce<
+	type $mol_page__body_content_hyoo_play_71 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_content'] >
 		,
 		ReturnType< $mol_page['body_content'] >
 	>
-	type $mol_page__foot_hyoo_play_71 = $mol_type_enforce<
+	type $mol_page__foot_hyoo_play_72 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['foot'] >
 	>
-	type $mol_switch__value_hyoo_play_72 = $mol_type_enforce<
+	type $mol_switch__value_hyoo_play_73 = $mol_type_enforce<
 		ReturnType< $hyoo_play['player_id'] >
 		,
 		ReturnType< $mol_switch['value'] >
 	>
-	type $mol_switch__keys_hyoo_play_73 = $mol_type_enforce<
+	type $mol_switch__keys_hyoo_play_74 = $mol_type_enforce<
 		ReturnType< $hyoo_play['player_options'] >
 		,
 		ReturnType< $mol_switch['keys'] >
 	>
-	type $mol_switch__option_title_hyoo_play_74 = $mol_type_enforce<
+	type $mol_switch__option_title_hyoo_play_75 = $mol_type_enforce<
 		ReturnType< $hyoo_play['player_name'] >
 		,
 		ReturnType< $mol_switch['option_title'] >
 	>
-	type $mol_page__title_hyoo_play_75 = $mol_type_enforce<
+	type $mol_page__title_hyoo_play_76 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_page['title'] >
 	>
-	type $mol_page__body_hyoo_play_76 = $mol_type_enforce<
+	type $mol_page__body_hyoo_play_77 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['body'] >
 	>
-	type $mol_book2__pages_hyoo_play_77 = $mol_type_enforce<
+	type $mol_book2__pages_hyoo_play_78 = $mol_type_enforce<
 		ReturnType< $hyoo_play['pages'] >
 		,
 		ReturnType< $mol_book2['pages'] >
 	>
-	type $mol_book2__placeholders_hyoo_play_78 = $mol_type_enforce<
+	type $mol_book2__placeholders_hyoo_play_79 = $mol_type_enforce<
 		ReturnType< $hyoo_play['sidebars'] >
 		,
 		ReturnType< $mol_book2['placeholders'] >

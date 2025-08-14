@@ -816,6 +816,7 @@ $hyoo_play $mol_drop
 					<= Donate $mol_link_donate
 						uri \https://boosty.to/hyoo
 					<= Open $mol_button_open
+						hint @ \Open files
 						files?next <=> files_add?next /
 					<= Sources $mol_link_source
 						uri \https://github.com/hyoo-ru/play.hyoo.ru
