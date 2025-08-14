@@ -161,4 +161,4 @@ $hyoo_play $mol_drop
 						option_title* <= player_name* <= player_name_none @ \Information
 				foot /
 					<= Thanks $mol_text
-						text \\\Data Source\https://github.com/reyohoho/reyohoho\\
+						text \\\DataSource\https://github.com/reyohoho/reyohoho\\
