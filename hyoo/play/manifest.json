@@ -1,6 +1,7 @@
 {
 	"short_name": "Hyper Player",
 	"name": "Hyper Player",
+	"categories": [ "multimedia", "video" ],
 	"icons": [
 		{
 			"src": "../../hyoo/play/logo/logo_512.png",
