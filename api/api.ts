@@ -27,6 +27,16 @@ namespace $ {
 		film_id: $mol_data_integer,
 	})
 	
+	export const $hyoo_play_api_member = $mol_data_record({
+		description: $mol_data_nullable( $mol_data_string ),
+		name_en: $mol_data_string,
+		name_ru: $mol_data_string,
+		poster_url: $mol_data_string,
+		profession_key: $mol_data_string,
+		profession_text: $mol_data_string,
+		staff_id: $mol_data_integer,
+	})
+	
 	export const $hyoo_play_api_movie_data_full = $mol_data_record({
 		... $hyoo_play_api_movie_data_short.config,
 		imdb_id: $mol_data_nullable( $mol_data_string ),
@@ -36,7 +46,8 @@ namespace $ {
 		genres: $mol_data_array( $mol_data_record({
 			genre: $mol_data_string,
 		}) ),
-		similars: $mol_data_array( $hyoo_play_api_similar_data )
+		similars: $mol_data_array( $hyoo_play_api_similar_data ),
+		staff: $mol_data_array( $hyoo_play_api_member ),
 	})
 	
 	export const $hyoo_play_api_player_data = $mol_data_record({
@@ -123,6 +134,30 @@ namespace $ {
 					title: $mol_const( sim.name_ru || sim.name_en || sim.name_original || '???' ),
 					poster: $mol_const( sim.poster_url_preview ),
 				}) ] )
+			)
+		}
+		
+		@ $mol_mem
+		members() {
+			const members = $mol_array_groups( this.data().staff, item => ' ' + item.staff_id )
+			return new Map(
+				[ ... Object.entries( members ) ].map( ([ id, items ])=> [
+					parseInt( id ),
+					items!.reduce( ( res, item )=> {
+						res.name = item.name_ru || item.name_en || res.name
+						res.photo = item.poster_url || res.photo
+						if( item.profession_key ) {
+							const prof = item.profession_key.toLowerCase()
+							res.roles.add( item.description ? `${prof} (${ item.description })` : prof )
+						}
+						return res
+					}, {
+						name: 'Anonymous',
+						photo: 'about:blank',
+						link: `https://www.kinopoisk.ru/name/${ parseInt( id ) }/`,
+						roles: new Set< string >(),
+					} )
+				] )
 			)
 		}
 		

@@ -348,7 +348,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		cover() {
-			const poster = this.movie_current()?.poster() || 'https://habrastorage.org/webt/vd/jt/8d/vdjt8dluf8kkeav4ry3aowjx6ua.jpeg'
+			const poster = this.movie_current()?.poster() || 'https://habrastorage.org/webt/6l/sw/vg/6lswvg5cbp8-_-xuhg-aeuehsb4.jpeg'
 			return `linear-gradient( #000000DF ), url( ${JSON.stringify( poster )} )`
 		}
 		
@@ -367,6 +367,27 @@ namespace $.$$ {
 		
 		similar_id( id: number ) {
 			return String( id )
+		}
+		
+		@ $mol_mem
+		override members() {
+			return [ ... this.movie_current()!.members().keys() ].map( id => this.Member( id ) )
+		}
+		
+		override member_name( id: number ) {
+			return this.movie_current()!.members().get( id )!.name
+		}
+		
+		override member_role( id: number ) {
+			return [ ... this.movie_current()!.members().get( id )!.roles.values() ].join( ', ' )
+		}
+		
+		override member_photo( id: number ) {
+			return this.movie_current()!.members().get( id )!.photo
+		}
+		
+		override member_link( id: number ) {
+			return this.movie_current()!.members().get( id )!.link
 		}
 		
 		auto() {

@@ -37,7 +37,6 @@
 
 [hyoo_play_movie] {
 	flex-direction: column;
-	padding: var(--mol_gap_block);
 	gap: 0;
 	text-align: center;
 }
@@ -107,6 +106,35 @@
 
 [hyoo_play_similar_poster] {
 	width: auto;
+	aspect-ratio: .67;
+	max-height: 50vh;
+    align-self: center;
+	box-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;
+}
+
+[hyoo_play_members] {
+	padding: 0;
+}
+
+[hyoo_play_member] {
+	flex-direction: column;
+	width: 10.5rem;
+	text-align: center;
+}
+
+[hyoo_play_member_name] {
+	justify-content: center;
+    height: 3rem;
+    align-items: flex-end;
+}
+
+[hyoo_play_member_role] {
+	justify-content: center;
+	color: var(--mol_theme_shade);
+}
+
+[hyoo_play_member_photo] {
+	width: 10rem;
 	aspect-ratio: .67;
 	max-height: 50vh;
     align-self: center;
