@@ -6,6 +6,11 @@
 			"src": "../../hyoo/play/logo/logo.svg",
 			"type": "image/svg+xml",
 			"sizes": "512x512"
+		},
+		{
+			"src": "../../hyoo/play/logo/logo_512.png",
+			"type": "image/png",
+			"sizes": "512x512"
 		}
 	],
 	"file_handlers": [
