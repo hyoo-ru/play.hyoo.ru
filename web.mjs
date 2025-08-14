@@ -10733,7 +10733,7 @@ var $;
 		}
 		Thanks(){
 			const obj = new this.$.$mol_text();
-			(obj.text) = () => ("\\\\Data Source\\https://github.com/reyohoho/reyohoho\\\\");
+			(obj.text) = () => ("\\\\DataSource\\https://github.com/reyohoho/reyohoho\\\\");
 			return obj;
 		}
 		Source(id){
