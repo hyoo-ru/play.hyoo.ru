@@ -12,26 +12,20 @@ $hyoo_play $mol_drop
 		pages <= pages /
 			<= Queue $mol_page
 				title @ \Hyper Player
-				tools /
+				head /
 					- <= Playing $mol_check_icon
 						checked?next <=> playing?next
 						Icon <= Playing_icon $mol_icon_play
-					<= Support $mol_link_support
-						uri \https://t.me/hd4ru/2
-					<= Donate $mol_link_donate
-						uri \https://boosty.to/hyoo
+					<= Movie_search $mol_search
+						hint @ \Movie search...
+						query? <=> movie_search? \
 					<= Open $mol_button_open
 						hint @ \Open files
 						files?next <=> files_add?next /
-					<= Sources $mol_link_source
-						uri \https://github.com/hyoo-ru/play.hyoo.ru
 					- <= Chat $mol_chat
 						seed <= play_title \
 						pages => chat_pages
 				body <= queue_body /
-					<= Movie_search $mol_search
-						hint @ \Movie search...
-						query? <=> movie_search? \
 					<= Queue_files $mol_list
 						rows <= queue_items /
 							^ queue_movies /
@@ -58,6 +52,13 @@ $hyoo_play $mol_drop
 											sub /
 												<= File_drop_icon* $mol_icon_close
 				foot /
+					<= Sources $mol_link_source
+						uri \https://github.com/hyoo-ru/play.hyoo.ru
+					<= Donate $mol_link_donate
+						uri \https://boosty.to/hyoo
+					<= Support $mol_link_support
+						uri \https://t.me/hd4ru/2
+				- foot /
 					<= Water $mol_link
 						hint @ \Relaxing
 						arg *
