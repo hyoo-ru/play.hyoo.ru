@@ -11161,11 +11161,6 @@ var $;
 		movie_content(id){
 			return [(this.Player_ext(id)), (this.Movie_info(id))];
 		}
-		Thanks(){
-			const obj = new this.$.$mol_text();
-			(obj.text) = () => ((this.$.$mol_locale.text("$hyoo_play_Thanks_text")));
-			return obj;
-		}
 		Movie_page(id){
 			const obj = new this.$.$mol_page();
 			(obj.title) = () => ((this.movie_current_title()));
@@ -11175,8 +11170,7 @@ var $;
 				(this.Moview_page_tools(id))
 			]);
 			(obj.tools) = () => ([(this.Movie_close())]);
-			(obj.body) = () => ((this.movie_content(id)));
-			(obj.foot) = () => ([(this.Thanks())]);
+			(obj.body_content) = () => ((this.movie_content(id)));
 			return obj;
 		}
 		pages(){
@@ -11206,10 +11200,16 @@ var $;
 			(obj.option_title) = (id) => ((this.player_name(id)));
 			return obj;
 		}
+		Thanks(){
+			const obj = new this.$.$mol_text();
+			(obj.text) = () => ("\\\\DataSource\\https://github.com/reyohoho/reyohoho\\\\");
+			return obj;
+		}
 		Source(id){
 			const obj = new this.$.$mol_page();
 			(obj.title) = () => ((this.$.$mol_locale.text("$hyoo_play_Source_title")));
 			(obj.body) = () => ([(this.Player_id())]);
+			(obj.foot) = () => ([(this.Thanks())]);
 			return obj;
 		}
 		sidebars(){
@@ -11285,10 +11285,10 @@ var $;
 	($mol_mem(($.$hyoo_play.prototype), "Similars"));
 	($mol_mem(($.$hyoo_play.prototype), "Similars_block"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_info"));
-	($mol_mem(($.$hyoo_play.prototype), "Thanks"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Movie_page"));
 	($mol_mem(($.$hyoo_play.prototype), "player_id"));
 	($mol_mem(($.$hyoo_play.prototype), "Player_id"));
+	($mol_mem(($.$hyoo_play.prototype), "Thanks"));
 	($mol_mem_key(($.$hyoo_play.prototype), "Source"));
 	($mol_mem(($.$hyoo_play.prototype), "Book"));
 	($mol_mem(($.$hyoo_play.prototype), "playlist"));
@@ -12261,7 +12261,7 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    $mol_style_attach("hyoo/play/play.view.css", "[hyoo_play] {\n\tbackground-size: cover;\n\tbackground-position: center;;\n}\n\n[hyoo_play_queue_body_content] {\n\tgap: var(--mol_gap_block);\n}\n\n[hyoo_play_queue],\n[hyoo_play_chat_page] {\n\tflex: 0 0 25rem;\n}\n\n[hyoo_play_file] {\n\talign-items: flex-start;\n}\n\n[hyoo_play_file_play][disabled=\"true\"] {\n\tcolor: var(--mol_theme_current);\n}\n\n[hyoo_play_file_play] {\n\tflex: 1 1 auto;\n}\n\n\n[hyoo_play_player] {\n\tflex: 1 0 calc( 100% - 25rem );\n\tobject-position: top;\n}\n\n[hyoo_play_movie_search] {\n\talign-self: stretch;\n\tjustify-self: flex-start;\n}\n\n[hyoo_play_movie] {\n\tflex-direction: column;\n\tgap: 0;\n\ttext-align: center;\n}\n\n[hyoo_play_movie_title] {\n\tflex: 1 1 auto;\n\tpadding: var(--mol_gap_text);\n\tjustify-content: center;\n}\n\n[hyoo_play_movie_poster] {\n\twidth: auto;\n\tmax-height: 50vh;\n\talign-self: center;\n\taspect-ratio: .67;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;\n}\n[hyoo_play_movie][mol_link_current] [hyoo_play_movie_poster] {\n\tbox-shadow: 0 0 0 2px var(--mol_theme_current), 0 0 1rem black;\n}\n\n[hyoo_play_config] {\n\tflex: 0 0 10rem;\n}\n\n[hyoo_play_movie_page] {\n\tflex: 1 0 max( 50rem, calc( 100% - 35rem ) );\n}\n\n[hyoo_play_movie_page_head] {\n\tflex-wrap: nowrap;\n\talign-items: flex-start;\n}\n\n[hyoo_play_player_ext] {\n\tjustify-self: stretch;\n}\n\n[hyoo_play_player_id] {\n\tflex-direction: column;\n}\n\n[hyoo_play_player_id_option] {\n\ttext-transform: capitalize;\n}\n\n[hyoo_play_movie_genres] {\n\tcolor: var(--mol_theme_shade);\n\ttext-align: center;\n}\n\n[hyoo_play_similars] {\n\talign-items: flex-end;\n\tpadding: 0;\n}\n\n[hyoo_play_similar] {\n\tflex-direction: column;\n\twidth: 10rem;\n\ttext-align: center;\n\tpadding: var(--mol_gap_block);\n}\n\n[hyoo_play_similar_title] {\n\tjustify-content: center;\n}\n\n[hyoo_play_similar_poster] {\n\twidth: auto;\n\taspect-ratio: .67;\n\tmax-height: 50vh;\n    align-self: center;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;\n}\n\n[hyoo_play_members] {\n\tpadding: 0;\n}\n\n[hyoo_play_member] {\n\tflex-direction: column;\n\twidth: 10.5rem;\n\ttext-align: center;\n}\n\n[hyoo_play_member_name] {\n\tjustify-content: center;\n    height: 3rem;\n    align-items: flex-end;\n}\n\n[hyoo_play_member_role] {\n\tjustify-content: center;\n\tcolor: var(--mol_theme_shade);\n}\n\n[hyoo_play_member_photo] {\n\twidth: 10rem;\n\taspect-ratio: .67;\n\tmax-height: 50vh;\n    align-self: center;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;\n}\n\n");
+    $mol_style_attach("hyoo/play/play.view.css", "[hyoo_play] {\n\tbackground-size: cover;\n\tbackground-position: center;;\n}\n\n[hyoo_play_queue_body_content] {\n\tgap: var(--mol_gap_block);\n}\n\n[hyoo_play_queue],\n[hyoo_play_chat_page] {\n\tflex: 0 0 25rem;\n}\n\n[hyoo_play_file] {\n\talign-items: flex-start;\n}\n\n[hyoo_play_file_play][disabled=\"true\"] {\n\tcolor: var(--mol_theme_current);\n}\n\n[hyoo_play_file_play] {\n\tflex: 1 1 auto;\n}\n\n\n[hyoo_play_player] {\n\tflex: 1 0 calc( 100% - 25rem );\n\tobject-position: top;\n}\n\n[hyoo_play_movie_search] {\n\talign-self: stretch;\n\tjustify-self: flex-start;\n}\n\n[hyoo_play_movie] {\n\tflex-direction: column;\n\tgap: 0;\n\ttext-align: center;\n}\n\n[hyoo_play_movie_title] {\n\tflex: 1 1 auto;\n\tpadding: var(--mol_gap_text);\n\tjustify-content: center;\n}\n\n[hyoo_play_movie_poster] {\n\twidth: auto;\n\tmax-height: 50vh;\n\talign-self: center;\n\taspect-ratio: .67;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;\n}\n[hyoo_play_movie][mol_link_current] [hyoo_play_movie_poster] {\n\tbox-shadow: 0 0 0 2px var(--mol_theme_current), 0 0 1rem black;\n}\n\n[hyoo_play_source] {\n\tflex: 0 0 10rem;\n}\n\n[hyoo_play_movie_page] {\n\tflex: 1 0 max( 50rem, calc( 100% - 35rem ) );\n}\n\n[hyoo_play_movie_page_head] {\n\tflex-wrap: nowrap;\n\talign-items: flex-start;\n}\n\n[hyoo_play_player_ext] {\n\tjustify-self: stretch;\n}\n\n[hyoo_play_player_id] {\n\tflex-direction: column;\n}\n\n[hyoo_play_player_id_option] {\n\ttext-transform: capitalize;\n}\n\n[hyoo_play_movie_genres] {\n\tcolor: var(--mol_theme_shade);\n\ttext-align: center;\n}\n\n[hyoo_play_movie_info] {\n\tpadding: var(--mol_gap_block);\n}\n\n[hyoo_play_similars] {\n\talign-items: flex-end;\n\tpadding: 0;\n}\n\n[hyoo_play_similar] {\n\tflex-direction: column;\n\twidth: 10rem;\n\ttext-align: center;\n\tpadding: var(--mol_gap_block);\n}\n\n[hyoo_play_similar_title] {\n\tjustify-content: center;\n}\n\n[hyoo_play_similar_poster] {\n\twidth: auto;\n\taspect-ratio: .67;\n\tmax-height: 50vh;\n    align-self: center;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;\n}\n\n[hyoo_play_members] {\n\tpadding: 0;\n}\n\n[hyoo_play_member] {\n\tflex-direction: column;\n\twidth: 10.5rem;\n\ttext-align: center;\n}\n\n[hyoo_play_member_name] {\n\tjustify-content: center;\n    height: 3rem;\n    align-items: flex-end;\n}\n\n[hyoo_play_member_role] {\n\tjustify-content: center;\n\tcolor: var(--mol_theme_shade);\n}\n\n[hyoo_play_member_photo] {\n\twidth: 10rem;\n\taspect-ratio: .67;\n\tmax-height: 50vh;\n    align-self: center;\n\tbox-shadow: 0 0 0 1px var(--mol_theme_line), 0 0 .5rem black;\n}\n\n");
 })($ || ($ = {}));
 
 ;

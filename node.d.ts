@@ -5385,60 +5385,60 @@ declare namespace $ {
 		,
 		ReturnType< $mol_list['rows'] >
 	>
-	type $mol_text__text_hyoo_play_60 = $mol_type_enforce<
-		string
-		,
-		ReturnType< $mol_text['text'] >
-	>
-	type $mol_page__title_hyoo_play_61 = $mol_type_enforce<
+	type $mol_page__title_hyoo_play_60 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_current_title'] >
 		,
 		ReturnType< $mol_page['title'] >
 	>
-	type $mol_page__head_hyoo_play_62 = $mol_type_enforce<
+	type $mol_page__head_hyoo_play_61 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['head'] >
 	>
-	type $mol_page__tools_hyoo_play_63 = $mol_type_enforce<
+	type $mol_page__tools_hyoo_play_62 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['tools'] >
 	>
-	type $mol_page__body_hyoo_play_64 = $mol_type_enforce<
+	type $mol_page__body_content_hyoo_play_63 = $mol_type_enforce<
 		ReturnType< $hyoo_play['movie_content'] >
 		,
-		ReturnType< $mol_page['body'] >
+		ReturnType< $mol_page['body_content'] >
 	>
-	type $mol_page__foot_hyoo_play_65 = $mol_type_enforce<
-		readonly(any)[]
-		,
-		ReturnType< $mol_page['foot'] >
-	>
-	type $mol_switch__value_hyoo_play_66 = $mol_type_enforce<
+	type $mol_switch__value_hyoo_play_64 = $mol_type_enforce<
 		ReturnType< $hyoo_play['player_id'] >
 		,
 		ReturnType< $mol_switch['value'] >
 	>
-	type $mol_switch__keys_hyoo_play_67 = $mol_type_enforce<
+	type $mol_switch__keys_hyoo_play_65 = $mol_type_enforce<
 		ReturnType< $hyoo_play['player_options'] >
 		,
 		ReturnType< $mol_switch['keys'] >
 	>
-	type $mol_switch__option_title_hyoo_play_68 = $mol_type_enforce<
+	type $mol_switch__option_title_hyoo_play_66 = $mol_type_enforce<
 		ReturnType< $hyoo_play['player_name'] >
 		,
 		ReturnType< $mol_switch['option_title'] >
 	>
-	type $mol_page__title_hyoo_play_69 = $mol_type_enforce<
+	type $mol_text__text_hyoo_play_67 = $mol_type_enforce<
+		string
+		,
+		ReturnType< $mol_text['text'] >
+	>
+	type $mol_page__title_hyoo_play_68 = $mol_type_enforce<
 		string
 		,
 		ReturnType< $mol_page['title'] >
 	>
-	type $mol_page__body_hyoo_play_70 = $mol_type_enforce<
+	type $mol_page__body_hyoo_play_69 = $mol_type_enforce<
 		readonly(any)[]
 		,
 		ReturnType< $mol_page['body'] >
+	>
+	type $mol_page__foot_hyoo_play_70 = $mol_type_enforce<
+		readonly(any)[]
+		,
+		ReturnType< $mol_page['foot'] >
 	>
 	type $mol_book2__pages_hyoo_play_71 = $mol_type_enforce<
 		ReturnType< $hyoo_play['pages'] >
@@ -5524,7 +5524,6 @@ declare namespace $ {
 		Similars_block( ): $mol_expander
 		Movie_info( id: any): $mol_list
 		movie_content( id: any): readonly(any)[]
-		Thanks( ): $mol_text
 		Movie_page( id: any): $mol_page
 		pages( ): readonly(any)[]
 		player_id( next?: string ): string
@@ -5532,6 +5531,7 @@ declare namespace $ {
 		player_name_none( ): string
 		player_name( id: any): ReturnType< $hyoo_play['player_name_none'] >
 		Player_id( ): $mol_switch
+		Thanks( ): $mol_text
 		Source( id: any): $mol_page
 		sidebars( ): readonly(any)[]
 		Book( ): $mol_book2

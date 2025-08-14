@@ -898,7 +898,7 @@ $hyoo_play $mol_drop
 						arg * movie null
 						sub /
 							<= Moview_close_icon $mol_icon_close
-				body <= movie_content* /
+				body_content <= movie_content* /
 					<= Player_ext* $mol_frame
 						uri <= player_uri \
 					<= Movie_info* $mol_list rows /
@@ -934,9 +934,6 @@ $hyoo_play $mol_drop
 											title <= similar_title* \
 										<= Similar_poster* $mol_image
 											uri <= similar_poster* \
-				foot /
-					<= Thanks $mol_text
-						text @ \Thanks to \\ReYohoho\https://github.com/reyohoho/reyohoho\\ for content.
 		placeholders <= sidebars /
 			<= Source*0 $mol_page
 				title @ \Watch
@@ -944,4 +941,7 @@ $hyoo_play $mol_drop
 					<= Player_id $mol_switch
 						value? <=> player_id? \
 						keys <= player_options /
-						option_title* <= player_name* <= player_name_none @ \Info
+						option_title* <= player_name* <= player_name_none @ \Information
+				foot /
+					<= Thanks $mol_text
+						text \\\DataSource\https://github.com/reyohoho/reyohoho\\
