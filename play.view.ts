@@ -348,8 +348,7 @@ namespace $.$$ {
 		
 		@ $mol_mem
 		cover() {
-			const poster = this.movie_current()?.poster()
-			if( !poster ) return ''
+			const poster = this.movie_current()?.poster() || 'https://habrastorage.org/webt/vd/jt/8d/vdjt8dluf8kkeav4ry3aowjx6ua.jpeg'
 			return `linear-gradient( #000000DF ), url( ${JSON.stringify( poster )} )`
 		}
 		
