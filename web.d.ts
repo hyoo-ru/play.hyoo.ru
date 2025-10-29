@@ -3320,6 +3320,23 @@ declare namespace $.$$ {
 
 declare namespace $ {
 
+	export class $mol_embed_vklive extends $mol_embed_service {
+	}
+	
+}
+
+//# sourceMappingURL=vklive.view.tree.d.ts.map
+declare namespace $.$$ {
+    class $mol_embed_vklive extends $.$mol_embed_vklive {
+        video_embed(): string;
+        channel_id(): string;
+        video_id(): string;
+        video_preview(): string;
+    }
+}
+
+declare namespace $ {
+
 	type $mol_image__title_mol_embed_any_1 = $mol_type_enforce<
 		ReturnType< $mol_embed_any['title'] >
 		,
@@ -3360,6 +3377,16 @@ declare namespace $ {
 		,
 		ReturnType< $mol_embed_rutube['uri'] >
 	>
+	type $mol_embed_vklive__title_mol_embed_any_9 = $mol_type_enforce<
+		ReturnType< $mol_embed_any['title'] >
+		,
+		ReturnType< $mol_embed_vklive['title'] >
+	>
+	type $mol_embed_vklive__uri_mol_embed_any_10 = $mol_type_enforce<
+		ReturnType< $mol_embed_any['uri'] >
+		,
+		ReturnType< $mol_embed_vklive['uri'] >
+	>
 	export class $mol_embed_any extends $mol_view {
 		title( ): string
 		uri( ): string
@@ -3367,6 +3394,7 @@ declare namespace $ {
 		Object( ): $mol_embed_native
 		Youtube( ): $mol_embed_youtube
 		Rutube( ): $mol_embed_rutube
+		Vklive( ): $mol_embed_vklive
 	}
 	
 }
@@ -3374,7 +3402,7 @@ declare namespace $ {
 //# sourceMappingURL=any.view.tree.d.ts.map
 declare namespace $.$$ {
     class $mol_embed_any extends $.$mol_embed_any {
-        type(): "object" | "image" | "youtube" | "rutube";
+        type(): "object" | "image" | "youtube" | "rutube" | "vklive";
         sub(): $.$mol_image[] | $.$mol_embed_youtube[] | $.$mol_embed_native[];
     }
 }
@@ -4393,9 +4421,12 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    function $mol_data_array<Sub extends $mol_data_value>(sub: Sub): ((val: readonly Parameters<Sub>[0][]) => readonly ReturnType<Sub>[]) & {
-        config: Sub;
-        Value: readonly ReturnType<Sub>[];
+    function $mol_data_optional<Sub extends $mol_data_value, Fallback extends undefined | (() => ReturnType<Sub>)>(sub: Sub, fallback?: Fallback): ((val: Parameters<Sub>[0] | undefined) => ReturnType<Sub> | (Fallback extends undefined ? undefined : ReturnType<Extract<Fallback, () => any>>)) & {
+        config: {
+            sub: Sub;
+            fallback: Fallback | undefined;
+        };
+        Value: ReturnType<Sub> | (Fallback extends undefined ? undefined : ReturnType<Extract<Fallback, () => any>>);
     };
 }
 
@@ -4403,6 +4434,13 @@ declare namespace $ {
     function $mol_data_nullable<Sub extends $mol_data_value>(sub: Sub): ((val: Parameters<Sub>[0] | null) => ReturnType<Sub> | null) & {
         config: Sub;
         Value: ReturnType<Sub> | null;
+    };
+}
+
+declare namespace $ {
+    function $mol_data_array<Sub extends $mol_data_value>(sub: Sub): ((val: readonly Parameters<Sub>[0][]) => readonly ReturnType<Sub>[]) & {
+        config: Sub;
+        Value: readonly ReturnType<Sub>[];
     };
 }
 
@@ -4416,6 +4454,7 @@ declare namespace $ {
 
 declare namespace $ {
     const $hyoo_play_api_search_movie_data: ((val: {
+        title?: string | undefined;
         id: number;
         year: string;
         poster: string;
@@ -4423,12 +4462,12 @@ declare namespace $ {
             genres: readonly {
                 genre: string;
             }[];
-            description: string;
-            nameOriginal: string;
-            nameEn: string;
-            nameRu: string;
+            name_en: string | null;
+            name_ru: string | null;
+            description: string | null;
         };
     }) => Readonly<{
+        title?: string | undefined;
         id: number;
         year: number;
         poster: string;
@@ -4436,10 +4475,9 @@ declare namespace $ {
             genres: readonly Readonly<{
                 genre: string;
             }>[];
-            description: string;
-            nameOriginal: string;
-            nameEn: string;
-            nameRu: string;
+            name_en: string | null;
+            name_ru: string | null;
+            description: string | null;
         }>;
     }>) & {
         config: {
@@ -4451,28 +4489,41 @@ declare namespace $ {
                 Value: number;
             };
             poster: (val: string) => string;
+            title: ((val: string | undefined) => string | undefined) & {
+                config: {
+                    sub: (val: string) => string;
+                    fallback: (() => string) | undefined;
+                };
+                Value: string | undefined;
+            };
             raw_data: ((val: {
                 genres: readonly {
                     genre: string;
                 }[];
-                description: string;
-                nameOriginal: string;
-                nameEn: string;
-                nameRu: string;
+                name_en: string | null;
+                name_ru: string | null;
+                description: string | null;
             }) => Readonly<{
                 genres: readonly Readonly<{
                     genre: string;
                 }>[];
-                description: string;
-                nameOriginal: string;
-                nameEn: string;
-                nameRu: string;
+                name_en: string | null;
+                name_ru: string | null;
+                description: string | null;
             }>) & {
                 config: {
-                    nameOriginal: (val: string) => string;
-                    nameEn: (val: string) => string;
-                    nameRu: (val: string) => string;
-                    description: (val: string) => string;
+                    name_en: ((val: string | null) => string | null) & {
+                        config: (val: string) => string;
+                        Value: string | null;
+                    };
+                    name_ru: ((val: string | null) => string | null) & {
+                        config: (val: string) => string;
+                        Value: string | null;
+                    };
+                    description: ((val: string | null) => string | null) & {
+                        config: (val: string) => string;
+                        Value: string | null;
+                    };
                     genres: ((val: readonly {
                         genre: string;
                     }[]) => readonly Readonly<{
@@ -4499,14 +4550,14 @@ declare namespace $ {
                     genres: readonly Readonly<{
                         genre: string;
                     }>[];
-                    description: string;
-                    nameOriginal: string;
-                    nameEn: string;
-                    nameRu: string;
+                    name_en: string | null;
+                    name_ru: string | null;
+                    description: string | null;
                 }>;
             };
         };
         Value: Readonly<{
+            title?: string | undefined;
             id: number;
             year: number;
             poster: string;
@@ -4514,10 +4565,9 @@ declare namespace $ {
                 genres: readonly Readonly<{
                     genre: string;
                 }>[];
-                description: string;
-                nameOriginal: string;
-                nameEn: string;
-                nameRu: string;
+                name_en: string | null;
+                name_ru: string | null;
+                description: string | null;
             }>;
         }>;
     };

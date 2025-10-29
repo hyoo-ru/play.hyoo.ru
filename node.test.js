@@ -9530,6 +9530,49 @@ var $;
 })($ || ($ = {}));
 
 ;
+	($.$mol_embed_vklive) = class $mol_embed_vklive extends ($.$mol_embed_service) {};
+
+
+;
+"use strict";
+
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_embed_vklive extends $.$mol_embed_vklive {
+            video_embed() {
+                return `https://live.vkvideo.ru/app/embed/${this.channel_id()}/${this.video_id()}`;
+            }
+            channel_id() {
+                return this.uri().match(/^https:\/\/live\.vkvideo\.ru\/([^\/&?#]+)/)?.[1] ?? '';
+            }
+            video_id() {
+                return this.uri().match(/^https:\/\/live\.vkvideo\.ru\/[^\/&?#]+\/record\/([^\/&?#]+)/)?.[1] ?? '';
+            }
+            video_preview() {
+                return `https://images.live.vkvideo.ru/public_video_stream/record/${this.video_id()}/preview`;
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_embed_vklive.prototype, "video_embed", null);
+        __decorate([
+            $mol_mem
+        ], $mol_embed_vklive.prototype, "channel_id", null);
+        __decorate([
+            $mol_mem
+        ], $mol_embed_vklive.prototype, "video_id", null);
+        __decorate([
+            $mol_mem
+        ], $mol_embed_vklive.prototype, "video_preview", null);
+        $$.$mol_embed_vklive = $mol_embed_vklive;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+
+;
 	($.$mol_embed_any) = class $mol_embed_any extends ($.$mol_view) {
 		title(){
 			return "";
@@ -9561,11 +9604,18 @@ var $;
 			(obj.uri) = () => ((this.uri()));
 			return obj;
 		}
+		Vklive(){
+			const obj = new this.$.$mol_embed_vklive();
+			(obj.title) = () => ((this.title()));
+			(obj.uri) = () => ((this.uri()));
+			return obj;
+		}
 	};
 	($mol_mem(($.$mol_embed_any.prototype), "Image"));
 	($mol_mem(($.$mol_embed_any.prototype), "Object"));
 	($mol_mem(($.$mol_embed_any.prototype), "Youtube"));
 	($mol_mem(($.$mol_embed_any.prototype), "Rutube"));
+	($mol_mem(($.$mol_embed_any.prototype), "Vklive"));
 
 
 ;
@@ -9589,6 +9639,8 @@ var $;
                         return 'youtube';
                     if (/^https:\/\/rutube\.ru\//.test(uri))
                         return 'rutube';
+                    if (/^https:\/\/live\.vkvideo\.ru\//.test(uri))
+                        return 'vklive';
                 }
                 catch (error) {
                     $mol_fail_log(error);
@@ -9601,6 +9653,7 @@ var $;
                     case 'image': return [this.Image()];
                     case 'youtube': return [this.Youtube()];
                     case 'rutube': return [this.Rutube()];
+                    case 'vklive': return [this.Vklive()];
                     default: return [this.Object()];
                 }
             }
@@ -11795,6 +11848,35 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    function $mol_data_optional(sub, fallback) {
+        return $mol_data_setup((val) => {
+            if (val === undefined) {
+                return fallback?.();
+            }
+            return sub(val);
+        }, { sub, fallback });
+    }
+    $.$mol_data_optional = $mol_data_optional;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    function $mol_data_nullable(sub) {
+        return $mol_data_setup((val) => {
+            if (val === null)
+                return null;
+            return sub(val);
+        }, sub);
+    }
+    $.$mol_data_nullable = $mol_data_nullable;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     function $mol_data_array(sub) {
         return $mol_data_setup((val) => {
             if (!Array.isArray(val))
@@ -11813,20 +11895,6 @@ var $;
         }, sub);
     }
     $.$mol_data_array = $mol_data_array;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    function $mol_data_nullable(sub) {
-        return $mol_data_setup((val) => {
-            if (val === null)
-                return null;
-            return sub(val);
-        }, sub);
-    }
-    $.$mol_data_nullable = $mol_data_nullable;
 })($ || ($ = {}));
 
 ;
@@ -12051,11 +12119,11 @@ var $;
         id: $mol_data_integer,
         year: $mol_data_pipe($mol_data_string, Number),
         poster: $mol_data_string,
+        title: $mol_data_optional($mol_data_string),
         raw_data: $mol_data_record({
-            nameOriginal: $mol_data_string,
-            nameEn: $mol_data_string,
-            nameRu: $mol_data_string,
-            description: $mol_data_string,
+            name_en: $mol_data_nullable($mol_data_string),
+            name_ru: $mol_data_nullable($mol_data_string),
+            description: $mol_data_nullable($mol_data_string),
             genres: $mol_data_array($mol_data_record({
                 genre: $mol_data_string,
             }))
@@ -12104,7 +12172,7 @@ var $;
                 .map($.$hyoo_play_api_search_movie_data);
             return new Map(resp.map(data => [data.id, $hyoo_play_api_movie.make({
                     id: $mol_const(data.id),
-                    title: $mol_const(data.raw_data.nameRu || data.raw_data.nameEn || data.raw_data.nameOriginal),
+                    title: $mol_const(data.raw_data.name_ru || data.raw_data.name_en || data.title),
                     poster: $mol_const(data.poster),
                     year: $mol_const(data.year),
                     descr: $mol_const(data.raw_data.description),
@@ -16261,6 +16329,48 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    const Age = $mol_data_optional($mol_data_number);
+    const Age_or_zero = $mol_data_optional($mol_data_number, () => 0);
+    $mol_test({
+        'Is not present'() {
+            $mol_assert_equal(Age(undefined), undefined);
+        },
+        'Is present'() {
+            $mol_assert_equal(Age(0), 0);
+        },
+        'Fallbacked'() {
+            $mol_assert_equal(Age_or_zero(undefined), 0);
+        },
+        'Is null'() {
+            $mol_assert_fail(() => Age(null), 'null is not a number');
+        },
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_test({
+        'Is null'() {
+            $mol_data_nullable($mol_data_number)(null);
+        },
+        'Is not null'() {
+            $mol_data_nullable($mol_data_number)(0);
+        },
+        'Is undefined'() {
+            $mol_assert_fail(() => {
+                const Type = $mol_data_nullable($mol_data_number);
+                Type(undefined);
+            }, 'undefined is not a number');
+        },
+    });
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
     $mol_test({
         'Is empty array'() {
             $mol_data_array($mol_data_number)([]);
@@ -16282,26 +16392,6 @@ var $;
             $mol_assert_fail(() => {
                 $mol_data_array($mol_data_array($mol_data_number))([[], [0, 0, false]]);
             }, '[1] [2] false is not a number');
-        },
-    });
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    $mol_test({
-        'Is null'() {
-            $mol_data_nullable($mol_data_number)(null);
-        },
-        'Is not null'() {
-            $mol_data_nullable($mol_data_number)(0);
-        },
-        'Is undefined'() {
-            $mol_assert_fail(() => {
-                const Type = $mol_data_nullable($mol_data_number);
-                Type(undefined);
-            }, 'undefined is not a number');
         },
     });
 })($ || ($ = {}));
