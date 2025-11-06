@@ -252,6 +252,8 @@
     "$mol_data_nullable",
     "$mol_data_array",
     "$mol_fetch",
+    "$mol_rest_code",
+    "$mol_rest",
     "$mol_dom_parse",
     "$mol_array_groups",
     "$mol_array",
