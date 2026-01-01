@@ -142,6 +142,7 @@
     "$mol_type_keys",
     "$mol_search",
     "$mol_pop",
+    "$mol_follower",
     "$mol_layer",
     "$mol_scroll",
     "$mol_print",
