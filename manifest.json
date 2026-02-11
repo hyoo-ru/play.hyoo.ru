@@ -1,0 +1,83 @@
+{
+	"name": "Hyper Player",
+	"short_name": "Hyper Player",
+	"description": "",
+	"id": "hyoo_play",
+	"start_url": "../..",
+	"display": "fullscreen",
+	"background_color": "#000000",
+	"theme_color": "#000000",
+	"categories": [
+		"multimedia",
+		"video"
+	],
+	"icons": [
+		{
+			"src": "../../hyoo/play/logo/logo_512.png",
+			"type": "image/png",
+			"sizes": "512x512"
+		},
+		{
+			"src": "../../hyoo/play/logo/logo.svg",
+			"type": "image/svg+xml",
+			"sizes": "260x260"
+		}
+	],
+	"file_handlers": [
+		{
+			"action": "../..",
+			"accept": {
+				"audio/*": [
+					".mp4",
+					".m4a",
+					".m4p",
+					".m4b",
+					".m4r",
+					".m4v",
+					".3gp",
+					".webm",
+					".ogg",
+					".ogv",
+					".oga",
+					".ogx",
+					".ogm",
+					".spx",
+					".opus",
+					".wav",
+					".wave",
+					".mp3",
+					".caf",
+					".flac",
+					".mka",
+					".mkv"
+				],
+				"video/*": [
+					".mp4",
+					".m4a",
+					".m4p",
+					".m4b",
+					".m4r",
+					".m4v",
+					".3gp",
+					".webm",
+					".ogg",
+					".ogv",
+					".oga",
+					".ogx",
+					".ogm",
+					".spx",
+					".opus",
+					".wav",
+					".wave",
+					".mp3",
+					".caf",
+					".flac",
+					".mka",
+					".mkv"
+				]
+			},
+			"icons": []
+		}
+	],
+	"orientation": "landscape"
+}
