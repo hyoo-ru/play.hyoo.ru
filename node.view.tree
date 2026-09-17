@@ -73,10 +73,13 @@ $mol_scroll $mol_view
 		^
 		scroll? <=> event_scroll? null
 
-$mol_hotkey $mol_plugin
+$mol_hotkey2 $mol_plugin
 	event *
 		^
 		keydown? <=> keydown? null
+	action *
+
+$mol_hotkey $mol_hotkey2
 	key *
 	mod_ctrl false
 	mod_alt false
