@@ -4,11 +4,14 @@ $mol_ghost $mol_view
 $mol_drop $mol_ghost
 	enabled? true
 	event *
+		^
 		dragenter? <=> enter? null
 		dragover? <=> move? null
 		dragleave? <=> leave? null
 		drop? <=> drop? null
-	attr * mol_drop_status <= status? \ready
+	attr *
+		^
+		mol_drop_status <= status? \ready
 	adopt? *
 	receive? null
 	allow /

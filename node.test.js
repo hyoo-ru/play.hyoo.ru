@@ -4139,6 +4139,7 @@ var $;
 		}
 		event(){
 			return {
+				...(super.event()), 
 				"dragenter": (next) => (this.enter(next)), 
 				"dragover": (next) => (this.move(next)), 
 				"dragleave": (next) => (this.leave(next)), 
@@ -4146,7 +4147,7 @@ var $;
 			};
 		}
 		attr(){
-			return {"mol_drop_status": (this.status())};
+			return {...(super.attr()), "mol_drop_status": (this.status())};
 		}
 		adopt(next){
 			if(next !== undefined) return next;
@@ -4173,6 +4174,45 @@ var $;
 	($mol_mem(($.$mol_drop.prototype), "adopt"));
 	($mol_mem(($.$mol_drop.prototype), "receive"));
 
+
+;
+"use strict";
+var $;
+(function ($) {
+    /**
+     * Decorates method to fiber to ensure it is executed only once inside other fiber from [mol_wire](../wire/README.md)
+     * @see https://mol.hyoo.ru/#!section=docs/=1fcpsq_1wh0h2
+     */
+    $.$mol_action = $mol_wire_method;
+})($ || ($ = {}));
+
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_dom_event extends $mol_object {
+        native;
+        constructor(native) {
+            super();
+            this.native = native;
+        }
+        prevented(next) {
+            if (next)
+                this.native.preventDefault();
+            return this.native.defaultPrevented;
+        }
+        static wrap(event) {
+            return new this.$.$mol_dom_event(event);
+        }
+    }
+    __decorate([
+        $mol_action
+    ], $mol_dom_event.prototype, "prevented", null);
+    __decorate([
+        $mol_action
+    ], $mol_dom_event, "wrap", null);
+    $.$mol_dom_event = $mol_dom_event;
+})($ || ($ = {}));
 
 ;
 "use strict";
@@ -4229,9 +4269,10 @@ var $;
                 return transfer;
             }
             drop(event) {
-                if (event.defaultPrevented)
+                const e = $mol_dom_event.wrap(event);
+                if (e.prevented())
                     return;
-                event.preventDefault();
+                e.prevented(true);
                 setTimeout(() => this.status('ready'));
                 const obj = this.adopt(event.dataTransfer);
                 if (!obj)
@@ -4585,17 +4626,6 @@ var $;
         $mol_mem_key
     ], $mol_state_local, "value", null);
     $.$mol_state_local = $mol_state_local;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
-    /**
-     * Decorates method to fiber to ensure it is executed only once inside other fiber from [mol_wire](../wire/README.md)
-     * @see https://mol.hyoo.ru/#!section=docs/=1fcpsq_1wh0h2
-     */
-    $.$mol_action = $mol_wire_method;
 })($ || ($ = {}));
 
 ;
@@ -9118,34 +9148,6 @@ var $;
 "use strict";
 var $;
 (function ($) {
-    class $mol_dom_event extends $mol_object {
-        native;
-        constructor(native) {
-            super();
-            this.native = native;
-        }
-        prevented(next) {
-            if (next)
-                this.native.preventDefault();
-            return this.native.defaultPrevented;
-        }
-        static wrap(event) {
-            return new this.$.$mol_dom_event(event);
-        }
-    }
-    __decorate([
-        $mol_action
-    ], $mol_dom_event.prototype, "prevented", null);
-    __decorate([
-        $mol_action
-    ], $mol_dom_event, "wrap", null);
-    $.$mol_dom_event = $mol_dom_event;
-})($ || ($ = {}));
-
-;
-"use strict";
-var $;
-(function ($) {
     $mol_style_attach("mol/check/check.css", "[mol_check] {\n\tflex: 0 0 auto;\n\tjustify-content: flex-start;\n\talign-content: center;\n\t/* align-items: flex-start; */\n\tborder: none;\n\tfont-weight: inherit;\n\tbox-shadow: none;\n\ttext-align: start;\n\tdisplay: inline-flex;\n\tflex-wrap: nowrap;\n}\n\n[mol_check_title] {\n\tflex-shrink: 1;\n}\n");
 })($ || ($ = {}));
 
@@ -11136,7 +11138,7 @@ var $;
                     .map((row, rowId) => {
                     const cells = [];
                     for (const line of row.trim().split(/\r?\n/)) {
-                        const [_, indent, content] = /^( *)! (.*)/.exec(line);
+                        const [_, indent, content] = /^( *)! (.*)/.exec(line) ?? ['', '', ''];
                         const col = Math.ceil(indent.length / 2);
                         cells[col] = (cells[col] ? cells[col] + '\n' : '') + content;
                     }
