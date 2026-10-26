@@ -1611,11 +1611,42 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    /**
+     * Convert asynchronous (promise-based) API to synchronous by wrapping function and method calls in a fiber.
+     * @see https://mol.hyoo.ru/#!section=docs/=1fcpsq_1wh0h2
+     */
+    export function $mol_wire_sync<Host extends object>(obj: Host): ObjectOrFunctionResultAwaited<Host>;
+    type FunctionResultAwaited<Some> = Some extends (...args: infer Args) => infer Res ? (...args: Args) => Awaited<Res> : Some;
+    type ConstructorResultAwaited<Some> = Some extends new (...args: infer Args) => infer Res ? new (...args: Args) => Res : {};
+    type MethodsResultAwaited<Host extends Object> = {
+        [K in keyof Host]: FunctionResultAwaited<Host[K]>;
+    };
+    type ObjectOrFunctionResultAwaited<Some> = (Some extends (...args: any) => unknown ? FunctionResultAwaited<Some> : {}) & (Some extends Object ? MethodsResultAwaited<Some> & ConstructorResultAwaited<Some> : Some);
+    export {};
+}
+
+declare namespace $ {
+    class $mol_dom_transfer extends $mol_object {
+        readonly native: DataTransfer;
+        static wrap(native: DataTransfer): $mol_dom_transfer;
+        constructor(native: DataTransfer);
+        get(type: string): string;
+        files(): {
+            [x: number]: File;
+            readonly length: number;
+            item: (index: number) => File | null;
+            [Symbol.iterator]: () => ArrayIterator<File>;
+        };
+    }
+}
+
+declare namespace $ {
     class $mol_dom_event<EventType extends Event> extends $mol_object {
         readonly native: EventType;
+        static wrap<EventType extends Event>(event: EventType): $mol_dom_event<EventType>;
         constructor(native: EventType);
         prevented(next?: boolean): boolean;
-        static wrap<EventType extends Event>(event: EventType): $mol_dom_event<EventType>;
+        transfer(): $mol_dom_transfer | null;
     }
 }
 
@@ -1725,21 +1756,6 @@ declare namespace $ {
 
 declare namespace $ {
     let $mol_mem_cached: typeof $mol_wire_probe;
-}
-
-declare namespace $ {
-    /**
-     * Convert asynchronous (promise-based) API to synchronous by wrapping function and method calls in a fiber.
-     * @see https://mol.hyoo.ru/#!section=docs/=1fcpsq_1wh0h2
-     */
-    export function $mol_wire_sync<Host extends object>(obj: Host): ObjectOrFunctionResultAwaited<Host>;
-    type FunctionResultAwaited<Some> = Some extends (...args: infer Args) => infer Res ? (...args: Args) => Awaited<Res> : Some;
-    type ConstructorResultAwaited<Some> = Some extends new (...args: infer Args) => infer Res ? new (...args: Args) => Res : {};
-    type MethodsResultAwaited<Host extends Object> = {
-        [K in keyof Host]: FunctionResultAwaited<Host[K]>;
-    };
-    type ObjectOrFunctionResultAwaited<Some> = (Some extends (...args: any) => unknown ? FunctionResultAwaited<Some> : {}) & (Some extends Object ? MethodsResultAwaited<Some> & ConstructorResultAwaited<Some> : Some);
-    export {};
 }
 
 declare namespace $ {
