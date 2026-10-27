@@ -1764,18 +1764,10 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    /** State of time moment */
-    class $mol_state_time extends $mol_object {
-        static task(precision: number, reset?: null): $mol_after_timeout | $mol_after_frame;
-        static now(precision: number): number;
-    }
-}
-
-declare namespace $ {
     class $mol_storage_web extends $mol_storage {
         static native(): StorageManager;
         static persisted(next?: boolean, cache?: 'cache'): boolean;
-        static estimate(): StorageEstimate;
+        static estimate(next?: null): StorageEstimate;
         static total(): number;
         static used(): number;
         static free(): number;
@@ -2502,6 +2494,14 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+}
+
+declare namespace $ {
+    /** State of time moment */
+    class $mol_state_time extends $mol_object {
+        static task(precision: number, reset?: null): $mol_after_timeout | $mol_after_frame;
+        static now(precision: number): number;
+    }
 }
 
 declare namespace $ {
